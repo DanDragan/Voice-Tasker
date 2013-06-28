@@ -96,6 +96,15 @@ public class Activity_Voice extends Activity {
 		
 		lView.setOnItemLongClickListener(new OnItemLongClickListener() {
 			
+			public void onItemClickListener(AdapterView<?> parent, View view, int position, long id){
+				
+				
+			}
+			
+		});
+		
+		lView.setOnItemLongClickListener(new OnItemLongClickListener() {
+			
 			public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
 			    // When clicked
 				adapter.remove(list.get(position));
