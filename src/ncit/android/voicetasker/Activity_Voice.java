@@ -10,6 +10,7 @@ import android.speech.RecognizerIntent;
 import android.view.Menu;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -46,8 +47,7 @@ public class Activity_Voice extends Activity {
 			@Override
 			public void onClick(View v) {
 
-				Intent intent = new Intent(
-						RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+				Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
 
 				intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, "en-US");
 
@@ -60,6 +60,32 @@ public class Activity_Voice extends Activity {
 					t.show();
 				}
 			}
+		});
+		
+		
+		btnExit.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+
+			finish();
+			System.exit(0);
+
+			}
+			
+		});
+		
+		btnReset.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+			
+				adapter.clear();
+				adapter.notifyDataSetInvalidated();
+				list.clear();
+			
+			}
+			
 		});
 
 	}
