@@ -9,6 +9,8 @@
 	<string name="delete_list">Delete List</string>
 	<string name="exit">Exit</string>
 	<string name="back">Back</string>
-	<string name="speak">Speak</string>	
+	<string name="speak">Speak</string>
+	<string name="add">Add Item</string>
+	<string name="reset">Reset List</string>	
 	
 </resources>

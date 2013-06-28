@@ -1,4 +1,4 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
@@ -6,24 +6,43 @@
     android:layout_toLeftOf="@+id/textView1"
     android:gravity="center"
     android:orientation="vertical" >
- 
-    <ImageButton
-        android:id="@+id/btnSpeak"
-        android:layout_width="fill_parent"
+
+    <ListView
+        android:id="@+id/listview"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="10dp"
-        android:contentDescription="@string/speak"
-        android:src="@android:drawable/ic_btn_speak_now" />
- 
-    <TextView
-        android:id="@+id/txtText"
+        android:layout_above="@+id/btnReset"
+        android:layout_below="@+id/btnSpeak"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp" />
+
+    <Button
+        android:id="@+id/btnExit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="10dp"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
- 
-</LinearLayout>
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="29dp"
+        android:text="@string/exit" />
+
+    <Button
+        android:id="@+id/btnReset"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="28dp"
+        android:text="@string/reset" />
+
+    <Button
+        android:id="@+id/btnSpeak"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="10dp"
+        android:layout_marginTop="17dp"
+        android:drawableBottom="@drawable/images"
+        android:text="@string/add" />
+
+</RelativeLayout>
