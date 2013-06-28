@@ -22,7 +22,6 @@ public class Activity_Voice extends Activity {
 	private Button btnReset;
 	private Button btnExit;
 	private ListView lView;
-	private int index;
 	ArrayAdapter<String> adapter;
 	ArrayList<String> list;
 
@@ -32,8 +31,7 @@ public class Activity_Voice extends Activity {
 		setContentView(R.layout.activity_voice);
 
 		lView = (ListView) findViewById(R.id.listview);
-		index = 0;
-
+		
 		btnSpeak = (Button) findViewById(R.id.btnSpeak);
 		btnReset = (Button) findViewById(R.id.btnReset);
 		btnExit = (Button) findViewById(R.id.btnExit);
@@ -91,8 +89,7 @@ public class Activity_Voice extends Activity {
 				ArrayList<String> text = data
 						.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
 
-				this.addItems(text.get(index));
-				index++;
+				this.addItems(text.get(0));				
 			}
 			break;
 		}
