@@ -9,6 +9,10 @@ import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.view.Menu;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
@@ -38,9 +42,10 @@ public class Activity_Voice extends Activity {
 		btnExit = (Button) findViewById(R.id.btnExit);
 
 		list = new ArrayList<String>();
-		adapter = new ArrayAdapter<String>(this,
-				android.R.layout.simple_list_item_1, list);
+		adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, list);
 		lView.setAdapter(adapter);
+		lView.setClickable(true);
+		lView.setTextFilterEnabled(true);
 
 		btnSpeak.setOnClickListener(new View.OnClickListener() {
 
@@ -50,6 +55,8 @@ public class Activity_Voice extends Activity {
 				Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
 
 				intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, "en-US");
+				intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "What shall I do, Master?");
+		        intent.putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 100);
 
 				try {
 					startActivityForResult(intent, RESULT_SPEECH);
@@ -61,7 +68,6 @@ public class Activity_Voice extends Activity {
 				}
 			}
 		});
-		
 		
 		btnExit.setOnClickListener(new View.OnClickListener() {
 
@@ -86,6 +92,17 @@ public class Activity_Voice extends Activity {
 			
 			}
 			
+		});
+		
+		lView.setOnItemLongClickListener(new OnItemLongClickListener() {
+			
+			public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+			    // When clicked
+				adapter.remove(list.get(position));
+				adapter.notifyDataSetChanged();
+				return true;
+			}
+		
 		});
 
 	}
