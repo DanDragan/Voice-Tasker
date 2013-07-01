@@ -1,8 +1,6 @@
 package ncit.android.voicetasker;
 
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -13,9 +11,7 @@ import org.json.JSONArray;
 
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
-import android.content.Context;
 import android.content.Intent;
-import android.content.res.Resources.NotFoundException;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
