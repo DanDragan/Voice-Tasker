@@ -30,7 +30,6 @@ public class MainActivity extends Activity {
 						Activity_Voice.class);
 				startActivity(intent);
 			}
-
 		});
 
 		btnExit.setOnClickListener(new View.OnClickListener() {

@@ -118,34 +118,41 @@ public class Activity_List extends Activity {
 			}
 		});
 
-		btnSave.setOnClickListener(new View.OnClickListener() {
-
+btnSave.setOnClickListener(new View.OnClickListener() {
+			
 			@Override
 			public void onClick(View v) {
-
-				try {
-
-					File myOutput = new File(dir + "/ceva");
-					if (!myOutput.exists()) {
-						myOutput.getParentFile().mkdirs();
-						myOutput.createNewFile();
-					}
-
-					JSONArray jArray = new JSONArray(list);
-					FileOutputStream out = new FileOutputStream(myOutput);
-
-					out.write(jArray.toString().getBytes());
-					out.close();
-
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-
-				Toast.makeText(getBaseContext(), "List saved",
-						Toast.LENGTH_SHORT).show();
-
+				
+				PromptDialog dlg = new PromptDialog(Activity_List.this, R.string.title, R.string.enter_comment) {  
+					 @Override  
+					 public boolean onOkClicked(String input) {  
+						 // do something						 
+						 try {
+								
+								File myOutput = new File(dir + "/" + input);
+								if (!myOutput.exists()) {
+									myOutput.getParentFile().mkdirs();
+									myOutput.createNewFile();
+								}
+								
+								JSONArray jArray = new JSONArray(list);
+								FileOutputStream out = new FileOutputStream(myOutput);
+									
+								out.write(jArray.toString().getBytes());
+								out.close();
+								
+								
+						 } catch (Exception e) {
+								e.printStackTrace();
+						 }
+						 
+						 Toast.makeText(getApplicationContext(), "List saved!", Toast.LENGTH_SHORT).show();
+						 return true; // true = close dialog  
+					 }  
+				};  
+					
+				dlg.show();				
 			}
-
 		});
 
 		btnReset.setOnClickListener(new View.OnClickListener() {

@@ -61,19 +61,22 @@ public class Activity_Show extends Activity {
 
 			public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
 				// When long clicked
-								
+					
 				File file = new File(dir + "/" + list.get(position));
+				System.out.println(dir + "/" + list.get(position));
+
 				boolean deleted = file.delete();
 				
 				if(!deleted) {
 					Toast.makeText(getApplicationContext(), "Could not delete file ", 
 							Toast.LENGTH_SHORT).show();
 				}
-				else {
+
+				else{
 					list.remove(position);
 					adapter.notifyDataSetChanged();
 				}
-				
+
 				return true;
 			}
 

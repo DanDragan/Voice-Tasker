@@ -11,22 +11,6 @@ import android.widget.EditText;
  */  
 public abstract class PromptDialog extends AlertDialog.Builder implements OnClickListener {  
 	private final EditText input;  
-	//private String user_input;
-	
-	
-	/*public PromptDialog(Context context, String title, String message) {  
-		super(context);  
-		setTitle(title);  
-		setMessage(message);  
-  
-		input = new EditText(context);  
-		setView(input);  
-  
-		setPositiveButton("ok",this);  
-		setNegativeButton("cancel", this);  
-	} 
-	*/ 
-  
 	
  /** 
   * @param context 
