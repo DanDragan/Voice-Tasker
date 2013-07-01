@@ -29,7 +29,6 @@ public class MainActivity extends Activity {
 				Intent intent = new Intent(getApplicationContext(), Activity_Voice.class);
 				startActivity(intent);
 			}
-
 		});
 
 		btnExit.setOnClickListener(new View.OnClickListener() {

@@ -119,6 +119,7 @@ public class Activity_List extends Activity {
 		});
 
 		btnSave.setOnClickListener(new View.OnClickListener() {
+
 			
 			@Override
 			public void onClick(View v) {
@@ -127,7 +128,6 @@ public class Activity_List extends Activity {
 					 @Override  
 					 public boolean onOkClicked(String input) {  
 						 // do something
-						 
 						 try {
 								
 								File myOutput = new File(dir + "/" + input);
@@ -145,6 +145,7 @@ public class Activity_List extends Activity {
 								
 						 } catch (Exception e) {
 							 // TODO Auto-generated catch block
+
 								e.printStackTrace();
 						 }
 						 
@@ -154,10 +155,8 @@ public class Activity_List extends Activity {
 				};  
 					
 				dlg.show();
-
-				
+			
 			}
-
 		});
 
 		btnReset.setOnClickListener(new View.OnClickListener() {

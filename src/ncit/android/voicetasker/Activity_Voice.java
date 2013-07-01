@@ -103,8 +103,7 @@ public class Activity_Voice extends Activity {
 				PromptDialog dlg = new PromptDialog(Activity_Voice.this, R.string.title, R.string.enter_comment) {  
 					 @Override  
 					 public boolean onOkClicked(String input) {  
-						 // do something
-						 
+						 // do something						 
 						 try {
 								
 								File myOutput = new File(dir + "/" + input);
@@ -121,7 +120,6 @@ public class Activity_Voice extends Activity {
 								
 								
 						 } catch (Exception e) {
-							 // TODO Auto-generated catch block
 								e.printStackTrace();
 						 }
 						 
