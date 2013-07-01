@@ -2,6 +2,8 @@ package ncit.android.voicetasker;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -24,7 +26,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class Activity_Voice extends Activity {
+public class Activity_List extends Activity {
 
 	protected static final int RESULT_SPEECH = 1;
 
@@ -34,18 +36,40 @@ public class Activity_Voice extends Activity {
 	private ListView lView;
 	ArrayAdapter<String> adapter;
 	ArrayList<String> list;
-	HashMap<View, Boolean> hmap; 
+	HashMap<View, Boolean> hmap;
 	private static File dir;
-
+	private String fileName;
+	
 	private void init(ArrayList<String> list) {
-		list.add("apple");
-		list.add("bananas");
-		list.add("cucumbers");
-		list.add("elephant");
-		list.add("Fanta");
-		list.add("juice");
-		list.add("mango");
-		list.add("vegetables");
+		
+		dir = getExternalFilesDir(null);
+		fileName = Activity_Show.getFileName();
+		
+		File myInput = new File(dir + "/" + fileName);
+		
+		try {
+			FileReader in = new FileReader(myInput);
+			
+			StringWriter sw = new StringWriter();
+			
+			
+			char[] b = new char[1024*64];
+			while(in.read(b) > 0 ) {
+				sw.write(b);				
+			}
+			
+			String s = sw.toString();
+			JSONArray jArray = new JSONArray(s);
+			
+			for(int i = 0; i < jArray.length(); i++) {
+				list.add(jArray.getString(i));
+			}
+			
+			in.close();
+			
+		} catch (Exception e) {			
+			e.printStackTrace();
+		}
 	}
 
 	@Override
@@ -60,11 +84,10 @@ public class Activity_Voice extends Activity {
 		btnSave = (Button) findViewById(R.id.btnSave);
 
 		hmap = new HashMap<View, Boolean>();
-		
-		dir = getExternalFilesDir(null);
-		
+
 		list = new ArrayList<String>();
 		this.init(list);
+		
 		adapter = new ArrayAdapter<String>(this,
 				android.R.layout.simple_list_item_1, list);
 		lView.setAdapter(adapter);
@@ -96,43 +119,31 @@ public class Activity_Voice extends Activity {
 		});
 
 		btnSave.setOnClickListener(new View.OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
-				
-				PromptDialog dlg = new PromptDialog(Activity_Voice.this, R.string.title, R.string.enter_comment) {  
-					 @Override  
-					 public boolean onOkClicked(String input) {  
-						 // do something
-						 
-						 try {
-								
-								File myOutput = new File(dir + "/" + input);
-								if (!myOutput.exists()) {
-									myOutput.getParentFile().mkdirs();
-									myOutput.createNewFile();
-								}
-								
-								JSONArray jArray = new JSONArray(list);
-								FileOutputStream out = new FileOutputStream(myOutput);
-									
-								out.write(jArray.toString().getBytes());
-								out.close();
-								
-								
-						 } catch (Exception e) {
-							 // TODO Auto-generated catch block
-								e.printStackTrace();
-						 }
-						 
-						 Toast.makeText(getApplicationContext(), "List saved!", Toast.LENGTH_SHORT).show();
-						 return true; // true = close dialog  
-					 }  
-				};  
-					
-				dlg.show();
 
-				
+				try {
+
+					File myOutput = new File(dir + "/ceva");
+					if (!myOutput.exists()) {
+						myOutput.getParentFile().mkdirs();
+						myOutput.createNewFile();
+					}
+
+					JSONArray jArray = new JSONArray(list);
+					FileOutputStream out = new FileOutputStream(myOutput);
+
+					out.write(jArray.toString().getBytes());
+					out.close();
+
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+
+				Toast.makeText(getBaseContext(), "List saved",
+						Toast.LENGTH_SHORT).show();
+
 			}
 
 		});
@@ -154,21 +165,27 @@ public class Activity_Voice extends Activity {
 
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
-				//When clicked
+				// When clicked
 				if (hmap.get(view) == null) {
 
-					Toast.makeText(getApplicationContext(), "You checked " + list.get(position), Toast.LENGTH_SHORT).show();
+					Toast.makeText(getBaseContext(),
+							"You checked " + list.get(position),
+							Toast.LENGTH_SHORT).show();
 
 					TextView row = (TextView) view;
-					row.setPaintFlags(row.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+					row.setPaintFlags(row.getPaintFlags()
+							| Paint.STRIKE_THRU_TEXT_FLAG);
 					hmap.put(view, true);
 				}
-				
-				else{
-					Toast.makeText(getApplicationContext(), "You unchecked " + list.get(position), Toast.LENGTH_SHORT).show();
+
+				else {
+					Toast.makeText(getBaseContext(),
+							"You unchecked " + list.get(position),
+							Toast.LENGTH_SHORT).show();
 
 					TextView row = (TextView) view;
-					row.setPaintFlags(row.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
+					row.setPaintFlags(row.getPaintFlags()
+							& (~Paint.STRIKE_THRU_TEXT_FLAG));
 					hmap.remove(view);
 				}
 
@@ -178,7 +195,8 @@ public class Activity_Voice extends Activity {
 
 		lView.setOnItemLongClickListener(new OnItemLongClickListener() {
 
-			public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+			public boolean onItemLongClick(AdapterView<?> parent, View view,
+					int position, long id) {
 				// When long clicked
 				list.remove(position);
 				adapter.notifyDataSetChanged();
@@ -211,7 +229,8 @@ public class Activity_Voice extends Activity {
 		case RESULT_SPEECH: {
 			if (resultCode == RESULT_OK && data != null) {
 
-				ArrayList<String> text = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+				ArrayList<String> text = data
+						.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
 
 				this.addItems(text.get(0));
 			}
@@ -219,5 +238,5 @@ public class Activity_Voice extends Activity {
 		}
 
 		}
-	}	
+	}
 }

@@ -31,6 +31,13 @@
             android:name="ncit.android.voicetasker.Activity_Voice" >
         </activity>
         
+        <activity 
+            android:name="ncit.android.voicetasker.Activity_Show">
+        </activity>
+        
+        <activity 
+            android:name="ncit.android.voicetasker.Activity_List">            
+        </activity>
     </application>
 
 </manifest>
