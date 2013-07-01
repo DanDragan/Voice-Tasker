@@ -42,7 +42,7 @@ public class Activity_List extends Activity {
 	
 	private void init(ArrayList<String> list) {
 		
-		dir = Activity_Voice.getDir();
+		dir = getExternalFilesDir(null);
 		fileName = Activity_Show.getFileName();
 		
 		File myInput = new File(dir + "/" + fileName);
@@ -84,8 +84,6 @@ public class Activity_List extends Activity {
 		btnSave = (Button) findViewById(R.id.btnSave);
 
 		hmap = new HashMap<View, Boolean>();
-
-		dir = Activity_Voice.getDir();
 
 		list = new ArrayList<String>();
 		this.init(list);

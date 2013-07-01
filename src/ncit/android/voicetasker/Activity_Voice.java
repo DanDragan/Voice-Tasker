@@ -207,9 +207,5 @@ public class Activity_Voice extends Activity {
 		}
 
 		}
-	}
-	
-	protected static File getDir() {
-		return dir;
-	}
+	}	
 }

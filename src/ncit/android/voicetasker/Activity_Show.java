@@ -22,7 +22,7 @@ public class Activity_Show extends Activity {
 	private static String fileName;
 	
 	private void init(ArrayList<String> list) {
-		dir = Activity_Voice.getDir();
+		dir = getExternalFilesDir(null);
 		flist = dir.list();
 		
 		for(String file : flist) {
