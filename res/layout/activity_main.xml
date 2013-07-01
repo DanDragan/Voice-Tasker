@@ -9,28 +9,28 @@
     tools:context=".MainActivity" >
 
     <Button
-        android:id="@+id/bShowLists"
+        android:id="@+id/btnShowLists"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/bNewList"
+        android:layout_below="@+id/btnNewList"
         android:layout_centerHorizontal="true"
         android:onClick="slistclicked"
         android:text="@string/show_lists" />
 
     <Button
-        android:id="@+id/bExit"
+        android:id="@+id/btnExit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/bShowLists"
+        android:layout_below="@+id/btnShowLists"
         android:layout_centerHorizontal="true"
         android:onClick="exitclicked"
         android:text="@string/exit" />
 
     <Button
-        android:id="@+id/bNewList"
+        android:id="@+id/btnNewList"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/bShowLists"
+        android:layout_alignLeft="@+id/btnShowLists"
         android:layout_alignParentTop="true"
         android:layout_marginTop="132dp"
         android:onClick="newlclicked"
