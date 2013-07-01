@@ -11,6 +11,7 @@
 	<string name="back">Back</string>
 	<string name="speak">Speak</string>
 	<string name="add">Add Item</string>
-	<string name="reset">Reset List</string>	
+	<string name="reset">Reset List</string>
+	<string name="save">Save List</string>	
 	
 </resources>
