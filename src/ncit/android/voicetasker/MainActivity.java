@@ -9,16 +9,19 @@ import android.widget.Button;
 
 public class MainActivity extends Activity {
 
-	Button bNewList;
-	
+	private Button btnNewList;
+	private Button btnExit;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
-		bNewList = (Button) findViewById(R.id.bNewList);
 
-		bNewList.setOnClickListener(new View.OnClickListener() {
+		btnNewList = (Button) findViewById(R.id.bNewList);
+		btnExit = (Button) findViewById(R.id.bExit);
+
+		btnNewList.setOnClickListener(new View.OnClickListener() {
 
 			@Override
 			public void onClick(View view) {
@@ -26,6 +29,16 @@ public class MainActivity extends Activity {
 				startActivity(intent);
 			}
 
+		});
+
+		btnExit.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+
+				finish();
+				System.exit(0);
+			}
 		});
 	}
 
