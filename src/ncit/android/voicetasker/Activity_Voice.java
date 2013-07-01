@@ -1,15 +1,12 @@
 package ncit.android.voicetasker;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-
 import org.json.JSONArray;
-
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.graphics.Paint;
@@ -96,34 +93,41 @@ public class Activity_Voice extends Activity {
 		});
 
 		btnSave.setOnClickListener(new View.OnClickListener() {
-
+			
 			@Override
 			public void onClick(View v) {
 				
-				try {
+				PromptDialog dlg = new PromptDialog(Activity_Voice.this, R.string.title, R.string.enter_comment) {  
+					 @Override  
+					 public boolean onOkClicked(String input) {  
+						 // do something
+						 
+						 try {
+								
+								File myOutput = new File(getExternalFilesDir(null) + "/" + input);
+								if (!myOutput.exists()) {
+									myOutput.getParentFile().mkdirs();
+									myOutput.createNewFile();
+								}
+								
+								JSONArray jArray = new JSONArray(list);
+								FileOutputStream out = new FileOutputStream(myOutput);
+									
+								out.write(jArray.toString().getBytes());
+								out.close();
+								
+								
+						 } catch (Exception e) {
+							 // TODO Auto-generated catch block
+								e.printStackTrace();
+						 }
+						 
+						 Toast.makeText(getApplicationContext(), "List saved!", Toast.LENGTH_SHORT).show();
+						 return true; // true = close dialog  
+					 }  
+				};  
 					
-					File myOutput = new File(getExternalFilesDir(null) + "/ceva");
-					if (!myOutput.exists()) {
-						myOutput.getParentFile().mkdirs();
-						myOutput.createNewFile();
-					}
-					
-					JSONArray jArray = new JSONArray(list);
-					FileOutputStream out = new FileOutputStream(myOutput);
-						
-					out.write(jArray.toString().getBytes());
-					out.close();
-					
-					
-				} catch (FileNotFoundException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				
-				Toast.makeText(getBaseContext(), "List saved", Toast.LENGTH_SHORT).show();			
+				dlg.show();
 				
 			}
 
@@ -149,7 +153,7 @@ public class Activity_Voice extends Activity {
 				//When clicked
 				if (hmap.get(view) == null) {
 
-					Toast.makeText(getBaseContext(), "You checked " + list.get(position), Toast.LENGTH_SHORT).show();
+					Toast.makeText(getApplicationContext(), "You checked " + list.get(position), Toast.LENGTH_SHORT).show();
 
 					TextView row = (TextView) view;
 					row.setPaintFlags(row.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
@@ -157,7 +161,7 @@ public class Activity_Voice extends Activity {
 				}
 				
 				else{
-					Toast.makeText(getBaseContext(), "You unchecked " + list.get(position), Toast.LENGTH_SHORT).show();
+					Toast.makeText(getApplicationContext(), "You unchecked " + list.get(position), Toast.LENGTH_SHORT).show();
 
 					TextView row = (TextView) view;
 					row.setPaintFlags(row.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));

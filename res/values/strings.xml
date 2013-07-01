@@ -12,6 +12,10 @@
 	<string name="speak">Speak</string>
 	<string name="add">Add Item</string>
 	<string name="reset">Reset List</string>
-	<string name="save">Save List</string>	
+	<string name="save">Save List</string>
+	<string name="ok">OK</string>
+	<string name="cancel">Cancel</string>
+	<string name="enter_comment">Enter Comment</string>
+	<string name="title">Title</string>	
 	
 </resources>
