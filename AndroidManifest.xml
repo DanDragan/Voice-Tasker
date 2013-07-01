@@ -9,6 +9,7 @@
         android:targetSdkVersion="17" />
     
     <uses-permission android:name="android.permission.WRITE_INTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
@@ -17,7 +18,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="ncit.android.voicetasker.Activity_Voice"
+            android:name="ncit.android.voicetasker.MainActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -25,6 +26,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        
+        <activity 
+            android:name="ncit.android.voicetasker.Activity_Voice" >
+        </activity>
+        
     </application>
 
 </manifest>

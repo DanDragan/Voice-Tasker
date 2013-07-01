@@ -17,6 +17,7 @@ public class MainActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
+
 		btnNewList = (Button) findViewById(R.id.bNewList);
 		btnExit = (Button) findViewById(R.id.bExit);
 
@@ -24,8 +25,7 @@ public class MainActivity extends Activity {
 
 			@Override
 			public void onClick(View view) {
-				Intent intent = new Intent(MainActivity.this,
-						Activity_Voice.class);
+				Intent intent = new Intent(getApplicationContext(), Activity_Voice.class);
 				startActivity(intent);
 			}
 
@@ -38,7 +38,6 @@ public class MainActivity extends Activity {
 
 				finish();
 				System.exit(0);
-
 			}
 		});
 	}

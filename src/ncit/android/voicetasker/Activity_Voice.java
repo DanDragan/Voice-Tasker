@@ -1,14 +1,16 @@
 package ncit.android.voicetasker;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import org.json.JSONArray;
+
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Bundle;
@@ -99,11 +101,20 @@ public class Activity_Voice extends Activity {
 			public void onClick(View v) {
 				
 				try {
-					FileOutputStream out = openFileOutput("Lists", Context.MODE_PRIVATE);
 					
-					for(String s : list)
-						out.write(s.getBytes());
+					File myOutput = new File(getExternalFilesDir(null) + "/ceva");
+					if (!myOutput.exists()) {
+						myOutput.getParentFile().mkdirs();
+						myOutput.createNewFile();
+					}
+					
+					JSONArray jArray = new JSONArray(list);
+					FileOutputStream out = new FileOutputStream(myOutput);
+						
+					out.write(jArray.toString().getBytes());
 					out.close();
+					
+					
 				} catch (FileNotFoundException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -112,6 +123,7 @@ public class Activity_Voice extends Activity {
 					e.printStackTrace();
 				}
 				
+				Toast.makeText(getBaseContext(), "List saved", Toast.LENGTH_SHORT).show();			
 				
 			}
 
