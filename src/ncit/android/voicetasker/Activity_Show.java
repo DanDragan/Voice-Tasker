@@ -10,7 +10,9 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemLongClickListener;
 
 public class Activity_Show extends Activity {
 	
@@ -53,6 +55,26 @@ public class Activity_Show extends Activity {
 				Intent intent = new Intent(getApplicationContext(), Activity_List.class);
 				startActivity(intent);
 			}
+		});
+		
+		lView.setOnItemLongClickListener(new OnItemLongClickListener() {
+
+			public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+				// When long clicked
+				list.remove(position);
+				adapter.notifyDataSetChanged();
+				
+				File file = new File(dir + view.toString());
+				boolean deleted = file.delete();
+				
+				if(!deleted) {
+					Toast.makeText(getApplicationContext(), "Could not delete file ", 
+							Toast.LENGTH_SHORT).show();
+				}
+				
+				return true;
+			}
+
 		});
 	}
 	

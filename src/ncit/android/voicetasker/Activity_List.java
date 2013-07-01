@@ -158,7 +158,6 @@ public class Activity_List extends Activity {
 				list.clear();
 
 			}
-
 		});
 
 		lView.setOnItemClickListener(new OnItemClickListener() {
