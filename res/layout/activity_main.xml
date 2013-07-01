@@ -7,45 +7,33 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".MainActivity" >
-       
+
+    <Button
+        android:id="@+id/bShowLists"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/bNewList"
+        android:layout_centerHorizontal="true"
+        android:onClick="slistclicked"
+        android:text="@string/show_lists" />
+
+    <Button
+        android:id="@+id/bExit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/bShowLists"
+        android:layout_centerHorizontal="true"
+        android:onClick="exitclicked"
+        android:text="@string/exit" />
+
     <Button
         android:id="@+id/bNewList"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:onClick="apasa" 
+        android:layout_alignLeft="@+id/bShowLists"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="132dp"
+        android:onClick="newlclicked"
         android:text="@string/new_list" />
-    
-    <Button 
-        android:id="@+id/bShowList"
-    	android:layout_width="match_parent"
-    	android:layout_height="wrap_content"
-    	android:layout_below="@+id/bNewList"
-    	android:onClick="apasa" 
-        android:text="@string/show_list" />
-    
-    <Button
-        android:id="@+id/bNewWishList"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/bShowList"
-        android:onClick="apasa"
-        android:text="@string/new_wish_list" />
-    
-    <Button 
-        android:id="@+id/bDeleteList"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/bNewWishList"
-        android:onClick="apasa"
-        android:text="@string/delete_list" />
-    
-    <Button 
-        android:id="@+id/bExit"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/bDeleteList"
-        android:onClick="apasa"
-        android:text="@string/exit" />
-    	
 
 </RelativeLayout>

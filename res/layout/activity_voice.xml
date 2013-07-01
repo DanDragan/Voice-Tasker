@@ -17,13 +17,13 @@
         android:layout_marginRight="20dp" />
 
     <Button
-        android:id="@+id/btnExit"
+        android:id="@+id/btnSave"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_marginRight="29dp"
-        android:text="@string/exit" />
+        android:text="@string/save" />
 
     <Button
         android:id="@+id/btnReset"

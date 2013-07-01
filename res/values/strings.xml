@@ -4,13 +4,14 @@
     <string name="app_name">VoiceTasker</string>
     <string name="action_settings">Settings</string>
 	<string name="new_list">New List</string>
-	<string name="show_list">Show List</string>
+	<string name="show_lists">Show Lists</string>
 	<string name="new_wish_list">New Wish List</string>
 	<string name="delete_list">Delete List</string>
 	<string name="exit">Exit</string>
 	<string name="back">Back</string>
 	<string name="speak">Speak</string>
 	<string name="add">Add Item</string>
-	<string name="reset">Reset List</string>	
+	<string name="reset">Reset List</string>
+	<string name="save">Save List</string>	
 	
 </resources>
