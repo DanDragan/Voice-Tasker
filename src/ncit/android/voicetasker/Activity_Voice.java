@@ -225,7 +225,8 @@ public class Activity_Voice extends Activity {
 			public boolean onOkClicked(String input) {
 				
 				list.add(position, input);
-				
+				list.remove(position + 1);
+				adapter.notifyDataSetChanged();
 				return true; // true = close dialog
 			}
 		};
