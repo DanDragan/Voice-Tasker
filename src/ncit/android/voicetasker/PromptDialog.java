@@ -23,6 +23,9 @@ public abstract class PromptDialog extends AlertDialog.Builder implements OnClic
 		setMessage(message);  
   
 		input = new EditText(context);  
+		input.setText("lala");
+		setView(input);  
+		
 		setView(input);
 		setPositiveButton(R.string.ok, this);  
 		setNegativeButton(R.string.cancel, this);  
@@ -66,5 +69,6 @@ public abstract class PromptDialog extends AlertDialog.Builder implements OnClic
   * @param input 
   * @return true, if the dialog should be closed. false, if not. 
   */  
-	abstract public boolean onOkClicked(String input);	
+	abstract public boolean onOkClicked(String input);
+
 }  
