@@ -23,7 +23,6 @@ public abstract class PromptDialog extends AlertDialog.Builder implements OnClic
 		setMessage(message);  
   
 		input = new EditText(context);  
-		input.setText("lala");
 		setView(input);  
 		
 		setView(input);
