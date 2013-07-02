@@ -15,6 +15,7 @@ import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
@@ -34,9 +35,9 @@ public class Activity_List extends Activity {
 	private Button btnReset;
 	private Button btnSave;
 	private ListView lView;
-	ArrayAdapter<String> adapter;
-	ArrayList<String> list;
-	HashMap<View, Boolean> hmap;
+	private ArrayAdapter<String> adapter;
+	private ArrayList<String> list;
+	private HashMap<View, Boolean> hmap;
 	private static File dir;
 	private String fileName;
 	
@@ -119,8 +120,7 @@ public class Activity_List extends Activity {
 		});
 
 		btnSave.setOnClickListener(new View.OnClickListener() {
-
-			
+		
 			@Override
 			public void onClick(View v) {
 				
@@ -171,6 +171,8 @@ public class Activity_List extends Activity {
 			}
 
 		});
+		
+		
 
 		lView.setOnItemClickListener(new OnItemClickListener() {
 

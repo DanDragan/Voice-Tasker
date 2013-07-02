@@ -32,9 +32,9 @@ public class Activity_Voice extends Activity {
 	private Button btnReset;
 	private Button btnSave;
 	private ListView lView;
-	ArrayAdapter<String> adapter;
-	ArrayList<String> list;
-	HashMap<View, Boolean> hmap; 
+	private ArrayAdapter<String> adapter;
+	private ArrayList<String> list;
+	private HashMap<View, Boolean> hmap; 
 	private static File dir;
 
 	private void init(ArrayList<String> list) {
