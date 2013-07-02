@@ -26,7 +26,8 @@ public class MainActivity extends Activity {
 
 			@Override
 			public void onClick(View view) {
-				Intent intent = new Intent(getApplicationContext(), Activity_Voice.class);
+				Intent intent = new Intent(getApplicationContext(),
+						Activity_Voice.class);
 				startActivity(intent);
 			}
 		});

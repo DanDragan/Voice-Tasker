@@ -230,7 +230,6 @@ public class Activity_List extends Activity {
 		getMenuInflater().inflate(R.menu.main, menu);
 		return true;
 	}
-	
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
