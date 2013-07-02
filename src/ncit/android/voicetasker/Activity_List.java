@@ -15,7 +15,6 @@ import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
-import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
@@ -38,37 +37,36 @@ public class Activity_List extends Activity {
 	private ArrayAdapter<String> adapter;
 	private ArrayList<String> list;
 	private HashMap<View, Boolean> hmap;
-	private static File dir;
+	private File dir;
 	private String fileName;
-	
+
 	private void init(ArrayList<String> list) {
-		
+
 		dir = getExternalFilesDir(null);
 		fileName = Activity_Show.getFileName();
-		
+
 		File myInput = new File(dir + "/" + fileName);
-		
+
 		try {
 			FileReader in = new FileReader(myInput);
-			
+
 			StringWriter sw = new StringWriter();
-			
-			
-			char[] b = new char[1024*64];
-			while(in.read(b) > 0 ) {
-				sw.write(b);				
+
+			char[] b = new char[1024 * 64];
+			while (in.read(b) > 0) {
+				sw.write(b);
 			}
-			
+
 			String s = sw.toString();
 			JSONArray jArray = new JSONArray(s);
-			
-			for(int i = 0; i < jArray.length(); i++) {
+
+			for (int i = 0; i < jArray.length(); i++) {
 				list.add(jArray.getString(i));
 			}
-			
+
 			in.close();
-			
-		} catch (Exception e) {			
+
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
@@ -88,7 +86,7 @@ public class Activity_List extends Activity {
 
 		list = new ArrayList<String>();
 		this.init(list);
-		
+
 		adapter = new ArrayAdapter<String>(this,
 				android.R.layout.simple_list_item_1, list);
 		lView.setAdapter(adapter);
@@ -104,8 +102,7 @@ public class Activity_List extends Activity {
 						RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
 
 				intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, "en-US");
-				intent.putExtra(RecognizerIntent.EXTRA_PROMPT,
-						"What shall I do, Master?");
+				intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "What shall I do, Master?");
 				intent.putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 100);
 
 				try {
@@ -233,6 +230,7 @@ public class Activity_List extends Activity {
 		getMenuInflater().inflate(R.menu.main, menu);
 		return true;
 	}
+	
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {

@@ -1,8 +1,8 @@
 package ncit.android.voicetasker;
 
-import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
@@ -12,7 +12,7 @@ public class MainActivity extends Activity {
 	private Button btnNewList;
 	private Button btnExit;
 	private Button btnShowLists;
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -21,7 +21,7 @@ public class MainActivity extends Activity {
 		btnNewList = (Button) findViewById(R.id.btnNewList);
 		btnExit = (Button) findViewById(R.id.btnExit);
 		btnShowLists = (Button) findViewById(R.id.btnShowLists);
-		
+
 		btnNewList.setOnClickListener(new View.OnClickListener() {
 
 			@Override
@@ -45,12 +45,14 @@ public class MainActivity extends Activity {
 
 			@Override
 			public void onClick(View v) {
-				Intent intent = new Intent(getApplicationContext(), Activity_Show.class);
+				Intent intent = new Intent(getApplicationContext(),
+						Activity_Show.class);
 				startActivity(intent);
 			}
 		});
 	}
-
+	
+	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.

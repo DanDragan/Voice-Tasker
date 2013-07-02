@@ -35,7 +35,7 @@ public class Activity_Voice extends Activity {
 	private ArrayAdapter<String> adapter;
 	private ArrayList<String> list;
 	private HashMap<View, Boolean> hmap; 
-	private static File dir;
+	private File dir;
 
 	private void init(ArrayList<String> list) {
 		list.add("apple");
@@ -60,9 +60,9 @@ public class Activity_Voice extends Activity {
 		btnSave = (Button) findViewById(R.id.btnSave);
 
 		hmap = new HashMap<View, Boolean>();
-		
+
 		dir = getExternalFilesDir(null);
-		
+
 		list = new ArrayList<String>();
 		this.init(list);
 		adapter = new ArrayAdapter<String>(this,
@@ -96,41 +96,42 @@ public class Activity_Voice extends Activity {
 		});
 
 		btnSave.setOnClickListener(new View.OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
-				
-				PromptDialog dlg = new PromptDialog(Activity_Voice.this, R.string.title, R.string.enter_comment) {  
-					 @Override  
-					 public boolean onOkClicked(String input) {  
-						 // do something						 
-						 try {
-								
-								File myOutput = new File(dir + "/" + input);
-								if (!myOutput.exists()) {
-									myOutput.getParentFile().mkdirs();
-									myOutput.createNewFile();
-								}
-								
-								JSONArray jArray = new JSONArray(list);
-								FileOutputStream out = new FileOutputStream(myOutput);
-									
-								out.write(jArray.toString().getBytes());
-								out.close();
-								
-								
-						 } catch (Exception e) {
-								e.printStackTrace();
-						 }
-						 
-						 Toast.makeText(getApplicationContext(), "List saved!", Toast.LENGTH_SHORT).show();
-						 return true; // true = close dialog  
-					 }  
-				};  
-					
+
+				PromptDialog dlg = new PromptDialog(Activity_Voice.this,
+						R.string.title, R.string.enter_comment) {
+					@Override
+					public boolean onOkClicked(String input) {
+						// do something
+						try {
+
+							File myOutput = new File(dir + "/" + input);
+							if (!myOutput.exists()) {
+								myOutput.getParentFile().mkdirs();
+								myOutput.createNewFile();
+							}
+
+							JSONArray jArray = new JSONArray(list);
+							FileOutputStream out = new FileOutputStream(
+									myOutput);
+
+							out.write(jArray.toString().getBytes());
+							out.close();
+
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+
+						Toast.makeText(getApplicationContext(), "List saved!",
+								Toast.LENGTH_SHORT).show();
+						return true; // true = close dialog
+					}
+				};
+
 				dlg.show();
 
-				
 			}
 
 		});
@@ -152,21 +153,27 @@ public class Activity_Voice extends Activity {
 
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
-				//When clicked
+				// When clicked
 				if (hmap.get(view) == null) {
 
-					Toast.makeText(getApplicationContext(), "You checked " + list.get(position), Toast.LENGTH_SHORT).show();
+					Toast.makeText(getApplicationContext(),
+							"You checked " + list.get(position),
+							Toast.LENGTH_SHORT).show();
 
 					TextView row = (TextView) view;
-					row.setPaintFlags(row.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+					row.setPaintFlags(row.getPaintFlags()
+							| Paint.STRIKE_THRU_TEXT_FLAG);
 					hmap.put(view, true);
 				}
-				
-				else{
-					Toast.makeText(getApplicationContext(), "You unchecked " + list.get(position), Toast.LENGTH_SHORT).show();
+
+				else {
+					Toast.makeText(getApplicationContext(),
+							"You unchecked " + list.get(position),
+							Toast.LENGTH_SHORT).show();
 
 					TextView row = (TextView) view;
-					row.setPaintFlags(row.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
+					row.setPaintFlags(row.getPaintFlags()
+							& (~Paint.STRIKE_THRU_TEXT_FLAG));
 					hmap.remove(view);
 				}
 
@@ -176,7 +183,8 @@ public class Activity_Voice extends Activity {
 
 		lView.setOnItemLongClickListener(new OnItemLongClickListener() {
 
-			public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+			public boolean onItemLongClick(AdapterView<?> parent, View view,
+					int position, long id) {
 				// When long clicked
 				list.remove(position);
 				adapter.notifyDataSetChanged();
@@ -209,7 +217,8 @@ public class Activity_Voice extends Activity {
 		case RESULT_SPEECH: {
 			if (resultCode == RESULT_OK && data != null) {
 
-				ArrayList<String> text = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+				ArrayList<String> text = data
+						.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
 
 				this.addItems(text.get(0));
 			}
@@ -217,5 +226,5 @@ public class Activity_Voice extends Activity {
 		}
 
 		}
-	}	
+	}
 }
