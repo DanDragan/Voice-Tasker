@@ -27,16 +27,17 @@ public class Activity_Show extends Activity {
 		list.clear();
 		dir = getExternalFilesDir(null);
 		flist = dir.list();
-		
+				
 		for(String file : flist) {
 			list.add(file);
 		}
 	}
-	
+		
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_show);
-		
+
+
 		lView = (ListView) findViewById(R.id.listview);
 		list = new ArrayList<String>();
 		
@@ -83,6 +84,7 @@ public class Activity_Show extends Activity {
 
 		});
 	}
+
 	
 	@Override
 	public void onResume(){
@@ -90,8 +92,7 @@ public class Activity_Show extends Activity {
 		this.init(list);
 		lView.invalidateViews();
 	}
-	
-	
+
 	protected static String getFileName() {
 		return fileName;
 	}

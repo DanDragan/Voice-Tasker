@@ -204,6 +204,8 @@ public class Activity_Voice extends Activity {
 			editItem(info.position);			
 		} 
 		else if (item.getTitle() == "Delete") {
+			editItem(info.position);
+		} else if (item.getTitle() == "Delete") {
 			deleteItem(info.position);
 		} 
 		else {
@@ -219,12 +221,21 @@ public class Activity_Voice extends Activity {
 		adapter.notifyDataSetChanged();
 
 	}
-	
-	private void editItem(int pos){
-		
-		
-		
-		
+			
+	private void editItem(int pos) {
+		final int position = pos;
+		PromptDialog dlg = new PromptDialog(Activity_Voice.this, list.get(pos)) {
+			@Override
+			public boolean onOkClicked(String input) {
+				
+				list.add(position, input);
+				list.remove(position+1);
+				adapter.notifyDataSetChanged();
+				return true; // true = close dialog
+			}
+		};
+
+		dlg.show();
 	}
 
 	private void addItems(String item) {
