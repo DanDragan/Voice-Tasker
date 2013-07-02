@@ -1,10 +1,7 @@
 package ncit.android.voicetasker;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.util.ArrayList;
-
-import org.json.JSONArray;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -54,6 +51,8 @@ public class Activity_Show extends Activity {
 		lView.setAdapter(adapter);
 		lView.setClickable(true);
 		lView.setTextFilterEnabled(true);
+		registerForContextMenu(lView);
+
 
 		lView.setOnItemClickListener(new OnItemClickListener() {
 
@@ -72,8 +71,8 @@ public class Activity_Show extends Activity {
 	public void onCreateContextMenu(ContextMenu menu, View v,
 			ContextMenuInfo menuInfo) {
 		super.onCreateContextMenu(menu, v, menuInfo);
-		menu.setHeaderTitle("Item Menu");
-		menu.add(0, v.getId(), 0, "Edit");
+		menu.setHeaderTitle("List Menu");
+		menu.add(0, v.getId(), 0, "Rename");
 		menu.add(0, v.getId(), 0, "Delete");
 	}
 
@@ -98,41 +97,12 @@ public class Activity_Show extends Activity {
 			public boolean onOkClicked(String input) {
 
 				list.add(position, input);
-				
-				try {
-
-					File myOutput = new File(dir + "/" + input);
-					if (!myOutput.exists()) {
-						myOutput.getParentFile().mkdirs();
-						myOutput.createNewFile();
-					}
-
-					JSONArray jArray = new JSONArray(list);
-					FileOutputStream out = new FileOutputStream(
-							myOutput);
-
-					out.write(jArray.toString().getBytes());
-					out.close();
-
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-
-				if (input.length() > 0)
-					Toast.makeText(getApplicationContext(),
-							"List saved!", Toast.LENGTH_SHORT).show();
-				
-				list.remove(position + 1);
-				
+								
 				File file = new File(dir + "/" + list.get(position + 1));
-
-				boolean deleted = file.delete();
-
-				if (!deleted) {
-					Toast.makeText(getApplicationContext(), "Could not delete file ",
-							Toast.LENGTH_SHORT).show();
-				}
-				
+				File newFile = new File(dir + "/" + list.get(position));
+				file.renameTo(newFile);
+				list.remove(position + 1);
+								
 				adapter.notifyDataSetChanged();
 				return true; // true = close dialog
 			}
