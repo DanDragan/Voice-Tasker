@@ -223,13 +223,12 @@ public class Activity_List extends Activity {
 	public boolean onContextItemSelected(MenuItem item) {
 		info = (AdapterContextMenuInfo) item.getMenuInfo();
 
-		if (item.getTitle() == "Edit") {
+		if (item.getTitle() == "Edit")
 			editItem(info.position);
-		} else if (item.getTitle() == "Delete") {
+		else if (item.getTitle() == "Delete")
 			deleteItem(info.position);
-		} else {
+		else
 			return false;
-		}
 		return true;
 	}
 
