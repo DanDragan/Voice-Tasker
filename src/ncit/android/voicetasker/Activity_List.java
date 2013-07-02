@@ -15,6 +15,7 @@ import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
@@ -37,7 +38,7 @@ public class Activity_List extends Activity {
 	private ArrayAdapter<String> adapter;
 	private ArrayList<String> list;
 	private HashMap<View, Boolean> hmap;
-	private static File dir;
+	private File dir;
 	private String fileName;
 
 	private void init(ArrayList<String> list) {
@@ -118,46 +119,42 @@ public class Activity_List extends Activity {
 
 		btnSave.setOnClickListener(new View.OnClickListener() {
 
+			
 			@Override
 			public void onClick(View v) {
-
-				PromptDialog dlg = new PromptDialog(Activity_List.this,
-						R.string.title, R.string.enter_comment) {
-					@Override
-					public boolean onOkClicked(String input) {
-						// do something
-						try {
-
-							File myOutput = new File(dir + "/" + input);
-							if (!myOutput.exists()) {
-								myOutput.getParentFile().mkdirs();
-								myOutput.createNewFile();
-							}
-							
-							
-							JSONArray jArray = new JSONArray(list);
-							
-							for(int i = 0; i < list.size(); i++) {
+				
+				PromptDialog dlg = new PromptDialog(Activity_List.this, R.string.title, R.string.enter_comment) {  
+					 @Override  
+					 public boolean onOkClicked(String input) {  
+						 // do something
+						 try {
 								
-							}
-							
-							FileOutputStream out = new FileOutputStream(
-									myOutput);
+								File myOutput = new File(dir + "/" + input);
+								if (!myOutput.exists()) {
+									myOutput.getParentFile().mkdirs();
+									myOutput.createNewFile();
+								}
+								
+								JSONArray jArray = new JSONArray(list);
+								FileOutputStream out = new FileOutputStream(myOutput);
+									
+								out.write(jArray.toString().getBytes());
+								out.close();
+								
+								
+						 } catch (Exception e) {
+							 // TODO Auto-generated catch block
 
-							out.write(jArray.toString().getBytes());
-							out.close();
-
-						} catch (Exception e) {
-							e.printStackTrace();
-						}
-
-						Toast.makeText(getApplicationContext(), "List saved!",
-								Toast.LENGTH_SHORT).show();
-						return true; // true = close dialog
-					}
-				};
-
+								e.printStackTrace();
+						 }
+						 
+						 Toast.makeText(getApplicationContext(), "List saved!", Toast.LENGTH_SHORT).show();
+						 return true; // true = close dialog  
+					 }  
+				};  
+					
 				dlg.show();
+			
 			}
 		});
 
@@ -171,6 +168,7 @@ public class Activity_List extends Activity {
 				list.clear();
 
 			}
+
 		});
 
 		lView.setOnItemClickListener(new OnItemClickListener() {
@@ -231,6 +229,19 @@ public class Activity_List extends Activity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.main, menu);
 		return true;
+	}
+	
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+	     if (keyCode == KeyEvent.KEYCODE_BACK) {
+	    	 
+	    	 Intent intent = new Intent(getApplicationContext(),
+						Activity_Show.class);
+				startActivity(intent);
+	    	 
+	    	 return true;
+	     }
+	     return super.onKeyDown(keyCode, event);    
 	}
 
 	@Override

@@ -71,7 +71,7 @@ public class Activity_Show extends Activity {
 				boolean deleted = file.delete();
 
 				if (!deleted) {
-					Toast.makeText(getApplicationContext(),
+					Toast.makeText(getApplicationContext(), 
 							"Could not delete file ", Toast.LENGTH_SHORT)
 							.show();
 				}

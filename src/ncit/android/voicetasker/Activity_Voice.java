@@ -35,7 +35,7 @@ public class Activity_Voice extends Activity {
 	private ArrayAdapter<String> adapter;
 	private ArrayList<String> list;
 	private HashMap<View, Boolean> hmap;
-	private static File dir;
+	private File dir;
 
 	private void init(ArrayList<String> list) {
 		list.add("apple");
