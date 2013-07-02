@@ -31,11 +31,8 @@ public class Activity_Show extends Activity {
 			list.add(file);
 		}
 	}
-
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_show);
-
+	
+	public void populateList() {
 		lView = (ListView) findViewById(R.id.listview);
 		list = new ArrayList<String>();
 
@@ -87,6 +84,21 @@ public class Activity_Show extends Activity {
 		});
 	}
 
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_show);
+		
+		populateList();
+		
+	}
+
+	public void onResume(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_show);
+		
+		populateList();
+	}
+	
 	protected static String getFileName() {
 		return fileName;
 	}

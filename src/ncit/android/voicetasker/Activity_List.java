@@ -15,7 +15,6 @@ import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
-import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
@@ -230,20 +229,7 @@ public class Activity_List extends Activity {
 		getMenuInflater().inflate(R.menu.main, menu);
 		return true;
 	}
-	
-	@Override
-	public boolean onKeyDown(int keyCode, KeyEvent event) {
-	     if (keyCode == KeyEvent.KEYCODE_BACK) {
-	    	 
-	    	 Intent intent = new Intent(getApplicationContext(),
-						Activity_Show.class);
-				startActivity(intent);
-	    	 
-	    	 return true;
-	     }
-	     return super.onKeyDown(keyCode, event);    
-	}
-
+		
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
