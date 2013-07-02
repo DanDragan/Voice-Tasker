@@ -224,7 +224,7 @@ public class Activity_List extends Activity {
 		info = (AdapterContextMenuInfo) item.getMenuInfo();
 
 		if (item.getTitle() == "Edit") {
-
+			editItem(info.position);
 		} else if (item.getTitle() == "Delete") {
 			deleteItem(info.position);
 		} else {
@@ -238,6 +238,23 @@ public class Activity_List extends Activity {
 		list.remove(pos);
 		adapter.notifyDataSetChanged();
 
+	}
+	
+	private void editItem(int pos) {
+		final int position = pos;
+		PromptDialog dlg = new PromptDialog(Activity_List.this, list.get(pos)) {
+			@Override
+			public boolean onOkClicked(String input) {
+				
+				list.add(position, input);
+				list.remove(position + 1);
+				adapter.notifyDataSetChanged();
+				
+				return true; // true = close dialog
+			}
+		};
+
+		dlg.show();
 	}
 	
 	private void addItems(String item) {

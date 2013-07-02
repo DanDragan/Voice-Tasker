@@ -230,6 +230,7 @@ public class Activity_Voice extends Activity {
 				
 				list.add(position, input);
 				list.remove(position+1);
+				list.remove(position + 1);
 				adapter.notifyDataSetChanged();
 				return true; // true = close dialog
 			}
