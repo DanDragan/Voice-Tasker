@@ -24,6 +24,7 @@ public class Activity_Show extends Activity {
 	private static String fileName;
 	
 	private void init(ArrayList<String> list) {
+		list.clear();
 		dir = getExternalFilesDir(null);
 		flist = dir.list();
 				
@@ -87,7 +88,7 @@ public class Activity_Show extends Activity {
 	
 	@Override
 	public void onResume(){
-		super.onResume();
+		super.onResume();		
 		this.init(list);
 		lView.invalidateViews();
 	}
