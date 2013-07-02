@@ -13,6 +13,8 @@ import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
+import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
@@ -34,7 +36,7 @@ public class Activity_Voice extends Activity {
 	private ListView lView;
 	private ArrayAdapter<String> adapter;
 	private ArrayList<String> list;
-	private HashMap<View, Boolean> hmap;
+	private HashMap<View, Boolean> hmap; 
 	private File dir;
 
 	private void init(ArrayList<String> list) {
@@ -70,6 +72,7 @@ public class Activity_Voice extends Activity {
 		lView.setAdapter(adapter);
 		lView.setClickable(true);
 		lView.setTextFilterEnabled(true);
+		registerForContextMenu(lView); 
 
 		btnSpeak.setOnClickListener(new View.OnClickListener() {
 
@@ -188,11 +191,16 @@ public class Activity_Voice extends Activity {
 				// When long clicked
 				list.remove(position);
 				adapter.notifyDataSetChanged();
+				
 				return true;
 			}
 
 		});
 
+	}
+			
+	private void editItem() {
+		
 	}
 
 	private void addItems(String item) {

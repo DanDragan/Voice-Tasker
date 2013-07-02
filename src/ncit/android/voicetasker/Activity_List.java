@@ -117,8 +117,7 @@ public class Activity_List extends Activity {
 		});
 
 		btnSave.setOnClickListener(new View.OnClickListener() {
-
-			
+		
 			@Override
 			public void onClick(View v) {
 				
@@ -169,6 +168,8 @@ public class Activity_List extends Activity {
 			}
 
 		});
+		
+		
 
 		lView.setOnItemClickListener(new OnItemClickListener() {
 
@@ -229,7 +230,7 @@ public class Activity_List extends Activity {
 		getMenuInflater().inflate(R.menu.main, menu);
 		return true;
 	}
-		
+
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
