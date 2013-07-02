@@ -34,40 +34,39 @@ public class Activity_List extends Activity {
 	private Button btnReset;
 	private Button btnSave;
 	private ListView lView;
-	ArrayAdapter<String> adapter;
-	ArrayList<String> list;
-	HashMap<View, Boolean> hmap;
+	private ArrayAdapter<String> adapter;
+	private ArrayList<String> list;
+	private HashMap<View, Boolean> hmap;
 	private static File dir;
 	private String fileName;
-	
+
 	private void init(ArrayList<String> list) {
-		
+
 		dir = getExternalFilesDir(null);
 		fileName = Activity_Show.getFileName();
-		
+
 		File myInput = new File(dir + "/" + fileName);
-		
+
 		try {
 			FileReader in = new FileReader(myInput);
-			
+
 			StringWriter sw = new StringWriter();
-			
-			
-			char[] b = new char[1024*64];
-			while(in.read(b) > 0 ) {
-				sw.write(b);				
+
+			char[] b = new char[1024 * 64];
+			while (in.read(b) > 0) {
+				sw.write(b);
 			}
-			
+
 			String s = sw.toString();
 			JSONArray jArray = new JSONArray(s);
-			
-			for(int i = 0; i < jArray.length(); i++) {
+
+			for (int i = 0; i < jArray.length(); i++) {
 				list.add(jArray.getString(i));
 			}
-			
+
 			in.close();
-			
-		} catch (Exception e) {			
+
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
@@ -87,7 +86,7 @@ public class Activity_List extends Activity {
 
 		list = new ArrayList<String>();
 		this.init(list);
-		
+
 		adapter = new ArrayAdapter<String>(this,
 				android.R.layout.simple_list_item_1, list);
 		lView.setAdapter(adapter);
@@ -103,8 +102,7 @@ public class Activity_List extends Activity {
 						RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
 
 				intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, "en-US");
-				intent.putExtra(RecognizerIntent.EXTRA_PROMPT,
-						"What shall I do, Master?");
+				intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "What shall I do, Master?");
 				intent.putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 100);
 
 				try {
@@ -118,40 +116,48 @@ public class Activity_List extends Activity {
 			}
 		});
 
-btnSave.setOnClickListener(new View.OnClickListener() {
-			
+		btnSave.setOnClickListener(new View.OnClickListener() {
+
 			@Override
 			public void onClick(View v) {
-				
-				PromptDialog dlg = new PromptDialog(Activity_List.this, R.string.title, R.string.enter_comment) {  
-					 @Override  
-					 public boolean onOkClicked(String input) {  
-						 // do something						 
-						 try {
+
+				PromptDialog dlg = new PromptDialog(Activity_List.this,
+						R.string.title, R.string.enter_comment) {
+					@Override
+					public boolean onOkClicked(String input) {
+						// do something
+						try {
+
+							File myOutput = new File(dir + "/" + input);
+							if (!myOutput.exists()) {
+								myOutput.getParentFile().mkdirs();
+								myOutput.createNewFile();
+							}
+							
+							
+							JSONArray jArray = new JSONArray(list);
+							
+							for(int i = 0; i < list.size(); i++) {
 								
-								File myOutput = new File(dir + "/" + input);
-								if (!myOutput.exists()) {
-									myOutput.getParentFile().mkdirs();
-									myOutput.createNewFile();
-								}
-								
-								JSONArray jArray = new JSONArray(list);
-								FileOutputStream out = new FileOutputStream(myOutput);
-									
-								out.write(jArray.toString().getBytes());
-								out.close();
-								
-								
-						 } catch (Exception e) {
-								e.printStackTrace();
-						 }
-						 
-						 Toast.makeText(getApplicationContext(), "List saved!", Toast.LENGTH_SHORT).show();
-						 return true; // true = close dialog  
-					 }  
-				};  
-					
-				dlg.show();				
+							}
+							
+							FileOutputStream out = new FileOutputStream(
+									myOutput);
+
+							out.write(jArray.toString().getBytes());
+							out.close();
+
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+
+						Toast.makeText(getApplicationContext(), "List saved!",
+								Toast.LENGTH_SHORT).show();
+						return true; // true = close dialog
+					}
+				};
+
+				dlg.show();
 			}
 		});
 
