@@ -94,13 +94,14 @@ public class Activity_Show extends Activity {
 		PromptDialog dlg = new PromptDialog(Activity_Show.this, list.get(pos)) {
 			@Override
 			public boolean onOkClicked(String input) {
+				
 				list.add(position, input);
-
+								
 				File file = new File(dir + "/" + list.get(position + 1));
 				File newFile = new File(dir + "/" + list.get(position));
 				file.renameTo(newFile);
-
-				list.remove(position + 1);
+				
+				list.remove(position + 1);								
 				adapter.notifyDataSetChanged();
 				return true; // true = close dialog
 			}
