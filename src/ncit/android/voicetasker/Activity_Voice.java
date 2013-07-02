@@ -13,11 +13,14 @@ import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
+import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -34,8 +37,9 @@ public class Activity_Voice extends Activity {
 	private ListView lView;
 	private ArrayAdapter<String> adapter;
 	private ArrayList<String> list;
-	private HashMap<View, Boolean> hmap; 
+	private HashMap<View, Boolean> hmap;
 	private File dir;
+	private AdapterContextMenuInfo info;
 
 	private void init(ArrayList<String> list) {
 		list.add("apple");
@@ -70,6 +74,7 @@ public class Activity_Voice extends Activity {
 		lView.setAdapter(adapter);
 		lView.setClickable(true);
 		lView.setTextFilterEnabled(true);
+		registerForContextMenu(lView);
 
 		btnSpeak.setOnClickListener(new View.OnClickListener() {
 
@@ -124,8 +129,9 @@ public class Activity_Voice extends Activity {
 							e.printStackTrace();
 						}
 
-						Toast.makeText(getApplicationContext(), "List saved!",
-								Toast.LENGTH_SHORT).show();
+						if (input.length() > 0)
+							Toast.makeText(getApplicationContext(),
+									"List saved!", Toast.LENGTH_SHORT).show();
 						return true; // true = close dialog
 					}
 				};
@@ -180,18 +186,35 @@ public class Activity_Voice extends Activity {
 			}
 
 		});
+	}
 
-		lView.setOnItemLongClickListener(new OnItemLongClickListener() {
+	@Override
+	public void onCreateContextMenu(ContextMenu menu, View v,
+			ContextMenuInfo menuInfo) {
+		super.onCreateContextMenu(menu, v, menuInfo);
+		menu.setHeaderTitle("Item Menu");
+		menu.add(0, v.getId(), 0, "Edit");
+		menu.add(0, v.getId(), 0, "Delete");
+	}
 
-			public boolean onItemLongClick(AdapterView<?> parent, View view,
-					int position, long id) {
-				// When long clicked
-				list.remove(position);
-				adapter.notifyDataSetChanged();
-				return true;
-			}
+	@Override
+	public boolean onContextItemSelected(MenuItem item) {
+		info = (AdapterContextMenuInfo) item.getMenuInfo();
 
-		});
+		if (item.getTitle() == "Edit") {
+
+		} else if (item.getTitle() == "Delete") {
+			deleteItem(info.position);
+		} else {
+			return false;
+		}
+		return true;
+	}
+
+	private void deleteItem(int pos) {
+
+		list.remove(pos);
+		adapter.notifyDataSetChanged();
 
 	}
 

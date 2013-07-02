@@ -15,11 +15,14 @@ import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
+import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -39,6 +42,7 @@ public class Activity_List extends Activity {
 	private HashMap<View, Boolean> hmap;
 	private File dir;
 	private String fileName;
+	private AdapterContextMenuInfo info;
 
 	private void init(ArrayList<String> list) {
 
@@ -92,6 +96,7 @@ public class Activity_List extends Activity {
 		lView.setAdapter(adapter);
 		lView.setClickable(true);
 		lView.setTextFilterEnabled(true);
+		registerForContextMenu(lView);
 
 		btnSpeak.setOnClickListener(new View.OnClickListener() {
 
@@ -141,13 +146,13 @@ public class Activity_List extends Activity {
 								
 								
 						 } catch (Exception e) {
-							 // TODO Auto-generated catch block
 
 								e.printStackTrace();
 						 }
 						 
-						 Toast.makeText(getApplicationContext(), "List saved!", Toast.LENGTH_SHORT).show();
-						 return true; // true = close dialog  
+						 if(input.length()>0)
+								Toast.makeText(getApplicationContext(), "List saved!", Toast.LENGTH_SHORT).show();
+							return true; // true = close dialog
 					 }  
 				};  
 					
@@ -203,20 +208,38 @@ public class Activity_List extends Activity {
 
 		});
 
-		lView.setOnItemLongClickListener(new OnItemLongClickListener() {
-
-			public boolean onItemLongClick(AdapterView<?> parent, View view,
-					int position, long id) {
-				// When long clicked
-				list.remove(position);
-				adapter.notifyDataSetChanged();
-				return true;
-			}
-
-		});
-
 	}
 
+	@Override
+	public void onCreateContextMenu(ContextMenu menu, View v,
+			ContextMenuInfo menuInfo) {
+		super.onCreateContextMenu(menu, v, menuInfo);
+		menu.setHeaderTitle("Item Menu");
+		menu.add(0, v.getId(), 0, "Edit");
+		menu.add(0, v.getId(), 0, "Delete");
+	}
+
+	@Override
+	public boolean onContextItemSelected(MenuItem item) {
+		info = (AdapterContextMenuInfo) item.getMenuInfo();
+
+		if (item.getTitle() == "Edit") {
+
+		} else if (item.getTitle() == "Delete") {
+			deleteItem(info.position);
+		} else {
+			return false;
+		}
+		return true;
+	}
+
+	private void deleteItem(int pos) {
+
+		list.remove(pos);
+		adapter.notifyDataSetChanged();
+
+	}
+	
 	private void addItems(String item) {
 
 		if (item.length() > 0) {

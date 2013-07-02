@@ -24,7 +24,7 @@ public abstract class PromptDialog extends AlertDialog.Builder implements OnClic
   
 		input = new EditText(context);  
 		setView(input);  
-  
+		
 		setPositiveButton(R.string.ok, this);  
 		setNegativeButton(R.string.cancel, this);  
 	}  
