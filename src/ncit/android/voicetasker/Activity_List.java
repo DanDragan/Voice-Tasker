@@ -126,7 +126,7 @@ public class Activity_List extends Activity {
 			@Override
 			public void onClick(View v) {
 				
-				PromptDialog dlg = new PromptDialog(Activity_List.this, R.string.title, R.string.enter_comment) {  
+				PromptDialog dlg = new PromptDialog(Activity_List.this, fileName) {  
 					 @Override  
 					 public boolean onOkClicked(String input) {  
 						 // do something

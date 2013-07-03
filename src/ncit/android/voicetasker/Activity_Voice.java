@@ -130,7 +130,8 @@ public class Activity_Voice extends Activity {
 						}
 
 						if (input.length() > 0)
-							Toast.makeText(getApplicationContext(), "List saved!", Toast.LENGTH_SHORT).show();
+							Toast.makeText(getApplicationContext(),
+									"List saved!", Toast.LENGTH_SHORT).show();
 						return true; // true = close dialog
 					}
 				};
@@ -201,17 +202,12 @@ public class Activity_Voice extends Activity {
 		info = (AdapterContextMenuInfo) item.getMenuInfo();
 
 		if (item.getTitle() == "Edit") {
-			editItem(info.position);			
-		} 
-		else if (item.getTitle() == "Delete") {
 			editItem(info.position);
 		} else if (item.getTitle() == "Delete") {
 			deleteItem(info.position);
-		} 
-		else {
+		} else {
 			return false;
 		}
-		
 		return true;
 	}
 
@@ -229,7 +225,6 @@ public class Activity_Voice extends Activity {
 			public boolean onOkClicked(String input) {
 				
 				list.add(position, input);
-				list.remove(position+1);
 				list.remove(position + 1);
 				adapter.notifyDataSetChanged();
 				return true; // true = close dialog
