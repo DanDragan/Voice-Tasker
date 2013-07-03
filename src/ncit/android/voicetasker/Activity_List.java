@@ -1,11 +1,13 @@
 package ncit.android.voicetasker;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Scanner;
 
 import org.json.JSONArray;
 
@@ -14,8 +16,10 @@ import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.opengl.Visibility;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
@@ -76,6 +80,27 @@ public class Activity_List extends Activity {
 		}
 	}
 
+	private void check(ListView lView) {
+		Scanner inputScanner;
+		try {
+			inputScanner = new Scanner(new File(dir + "/_*" + fileName));
+
+			//while (inputScanner.hasNext()) {
+				
+				int ceva = inputScanner.nextInt();
+				Log.println(1, "AList", "" + ceva);
+				
+				TextView row = (TextView) lView.getChildAt(lView.getFirstVisiblePosition());
+				row.setPaintFlags(row.getPaintFlags()
+						| Paint.STRIKE_THRU_TEXT_FLAG);
+				row.setTextColor(Color.rgb(0, 200, 0));
+			//}
+
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+	}
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -97,6 +122,8 @@ public class Activity_List extends Activity {
 		lView.setAdapter(adapter);
 		lView.setClickable(true);
 		lView.setTextFilterEnabled(true);
+		lView.setVisibility(1);
+		check(lView);
 		registerForContextMenu(lView);
 
 		btnSpeak.setOnClickListener(new View.OnClickListener() {
@@ -108,7 +135,8 @@ public class Activity_List extends Activity {
 						RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
 
 				intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, "en-US");
-				intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "What shall I do, Master?");
+				intent.putExtra(RecognizerIntent.EXTRA_PROMPT,
+						"What shall I do, Master?");
 				intent.putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 100);
 
 				try {
@@ -123,42 +151,44 @@ public class Activity_List extends Activity {
 		});
 
 		btnSave.setOnClickListener(new View.OnClickListener() {
-		
+
 			@Override
 			public void onClick(View v) {
-				
-				PromptDialog dlg = new PromptDialog(Activity_List.this, fileName) {  
-					 @Override  
-					 public boolean onOkClicked(String input) {  
-						 // do something
-						 try {
-								
-								File myOutput = new File(dir + "/" + input);
-								if (!myOutput.exists()) {
-									myOutput.getParentFile().mkdirs();
-									myOutput.createNewFile();
-								}
-								
-								JSONArray jArray = new JSONArray(list);
-								FileOutputStream out = new FileOutputStream(myOutput);
-									
-								out.write(jArray.toString().getBytes());
-								out.close();
-								
-								
-						 } catch (Exception e) {
 
-								e.printStackTrace();
-						 }
-						 
-						 if(input.length()>0)
-								Toast.makeText(getApplicationContext(), "List saved!", Toast.LENGTH_SHORT).show();
-							return true; // true = close dialog
-					 }  
-				};  
-					
+				PromptDialog dlg = new PromptDialog(Activity_List.this,
+						fileName) {
+					@Override
+					public boolean onOkClicked(String input) {
+						// do something
+						try {
+
+							File myOutput = new File(dir + "/" + input);
+							if (!myOutput.exists()) {
+								myOutput.getParentFile().mkdirs();
+								myOutput.createNewFile();
+							}
+
+							JSONArray jArray = new JSONArray(list);
+							FileOutputStream out = new FileOutputStream(
+									myOutput);
+
+							out.write(jArray.toString().getBytes());
+							out.close();
+
+						} catch (Exception e) {
+
+							e.printStackTrace();
+						}
+
+						if (input.length() > 0)
+							Toast.makeText(getApplicationContext(),
+									"List saved!", Toast.LENGTH_SHORT).show();
+						return true; // true = close dialog
+					}
+				};
+
 				dlg.show();
-			
+
 			}
 		});
 
@@ -174,8 +204,6 @@ public class Activity_List extends Activity {
 			}
 
 		});
-		
-		
 
 		lView.setOnItemClickListener(new OnItemClickListener() {
 
@@ -185,12 +213,13 @@ public class Activity_List extends Activity {
 				if (hmap.get(view) == null) {
 
 					Toast.makeText(getBaseContext(),
-							"You checked " + list.get(position), Toast.LENGTH_SHORT).show();
+							"You checked " + list.get(position),
+							Toast.LENGTH_SHORT).show();
 
 					TextView row = (TextView) view;
-					row.setPaintFlags(row.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+					row.setPaintFlags(row.getPaintFlags()
+							| Paint.STRIKE_THRU_TEXT_FLAG);
 					row.setTextColor(Color.rgb(0, 200, 0));
-					
 					hmap.put(view, true);
 				}
 
@@ -200,9 +229,9 @@ public class Activity_List extends Activity {
 							Toast.LENGTH_SHORT).show();
 
 					TextView row = (TextView) view;
-					row.setPaintFlags(row.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
+					row.setPaintFlags(row.getPaintFlags()
+							& (~Paint.STRIKE_THRU_TEXT_FLAG));
 					row.setTextColor(Color.BLACK);
-					
 					hmap.remove(view);
 				}
 
@@ -225,12 +254,13 @@ public class Activity_List extends Activity {
 	public boolean onContextItemSelected(MenuItem item) {
 		info = (AdapterContextMenuInfo) item.getMenuInfo();
 
-		if (item.getTitle() == "Edit")
+		if (item.getTitle() == "Edit") {
 			editItem(info.position);
-		else if (item.getTitle() == "Delete")
+		} else if (item.getTitle() == "Delete") {
 			deleteItem(info.position);
-		else
+		} else {
 			return false;
+		}
 		return true;
 	}
 
@@ -240,24 +270,24 @@ public class Activity_List extends Activity {
 		adapter.notifyDataSetChanged();
 
 	}
-	
+
 	private void editItem(int pos) {
 		final int position = pos;
 		PromptDialog dlg = new PromptDialog(Activity_List.this, list.get(pos)) {
 			@Override
 			public boolean onOkClicked(String input) {
-				
+
 				list.add(position, input);
 				list.remove(position + 1);
 				adapter.notifyDataSetChanged();
-				
+
 				return true; // true = close dialog
 			}
 		};
 
 		dlg.show();
 	}
-	
+
 	private void addItems(String item) {
 
 		if (item.length() > 0) {

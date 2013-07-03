@@ -1,6 +1,8 @@
 package ncit.android.voicetasker;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -12,7 +14,39 @@ public class MainActivity extends Activity {
 	private Button btnNewList;
 	private Button btnExit;
 	private Button btnShowLists;
+	private AlertDialog levelDialog;
 
+	private void insertDialog(){
+		
+		final CharSequence[] items = { "Simple List", "Shopping List" };
+
+		// Creating and Building the Dialog
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setTitle("Please select list type");
+		builder.setSingleChoiceItems(items, -1, new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int item) {
+
+						switch (item) {
+						case 0:
+							Intent intent = new Intent(getApplicationContext(), Activity_Voice.class); 
+							startActivity(intent);
+							break;
+						case 1:
+							Intent intent2 = new Intent(getApplicationContext(), Activity_Shopping.class); 
+							startActivity(intent2);
+							break;
+
+						}
+						levelDialog.dismiss();
+					}
+				});
+		levelDialog = builder.create();
+		levelDialog.show();
+		
+	}
+	
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -21,14 +55,19 @@ public class MainActivity extends Activity {
 		btnNewList = (Button) findViewById(R.id.btnNewList);
 		btnExit = (Button) findViewById(R.id.btnExit);
 		btnShowLists = (Button) findViewById(R.id.btnShowLists);
-
+	
+		
 		btnNewList.setOnClickListener(new View.OnClickListener() {
 
 			@Override
 			public void onClick(View view) {
-				Intent intent = new Intent(getApplicationContext(),
-						Activity_Voice.class);
-				startActivity(intent);
+				/*
+				 * Intent intent = new Intent(getApplicationContext(),
+				 * Activity_Voice.class); startActivity(intent);
+				 */
+				insertDialog();
+				
+
 			}
 		});
 
@@ -52,8 +91,7 @@ public class MainActivity extends Activity {
 			}
 		});
 	}
-	
-	
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.

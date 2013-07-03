@@ -40,6 +40,10 @@
         <activity 
             android:name="ncit.android.voicetasker.Activity_List">            
         </activity>
+        
+        <activity 
+            android:name="ncit.android.voicetasker.Activity_Shopping">            
+        </activity>
     </application>
 
 </manifest>
