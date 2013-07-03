@@ -10,6 +10,8 @@ import org.json.JSONArray;
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
@@ -40,6 +42,7 @@ public class Activity_Voice extends Activity {
 	private HashMap<View, Boolean> hmap;
 	private File dir;
 	private AdapterContextMenuInfo info;
+	
 
 	private void init(ArrayList<String> list) {
 		list.add("apple");
@@ -166,21 +169,24 @@ public class Activity_Voice extends Activity {
 							Toast.LENGTH_SHORT).show();
 
 					TextView row = (TextView) view;
-					row.setPaintFlags(row.getPaintFlags()
-							| Paint.STRIKE_THRU_TEXT_FLAG);
+					row.setPaintFlags(row.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+					row.setTextColor(Color.rgb(0, 200, 0));
+					
 					hmap.put(view, true);
 				}
 
 				else {
 					Toast.makeText(getApplicationContext(),
-							"You unchecked " + list.get(position),
-							Toast.LENGTH_SHORT).show();
+							"You unchecked " + list.get(position), Toast.LENGTH_SHORT).show();
 
 					TextView row = (TextView) view;
-					row.setPaintFlags(row.getPaintFlags()
-							& (~Paint.STRIKE_THRU_TEXT_FLAG));
+					row.setPaintFlags(row.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
+					row.setTextColor(Color.BLACK);
+					
 					hmap.remove(view);
 				}
+				
+				
 
 			}
 

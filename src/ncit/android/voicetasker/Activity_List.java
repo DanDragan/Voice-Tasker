@@ -12,6 +12,7 @@ import org.json.JSONArray;
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
@@ -184,12 +185,12 @@ public class Activity_List extends Activity {
 				if (hmap.get(view) == null) {
 
 					Toast.makeText(getBaseContext(),
-							"You checked " + list.get(position),
-							Toast.LENGTH_SHORT).show();
+							"You checked " + list.get(position), Toast.LENGTH_SHORT).show();
 
 					TextView row = (TextView) view;
-					row.setPaintFlags(row.getPaintFlags()
-							| Paint.STRIKE_THRU_TEXT_FLAG);
+					row.setPaintFlags(row.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+					row.setTextColor(Color.rgb(0, 200, 0));
+					
 					hmap.put(view, true);
 				}
 
@@ -199,8 +200,9 @@ public class Activity_List extends Activity {
 							Toast.LENGTH_SHORT).show();
 
 					TextView row = (TextView) view;
-					row.setPaintFlags(row.getPaintFlags()
-							& (~Paint.STRIKE_THRU_TEXT_FLAG));
+					row.setPaintFlags(row.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
+					row.setTextColor(Color.BLACK);
+					
 					hmap.remove(view);
 				}
 
