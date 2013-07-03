@@ -10,6 +10,7 @@ import org.json.JSONArray;
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
@@ -40,6 +41,7 @@ public class Activity_Voice extends Activity {
 	private HashMap<View, Boolean> hmap;
 	private File dir;
 	private AdapterContextMenuInfo info;
+	private ArrayList<Integer> checklist;
 
 	private void init(ArrayList<String> list) {
 		list.add("apple");
@@ -68,6 +70,7 @@ public class Activity_Voice extends Activity {
 		dir = getExternalFilesDir(null);
 
 		list = new ArrayList<String>();
+		checklist = new ArrayList<Integer>();
 		this.init(list);
 		adapter = new ArrayAdapter<String>(this,
 				android.R.layout.simple_list_item_1, list);
@@ -123,6 +126,10 @@ public class Activity_Voice extends Activity {
 									myOutput);
 
 							out.write(jArray.toString().getBytes());
+							for (int i = 0; i < checklist.size(); i++) {
+								out.write(checklist.get(i));								
+							}
+
 							out.close();
 
 						} catch (Exception e) {
@@ -169,7 +176,9 @@ public class Activity_Voice extends Activity {
 					TextView row = (TextView) view;
 					row.setPaintFlags(row.getPaintFlags()
 							| Paint.STRIKE_THRU_TEXT_FLAG);
+					row.setTextColor(Color.rgb(0, 200, 0));
 					hmap.put(view, true);
+					checklist.add(position, 1);
 				}
 
 				else {
@@ -180,7 +189,9 @@ public class Activity_Voice extends Activity {
 					TextView row = (TextView) view;
 					row.setPaintFlags(row.getPaintFlags()
 							& (~Paint.STRIKE_THRU_TEXT_FLAG));
+					row.setTextColor(Color.BLACK);
 					hmap.remove(view);
+					checklist.add(position, 0);
 				}
 
 			}
@@ -201,13 +212,13 @@ public class Activity_Voice extends Activity {
 	public boolean onContextItemSelected(MenuItem item) {
 		info = (AdapterContextMenuInfo) item.getMenuInfo();
 
-		if (item.getTitle() == "Edit") {
+		if (item.getTitle() == "Edit")
 			editItem(info.position);
-		} else if (item.getTitle() == "Delete") {
+		else if (item.getTitle() == "Delete")
 			deleteItem(info.position);
-		} else {
+		else
 			return false;
-		}
+
 		return true;
 	}
 
@@ -217,13 +228,13 @@ public class Activity_Voice extends Activity {
 		adapter.notifyDataSetChanged();
 
 	}
-			
+
 	private void editItem(int pos) {
 		final int position = pos;
 		PromptDialog dlg = new PromptDialog(Activity_Voice.this, list.get(pos)) {
 			@Override
 			public boolean onOkClicked(String input) {
-				
+
 				list.add(position, input);
 				list.remove(position + 1);
 				adapter.notifyDataSetChanged();

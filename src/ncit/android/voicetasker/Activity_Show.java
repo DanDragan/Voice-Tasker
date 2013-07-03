@@ -7,15 +7,15 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.AdapterView;
+import android.widget.AdapterView.AdapterContextMenuInfo;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
-import android.widget.AdapterView.AdapterContextMenuInfo;
-import android.widget.AdapterView.OnItemClickListener;
 
 public class Activity_Show extends Activity {
 
@@ -52,7 +52,6 @@ public class Activity_Show extends Activity {
 		lView.setClickable(true);
 		lView.setTextFilterEnabled(true);
 		registerForContextMenu(lView);
-
 
 		lView.setOnItemClickListener(new OnItemClickListener() {
 
@@ -95,19 +94,18 @@ public class Activity_Show extends Activity {
 		PromptDialog dlg = new PromptDialog(Activity_Show.this, list.get(pos)) {
 			@Override
 			public boolean onOkClicked(String input) {
-
+				
 				list.add(position, input);
 								
 				File file = new File(dir + "/" + list.get(position + 1));
 				File newFile = new File(dir + "/" + list.get(position));
 				file.renameTo(newFile);
-				list.remove(position + 1);
-								
+				
+				list.remove(position + 1);								
 				adapter.notifyDataSetChanged();
 				return true; // true = close dialog
 			}
 		};
-
 		dlg.show();
 	}
 
