@@ -175,8 +175,7 @@ public class Activity_Shopping extends Activity {
 					hmap.put(view, true);
 					
 					speechWhere = true;
-					speechFunction("What is the price, Master?");
-					
+					speechFunction("What is the price, Master?");	
 				}
 
 				else {
@@ -252,8 +251,8 @@ public class Activity_Shopping extends Activity {
 	
 	public void addItems2(String item){
 		
-		
-		
+		list.set(0, list.get(0).toString() + " " + item);
+		adapter.notifyDataSetChanged();
 	}
 
 	@Override
