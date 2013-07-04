@@ -1,6 +1,5 @@
 package ncit.android.voicetasker;
 
-import java.util.HashMap;
 import java.util.List;
 
 import android.content.Context;
@@ -17,12 +16,10 @@ public class ShoppingAdapter extends BaseAdapter {
 
 	private List<ShoppingItem> shoppingList;
 	private Context context;
-	private static HashMap<String, Boolean> boolMap;
 	
 	public ShoppingAdapter(List<ShoppingItem> shoppingList, Context context){
 		this.shoppingList = shoppingList;
 		this.context = context;
-		this.boolMap = new HashMap<String, Boolean>();
 	}
 	
 	@Override
@@ -76,20 +73,21 @@ public class ShoppingAdapter extends BaseAdapter {
 					& (~Paint.STRIKE_THRU_TEXT_FLAG));
 			row.setTextColor(Color.BLACK);
 			this.shoppingList.get(position).setChecked(false);
-			this.boolMap.remove(shoppingList.get(position).getName());
 		} else {
 			//check it
 			TextView row = (TextView) item;
 			row.setPaintFlags(row.getPaintFlags()
 					| Paint.STRIKE_THRU_TEXT_FLAG);
 			row.setTextColor(Color.rgb(0, 200, 0));
-			this.shoppingList.get(position).setChecked(true);
-			this.boolMap.put(shoppingList.get(position).getName(), true);
+			this.shoppingList.get(position).setChecked(true);			
 		}
 	}
+<<<<<<< HEAD
 	
 	protected static HashMap<String, Boolean> getMap() {
 		return boolMap;
 	}
 
+=======
+>>>>>>> 9182cc0d1d455cd99320be94e6aeb57002c5a272
 }

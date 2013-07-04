@@ -13,8 +13,12 @@ import org.json.JSONObject;
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
+<<<<<<< HEAD
 import android.graphics.Color;
 import android.graphics.Paint;
+=======
+
+>>>>>>> 9182cc0d1d455cd99320be94e6aeb57002c5a272
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.util.Log;
@@ -23,12 +27,9 @@ import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 public class Activity_List extends Activity {
@@ -42,7 +43,6 @@ public class Activity_List extends Activity {
 	private ShoppingAdapter adapter;
 	private ArrayList<ShoppingItem> list;
 	private HashMap<View, Boolean> hmap;
-	private HashMap<String, Boolean> boolMap;
 	private static File dir;
 	private static String fileName;
 	private AdapterContextMenuInfo info;
@@ -90,7 +90,10 @@ public class Activity_List extends Activity {
 		btnSave = (Button) findViewById(R.id.btnSave);
 
 		hmap = new HashMap<View, Boolean>();
+<<<<<<< HEAD
 		boolMap = ShoppingAdapter.getMap();
+=======
+>>>>>>> 9182cc0d1d455cd99320be94e6aeb57002c5a272
 
 		list = new ArrayList<ShoppingItem>();
 		this.init(list);
@@ -150,6 +153,7 @@ public class Activity_List extends Activity {
 							JSONArray jArray = new JSONArray();
 							for (int i = 0; i < list.size(); i++) {
 								JSONObject obj = new JSONObject();
+<<<<<<< HEAD
 								
 								Log.println(1, "ceva", ""+list.get(i).getName());
 								
@@ -163,10 +167,20 @@ public class Activity_List extends Activity {
 									obj.put("mazga", false);
 								}
 								jArray.put(obj);
+=======
+								if (list.get(i).isChecked() == true) {
+									obj.put(list.get(i).getName(), true);									
+								}
+								
+								else {
+									obj.put(list.get(i).getName(), false);
+								}
+								
+								jArray.put(obj);								
+>>>>>>> 9182cc0d1d455cd99320be94e6aeb57002c5a272
 							}
 
-							FileOutputStream out = new FileOutputStream(
-									myOutput);
+							FileOutputStream out = new FileOutputStream(myOutput);
 
 							out.write(jArray.toString().getBytes());
 							out.close();
