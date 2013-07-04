@@ -13,12 +13,6 @@ import org.json.JSONObject;
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
-<<<<<<< HEAD
-import android.graphics.Color;
-import android.graphics.Paint;
-=======
-
->>>>>>> 9182cc0d1d455cd99320be94e6aeb57002c5a272
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.util.Log;
@@ -90,10 +84,6 @@ public class Activity_List extends Activity {
 		btnSave = (Button) findViewById(R.id.btnSave);
 
 		hmap = new HashMap<View, Boolean>();
-<<<<<<< HEAD
-		boolMap = ShoppingAdapter.getMap();
-=======
->>>>>>> 9182cc0d1d455cd99320be94e6aeb57002c5a272
 
 		list = new ArrayList<ShoppingItem>();
 		this.init(list);
@@ -141,58 +131,8 @@ public class Activity_List extends Activity {
 					@Override
 					public boolean onOkClicked(String input) {
 						// do something
-						try {
-
-							File myOutput = new File(dir + "/" + input);
-							if (!myOutput.exists()) {
-								myOutput.getParentFile().mkdirs();
-								myOutput.createNewFile();
-							}
-
-							//JSONArray jArray = new JSONArray(list);
-							JSONArray jArray = new JSONArray();
-							for (int i = 0; i < list.size(); i++) {
-								JSONObject obj = new JSONObject();
-<<<<<<< HEAD
-								
-								Log.println(1, "ceva", ""+list.get(i).getName());
-								
-								if (boolMap.get(list.get(i).getName()) != null) {
-									//obj.put(list.get(i).getName(), true);
-									obj.put("mazga", true);
-								}
-								
-								else{
-									//obj.put(list.get(i).getName(), false);
-									obj.put("mazga", false);
-								}
-								jArray.put(obj);
-=======
-								if (list.get(i).isChecked() == true) {
-									obj.put(list.get(i).getName(), true);									
-								}
-								
-								else {
-									obj.put(list.get(i).getName(), false);
-								}
-								
-								jArray.put(obj);								
->>>>>>> 9182cc0d1d455cd99320be94e6aeb57002c5a272
-							}
-
-							FileOutputStream out = new FileOutputStream(myOutput);
-
-							out.write(jArray.toString().getBytes());
-							out.close();
-
-						} catch (Exception e) {
-
-							e.printStackTrace();
-						}
-
-						if (input.length() > 0)
-							Toast.makeText(getApplicationContext(),
-									"List saved!", Toast.LENGTH_SHORT).show();
+						setOkClicked(input);
+						
 
 						return true; // true = close dialog
 					}
@@ -210,7 +150,7 @@ public class Activity_List extends Activity {
 
 				adapter.notifyDataSetChanged();
 				adapter.notifyDataSetInvalidated();
-				list.clear();
+				//list.clear();
 
 			}
 
@@ -272,6 +212,39 @@ public class Activity_List extends Activity {
 		}
 		return true;
 	}
+	
+	public void setOkClicked(String input){
+		try {
+
+			File myOutput = new File(dir + "/" + input);
+			if (!myOutput.exists()) {
+				myOutput.getParentFile().mkdirs();
+				myOutput.createNewFile();
+			}
+
+			//JSONArray jArray = new JSONArray(list);
+			JSONArray jArray = new JSONArray();
+			for (int i = 0; i < list.size(); i++) {
+				JSONObject obj = new JSONObject();
+				obj.put(list.get(i).getName(), list.get(i).isChecked());
+				jArray.put(obj);								
+
+			}
+
+			FileOutputStream out = new FileOutputStream(myOutput);
+
+			out.write(jArray.toString().getBytes());
+			out.close();
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+
+		if (input.length() > 0)
+			Toast.makeText(getApplicationContext(),
+					"List saved!", Toast.LENGTH_SHORT).show();
+	}
 
 	private void deleteItem(int pos) {
 
@@ -287,8 +260,10 @@ public class Activity_List extends Activity {
 			@Override
 			public boolean onOkClicked(String input) {
 
-				list.add(position, new ShoppingItem(input, false));
-
+				//list.add(position, new ShoppingItem(input, false));
+				list.get(position).setName(input);
+				list.get(position).setChecked(false);
+				
 				list.remove(position + 1);
 				adapter.notifyDataSetChanged();
 
