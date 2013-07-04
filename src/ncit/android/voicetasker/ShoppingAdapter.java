@@ -82,5 +82,5 @@ public class ShoppingAdapter extends BaseAdapter {
 			this.shoppingList.get(position).setChecked(true);			
 		}
 	}
-	
+
 }
