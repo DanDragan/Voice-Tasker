@@ -16,7 +16,6 @@ import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.opengl.Visibility;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.util.Log;
