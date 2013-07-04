@@ -1,5 +1,6 @@
 package ncit.android.voicetasker;
 
+import java.util.HashMap;
 import java.util.List;
 
 import android.content.Context;
@@ -16,10 +17,12 @@ public class ShoppingAdapter extends BaseAdapter {
 
 	private List<ShoppingItem> shoppingList;
 	private Context context;
+	private static HashMap<String, Boolean> boolMap;
 	
 	public ShoppingAdapter(List<ShoppingItem> shoppingList, Context context){
 		this.shoppingList = shoppingList;
 		this.context = context;
+		this.boolMap = new HashMap<String, Boolean>();
 	}
 	
 	@Override
@@ -65,22 +68,28 @@ public class ShoppingAdapter extends BaseAdapter {
 		return convertView;
 	}
 	
-	private void listItemClick(View item, int position){
-		if (this.shoppingList.get(position).isChecked()){
+	private void listItemClick(View item, int position) {
+		if (this.shoppingList.get(position).isChecked()) {
 			//uncheck it
 			TextView row = (TextView) item;
 			row.setPaintFlags(row.getPaintFlags()
 					& (~Paint.STRIKE_THRU_TEXT_FLAG));
 			row.setTextColor(Color.BLACK);
 			this.shoppingList.get(position).setChecked(false);
-		} else{
+			this.boolMap.remove(shoppingList.get(position).getName());
+		} else {
 			//check it
 			TextView row = (TextView) item;
 			row.setPaintFlags(row.getPaintFlags()
 					| Paint.STRIKE_THRU_TEXT_FLAG);
 			row.setTextColor(Color.rgb(0, 200, 0));
-			this.shoppingList.get(position).setChecked(true);	
+			this.shoppingList.get(position).setChecked(true);
+			this.boolMap.put(shoppingList.get(position).getName(), true);
 		}
+	}
+	
+	protected HashMap<String, Boolean> getMap() {
+		return boolMap;
 	}
 
 }
