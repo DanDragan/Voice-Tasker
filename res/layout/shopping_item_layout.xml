@@ -6,9 +6,9 @@
     
     <TextView
         android:id="@+id/shopping_item_name"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_width="fill_parent"
-        android:textSize="30sp"
+        android:textSize="20sp"
         />
 
 </LinearLayout>

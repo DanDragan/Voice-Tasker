@@ -30,7 +30,7 @@ import android.widget.Toast;
 
 public class Activity_Voice extends Activity {
 
-	protected static final int RESULT_SPEECH = 1;
+	private static final int RESULT_SPEECH = 1;
 
 	private Button btnSpeak;
 	private Button btnReset;
@@ -39,7 +39,6 @@ public class Activity_Voice extends Activity {
 	private ArrayAdapter<String> adapter;
 	private ArrayList<String> list;
 	private HashMap<View, Boolean> hmap;
-	private HashMap<Integer, Boolean>  boolmap;
 	private File dir;
 	private AdapterContextMenuInfo info;
 
@@ -66,7 +65,6 @@ public class Activity_Voice extends Activity {
 		btnSave = (Button) findViewById(R.id.btnSave);
 
 		hmap = new HashMap<View, Boolean>();
-		boolmap = new HashMap<Integer, Boolean>();
 
 		dir = getExternalFilesDir(null);
 
@@ -127,24 +125,6 @@ public class Activity_Voice extends Activity {
 							out.write(jArray.toString().getBytes());
 														
 							out.close();
-							
-							File myNewOutput = new File(dir + "/extra_" + input);
-
-							if (!myNewOutput.exists()) {
-								myNewOutput.getParentFile().mkdirs();
-								myNewOutput.createNewFile();
-							}
-							
-							FileOutputStream newout = new FileOutputStream(myNewOutput);
-							
-							for(int i = 0; i < list.size(); i++) {
-								if(boolmap.get(i) != null) {
-									newout.write((("" + i).toString()+ " ").getBytes());									
-
-								}
-							}
-							
-							newout.close();
 
 						} catch (Exception e) {
 							e.printStackTrace();
@@ -190,8 +170,7 @@ public class Activity_Voice extends Activity {
 					row.setPaintFlags(row.getPaintFlags()
 							| Paint.STRIKE_THRU_TEXT_FLAG);
 					row.setTextColor(Color.rgb(0, 200, 0));
-					hmap.put(view, true);
-					boolmap.put(position, true);					
+					hmap.put(view, true);					
 				}
 
 				else {
@@ -203,7 +182,6 @@ public class Activity_Voice extends Activity {
 					row.setPaintFlags(row.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
 					row.setTextColor(Color.BLACK);
 					hmap.remove(view);
-					boolmap.remove(position);
 				}
 
 			}
@@ -234,7 +212,7 @@ public class Activity_Voice extends Activity {
 		return true;
 	}
 
-	private void deleteItem(int pos) {
+	protected void deleteItem(int pos) {
 
 		list.remove(pos);
 		adapter.notifyDataSetChanged();
@@ -257,7 +235,7 @@ public class Activity_Voice extends Activity {
 		dlg.show();
 	}
 
-	private void addItems(String item) {
+	protected void addItems(String item) {
 
 		if (item.length() > 0) {
 			this.list.add(item);
