@@ -13,8 +13,6 @@ import org.json.JSONObject;
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.Paint;
 
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
@@ -23,12 +21,9 @@ import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 public class Activity_List extends Activity {
@@ -42,7 +37,6 @@ public class Activity_List extends Activity {
 	private ShoppingAdapter adapter;
 	private ArrayList<ShoppingItem> list;
 	private HashMap<View, Boolean> hmap;
-	private HashMap<String, Boolean> boolMap;
 	private static File dir;
 	private static String fileName;
 	private AdapterContextMenuInfo info;
@@ -90,7 +84,6 @@ public class Activity_List extends Activity {
 		btnSave = (Button) findViewById(R.id.btnSave);
 
 		hmap = new HashMap<View, Boolean>();
-		boolMap = new HashMap<String, Boolean>();
 
 		list = new ArrayList<ShoppingItem>();
 		this.init(list);
@@ -150,15 +143,18 @@ public class Activity_List extends Activity {
 							JSONArray jArray = new JSONArray();
 							for (int i = 0; i < list.size(); i++) {
 								JSONObject obj = new JSONObject();
-								if (boolMap.get(list.get(i).getName()) != null) {
-									obj.put(list.get(i).getName(), true);
+								if (list.get(i).isChecked() == true) {
+									obj.put(list.get(i).getName(), true);									
 								}
 								
-								jArray.put(obj);
+								else {
+									obj.put(list.get(i).getName(), false);
+								}
+								
+								jArray.put(obj);								
 							}
 
-							FileOutputStream out = new FileOutputStream(
-									myOutput);
+							FileOutputStream out = new FileOutputStream(myOutput);
 
 							out.write(jArray.toString().getBytes());
 							out.close();
@@ -200,7 +196,7 @@ public class Activity_List extends Activity {
 			ContextMenuInfo menuInfo) {
 		super.onCreateContextMenu(menu, v, menuInfo);
 		menu.setHeaderTitle("Item Menu");
-		lView.setOnItemClickListener(new OnItemClickListener() {
+		/*lView.setOnItemClickListener(new OnItemClickListener() {
 
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
@@ -232,7 +228,7 @@ public class Activity_List extends Activity {
 
 			}
 
-		});
+		});*/
 		menu.add(0, v.getId(), 0, "Edit");
 		menu.add(0, v.getId(), 0, "Delete");
 	}
