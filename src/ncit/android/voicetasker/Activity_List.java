@@ -5,7 +5,6 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.StringWriter;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -15,7 +14,6 @@ import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
-import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
@@ -36,7 +34,6 @@ public class Activity_List extends Activity {
 	private ListView lView;
 	private ShoppingAdapter adapter;
 	private ArrayList<ShoppingItem> list;
-	private HashMap<View, Boolean> hmap;
 	private static File dir;
 	private static String fileName;
 	private AdapterContextMenuInfo info;
@@ -60,10 +57,14 @@ public class Activity_List extends Activity {
 
 			String s = sw.toString();
 			JSONArray jArray = new JSONArray(s);
+						
+	        for (int i = 0; i < jArray.length(); i++) {
+	             JSONObject obj = jArray.getJSONObject(i);
 
-			for (int i = 0; i < jArray.length(); i++) {
-				list.add(new ShoppingItem(jArray.getString(i), true));
-			}
+	             boolean status = obj.getBoolean("status");
+	             String name = obj.getString("name");
+	             list.add(new ShoppingItem(name, status));
+	        }
 
 			in.close();
 
@@ -82,8 +83,6 @@ public class Activity_List extends Activity {
 		btnSpeak = (Button) findViewById(R.id.btnSpeak);
 		btnReset = (Button) findViewById(R.id.btnReset);
 		btnSave = (Button) findViewById(R.id.btnSave);
-
-		hmap = new HashMap<View, Boolean>();
 
 		list = new ArrayList<ShoppingItem>();
 		this.init(list);
@@ -226,7 +225,8 @@ public class Activity_List extends Activity {
 			JSONArray jArray = new JSONArray();
 			for (int i = 0; i < list.size(); i++) {
 				JSONObject obj = new JSONObject();
-				obj.put(list.get(i).getName(), list.get(i).isChecked());
+				obj.put("status", list.get(i).isChecked());
+				obj.put("name", list.get(i).getName());
 				jArray.put(obj);								
 
 			}
