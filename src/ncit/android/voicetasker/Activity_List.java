@@ -1,13 +1,11 @@
 package ncit.android.voicetasker;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Scanner;
 
 import org.json.JSONArray;
 
@@ -18,7 +16,6 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
-import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
@@ -27,7 +24,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -41,14 +37,15 @@ public class Activity_List extends Activity {
 	private Button btnReset;
 	private Button btnSave;
 	private ListView lView;
-	private ArrayAdapter<String> adapter;
-	private ArrayList<String> list;
+	//private ArrayAdapter<String> adapter;
+	private  ShoppingAdapter adapter;
+	private ArrayList<ShoppingItem> list;
 	private HashMap<View, Boolean> hmap;
-	private File dir;
-	private String fileName;
+	private static File dir;
+	private static String fileName;
 	private AdapterContextMenuInfo info;
 
-	private void init(ArrayList<String> list) {
+	private void init(ArrayList<ShoppingItem> list) {
 
 		dir = getExternalFilesDir(null);
 		fileName = Activity_Show.getFileName();
@@ -69,7 +66,7 @@ public class Activity_List extends Activity {
 			JSONArray jArray = new JSONArray(s);
 
 			for (int i = 0; i < jArray.length(); i++) {
-				list.add(jArray.getString(i));
+				list.add(new ShoppingItem(jArray.getString(i), true));
 			}
 
 			in.close();
@@ -79,26 +76,25 @@ public class Activity_List extends Activity {
 		}
 	}
 
-	private void check(ListView lView) {
+
+	/*private void check(ListView lView) {
 		Scanner inputScanner;
 		try {
-			inputScanner = new Scanner(new File(dir + "/_*" + fileName));
-
-			//while (inputScanner.hasNext()) {
+			inputScanner = new Scanner(new File(dir + "/extra_" + fileName));
+			
+			while (inputScanner.hasNext()) {
+				int nr = inputScanner.nextInt();
 				
-				int ceva = inputScanner.nextInt();
-				Log.println(1, "AList", "" + ceva);
-				
-				TextView row = (TextView) lView.getChildAt(lView.getFirstVisiblePosition());
+				TextView row = (TextView) lView.getChildAt(nr - lView.getFirstVisiblePosition());
 				row.setPaintFlags(row.getPaintFlags()
 						| Paint.STRIKE_THRU_TEXT_FLAG);
 				row.setTextColor(Color.rgb(0, 200, 0));
-			//}
-
+			}				
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
-	}
+	}*/
+
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -113,16 +109,18 @@ public class Activity_List extends Activity {
 
 		hmap = new HashMap<View, Boolean>();
 
-		list = new ArrayList<String>();
+		list = new ArrayList<ShoppingItem>();
 		this.init(list);
 
-		adapter = new ArrayAdapter<String>(this,
-				android.R.layout.simple_list_item_1, list);
+		//adapter = new ArrayAdapter<String>(this,
+		//		android.R.layout.simple_list_item_1, list);
+		adapter = new ShoppingAdapter(list, this);
+		
 		lView.setAdapter(adapter);
 		lView.setClickable(true);
 		lView.setTextFilterEnabled(true);
-		lView.setVisibility(1);
-		check(lView);
+		//check(lView);
+
 		registerForContextMenu(lView);
 
 		btnSpeak.setOnClickListener(new View.OnClickListener() {
@@ -154,8 +152,8 @@ public class Activity_List extends Activity {
 			@Override
 			public void onClick(View v) {
 
-				PromptDialog dlg = new PromptDialog(Activity_List.this,
-						fileName) {
+				PromptDialog dlg = new PromptDialog(Activity_List.this, fileName) {
+
 					@Override
 					public boolean onOkClicked(String input) {
 						// do something
@@ -168,6 +166,7 @@ public class Activity_List extends Activity {
 							}
 
 							JSONArray jArray = new JSONArray(list);
+
 							FileOutputStream out = new FileOutputStream(
 									myOutput);
 
@@ -180,8 +179,8 @@ public class Activity_List extends Activity {
 						}
 
 						if (input.length() > 0)
-							Toast.makeText(getApplicationContext(),
-									"List saved!", Toast.LENGTH_SHORT).show();
+							Toast.makeText(getApplicationContext(), "List saved!", Toast.LENGTH_SHORT).show();
+
 						return true; // true = close dialog
 					}
 				};
@@ -196,7 +195,8 @@ public class Activity_List extends Activity {
 			@Override
 			public void onClick(View v) {
 
-				adapter.clear();
+				//adapter.clear();
+				adapter.notifyDataSetChanged();
 				adapter.notifyDataSetInvalidated();
 				list.clear();
 
@@ -204,7 +204,46 @@ public class Activity_List extends Activity {
 
 		});
 
-		lView.setOnItemClickListener(new OnItemClickListener() {
+		/*lView.setOnItemClickListener(new OnItemClickListener() {
+
+			public void onItemClick(AdapterView<?> parent, View view,
+					int position, long id) {
+				// When clicked
+				if (hmap.get(view) == null) {
+
+					Toast.makeText(getBaseContext(),
+							"You checked " + list.get(position),
+							Toast.LENGTH_SHORT).show();
+
+					TextView row = (TextView) view;
+					row.setPaintFlags(row.getPaintFlags()
+							| Paint.STRIKE_THRU_TEXT_FLAG);
+					row.setTextColor(Color.rgb(0, 200, 0));
+					hmap.put(view, true);
+				}
+
+				else {
+					Toast.makeText(getBaseContext(),
+							"You unchecked " + list.get(position),
+							Toast.LENGTH_SHORT).show();
+
+					TextView row = (TextView) view;
+					row.setPaintFlags(row.getPaintFlags()
+							& (~Paint.STRIKE_THRU_TEXT_FLAG));
+					row.setTextColor(Color.BLACK);
+					hmap.remove(view);
+				}
+
+			}
+
+		});*/
+
+	}
+
+	@Override
+	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
+		super.onCreateContextMenu(menu, v, menuInfo);
+		menu.setHeaderTitle("Item Menu");lView.setOnItemClickListener(new OnItemClickListener() {
 
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
@@ -237,14 +276,6 @@ public class Activity_List extends Activity {
 			}
 
 		});
-
-	}
-
-	@Override
-	public void onCreateContextMenu(ContextMenu menu, View v,
-			ContextMenuInfo menuInfo) {
-		super.onCreateContextMenu(menu, v, menuInfo);
-		menu.setHeaderTitle("Item Menu");
 		menu.add(0, v.getId(), 0, "Edit");
 		menu.add(0, v.getId(), 0, "Delete");
 	}
@@ -272,11 +303,12 @@ public class Activity_List extends Activity {
 
 	private void editItem(int pos) {
 		final int position = pos;
-		PromptDialog dlg = new PromptDialog(Activity_List.this, list.get(pos)) {
+		PromptDialog dlg = new PromptDialog(Activity_List.this, list.get(pos).getName()) {
 			@Override
 			public boolean onOkClicked(String input) {
 
-				list.add(position, input);
+				list.add(position, new ShoppingItem(input, false));
+
 				list.remove(position + 1);
 				adapter.notifyDataSetChanged();
 
@@ -290,7 +322,7 @@ public class Activity_List extends Activity {
 	private void addItems(String item) {
 
 		if (item.length() > 0) {
-			this.list.add(item);
+			this.list.add(new ShoppingItem(item, false));
 			this.adapter.notifyDataSetChanged();
 		}
 	}
@@ -318,5 +350,13 @@ public class Activity_List extends Activity {
 		}
 
 		}
+	}
+	
+	protected static String getFileName() {
+		return fileName;
+	}
+	
+	protected static File getDir() {
+		return dir;
 	}
 }

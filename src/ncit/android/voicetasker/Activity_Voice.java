@@ -41,6 +41,7 @@ public class Activity_Voice extends Activity {
 	private HashMap<View, Boolean> hmap;
 	private File dir;
 	private AdapterContextMenuInfo info;
+	private HashMap<String, Boolean> boolmap;
 
 	private void init(ArrayList<String> list) {
 		list.add("apple");
@@ -125,6 +126,24 @@ public class Activity_Voice extends Activity {
 							out.write(jArray.toString().getBytes());
 														
 							out.close();
+							
+							File myNewOutput = new File(dir + "/extra_" + input);
+
+							if (!myNewOutput.exists()) {
+								myNewOutput.getParentFile().mkdirs();
+								myNewOutput.createNewFile();
+							}
+							
+							FileOutputStream newout = new FileOutputStream(myNewOutput);
+							
+							for(int i = 0; i < list.size(); i++) {
+								if(boolmap.get(i) != null) {
+									newout.write((("" + i).toString()+ " ").getBytes());									
+
+								}
+							}
+							
+							newout.close();
 
 						} catch (Exception e) {
 							e.printStackTrace();
@@ -158,8 +177,7 @@ public class Activity_Voice extends Activity {
 
 		lView.setOnItemClickListener(new OnItemClickListener() {
 
-			public void onItemClick(AdapterView<?> parent, View view,
-					int position, long id) {
+			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				// When clicked
 				if (hmap.get(view) == null) {
 
@@ -180,8 +198,7 @@ public class Activity_Voice extends Activity {
 							Toast.LENGTH_SHORT).show();
 
 					TextView row = (TextView) view;
-					row.setPaintFlags(row.getPaintFlags()
-							& (~Paint.STRIKE_THRU_TEXT_FLAG));
+					row.setPaintFlags(row.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
 					row.setTextColor(Color.BLACK);
 					hmap.remove(view);
 				}
@@ -259,8 +276,7 @@ public class Activity_Voice extends Activity {
 		case RESULT_SPEECH: {
 			if (resultCode == RESULT_OK && data != null) {
 
-				ArrayList<String> text = data
-						.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+				ArrayList<String> text = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
 
 				this.addItems(text.get(0));
 			}
