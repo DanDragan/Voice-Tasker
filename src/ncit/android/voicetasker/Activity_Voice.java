@@ -129,6 +129,7 @@ public class Activity_Voice extends Activity {
 							out.close();
 							
 							File myNewOutput = new File(dir + "/extra_" + input);
+
 							if (!myNewOutput.exists()) {
 								myNewOutput.getParentFile().mkdirs();
 								myNewOutput.createNewFile();
@@ -139,6 +140,7 @@ public class Activity_Voice extends Activity {
 							for(int i = 0; i < list.size(); i++) {
 								if(boolmap.get(i) != null) {
 									newout.write((("" + i).toString()+ " ").getBytes());									
+
 								}
 							}
 							

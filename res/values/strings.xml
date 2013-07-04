@@ -16,6 +16,10 @@
 	<string name="ok">OK</string>
 	<string name="cancel">Cancel</string>
 	<string name="enter_comment">Please provide list name</string>
-	<string name="title">Save current list</string>	
+	<string name="title">Save current list</string>
+	<string name="shopping_list">Shopping List</string>
+	<string name="simple_list">Simple Voice List</string>
+	<string name="total">TOTAL : </string>
+	<string name="budget">BUDGET : </string>	
 	
 </resources>

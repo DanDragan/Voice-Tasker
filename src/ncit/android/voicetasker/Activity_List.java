@@ -20,6 +20,7 @@ import android.graphics.Paint;
 
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
@@ -81,6 +82,7 @@ public class Activity_List extends Activity {
 		}
 	}
 
+
 	/*private void check(ListView lView) {
 		Scanner inputScanner;
 		try {
@@ -94,12 +96,11 @@ public class Activity_List extends Activity {
 						| Paint.STRIKE_THRU_TEXT_FLAG);
 				row.setTextColor(Color.rgb(0, 200, 0));
 			}				
-
-
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
 	}*/
+
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -125,6 +126,7 @@ public class Activity_List extends Activity {
 		lView.setClickable(true);
 		lView.setTextFilterEnabled(true);
 		//check(lView);
+
 		registerForContextMenu(lView);
 
 		btnSpeak.setOnClickListener(new View.OnClickListener() {
@@ -157,6 +159,7 @@ public class Activity_List extends Activity {
 			public void onClick(View v) {
 
 				PromptDialog dlg = new PromptDialog(Activity_List.this, fileName) {
+
 					@Override
 					public boolean onOkClicked(String input) {
 						// do something
@@ -169,7 +172,7 @@ public class Activity_List extends Activity {
 							}
 
 							JSONArray jArray = new JSONArray(list);
-							
+
 							FileOutputStream out = new FileOutputStream(
 									myOutput);
 
@@ -183,6 +186,7 @@ public class Activity_List extends Activity {
 
 						if (input.length() > 0)
 							Toast.makeText(getApplicationContext(), "List saved!", Toast.LENGTH_SHORT).show();
+
 						return true; // true = close dialog
 					}
 				};
@@ -310,6 +314,7 @@ public class Activity_List extends Activity {
 			public boolean onOkClicked(String input) {
 
 				list.add(position, new ShoppingItem(input, false));
+
 				list.remove(position + 1);
 				adapter.notifyDataSetChanged();
 
