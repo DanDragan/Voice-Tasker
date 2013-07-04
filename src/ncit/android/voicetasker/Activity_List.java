@@ -15,7 +15,6 @@ import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
-import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
@@ -226,9 +225,9 @@ public class Activity_List extends Activity {
 			JSONArray jArray = new JSONArray();
 			for (int i = 0; i < list.size(); i++) {
 				JSONObject obj = new JSONObject();
-				obj.put(list.get(i).getName(), list.get(i).isChecked());
-				jArray.put(obj);								
-
+				obj.put("status", list.get(i).isChecked());
+				obj.put("name", list.get(i).getName());
+				jArray.put(obj);	
 			}
 
 			FileOutputStream out = new FileOutputStream(myOutput);

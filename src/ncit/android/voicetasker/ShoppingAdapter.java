@@ -82,12 +82,5 @@ public class ShoppingAdapter extends BaseAdapter {
 			this.shoppingList.get(position).setChecked(true);			
 		}
 	}
-<<<<<<< HEAD
 	
-	protected static HashMap<String, Boolean> getMap() {
-		return boolMap;
-	}
-
-=======
->>>>>>> 9182cc0d1d455cd99320be94e6aeb57002c5a272
 }
