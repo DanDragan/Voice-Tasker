@@ -39,9 +39,9 @@ public class Activity_Voice extends Activity {
 	private ArrayAdapter<String> adapter;
 	private ArrayList<String> list;
 	private HashMap<View, Boolean> hmap;
+	private HashMap<Integer, Boolean>  boolmap;
 	private File dir;
 	private AdapterContextMenuInfo info;
-	private ArrayList<Integer> checklist;
 
 	private void init(ArrayList<String> list) {
 		list.add("apple");
@@ -66,11 +66,11 @@ public class Activity_Voice extends Activity {
 		btnSave = (Button) findViewById(R.id.btnSave);
 
 		hmap = new HashMap<View, Boolean>();
+		boolmap = new HashMap<Integer, Boolean>();
 
 		dir = getExternalFilesDir(null);
 
 		list = new ArrayList<String>();
-		checklist = new ArrayList<Integer>();
 		this.init(list);
 		adapter = new ArrayAdapter<String>(this,
 				android.R.layout.simple_list_item_1, list);
@@ -122,15 +122,27 @@ public class Activity_Voice extends Activity {
 							}
 
 							JSONArray jArray = new JSONArray(list);
-							FileOutputStream out = new FileOutputStream(
-									myOutput);
-
+							FileOutputStream out = new FileOutputStream(myOutput);
+							
 							out.write(jArray.toString().getBytes());
-							for (int i = 0; i < checklist.size(); i++) {
-								out.write(checklist.get(i));								
-							}
-
+														
 							out.close();
+							
+							File myNewOutput = new File(dir + "/extra_" + input);
+							if (!myNewOutput.exists()) {
+								myNewOutput.getParentFile().mkdirs();
+								myNewOutput.createNewFile();
+							}
+							
+							FileOutputStream newout = new FileOutputStream(myNewOutput);
+							
+							for(int i = 0; i < list.size(); i++) {
+								if(boolmap.get(i) != null) {
+									newout.write((("" + i).toString()+ " ").getBytes());									
+								}
+							}
+							
+							newout.close();
 
 						} catch (Exception e) {
 							e.printStackTrace();
@@ -164,8 +176,7 @@ public class Activity_Voice extends Activity {
 
 		lView.setOnItemClickListener(new OnItemClickListener() {
 
-			public void onItemClick(AdapterView<?> parent, View view,
-					int position, long id) {
+			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				// When clicked
 				if (hmap.get(view) == null) {
 
@@ -178,7 +189,7 @@ public class Activity_Voice extends Activity {
 							| Paint.STRIKE_THRU_TEXT_FLAG);
 					row.setTextColor(Color.rgb(0, 200, 0));
 					hmap.put(view, true);
-					checklist.add(position, 1);
+					boolmap.put(position, true);					
 				}
 
 				else {
@@ -187,11 +198,10 @@ public class Activity_Voice extends Activity {
 							Toast.LENGTH_SHORT).show();
 
 					TextView row = (TextView) view;
-					row.setPaintFlags(row.getPaintFlags()
-							& (~Paint.STRIKE_THRU_TEXT_FLAG));
+					row.setPaintFlags(row.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
 					row.setTextColor(Color.BLACK);
 					hmap.remove(view);
-					checklist.add(position, 0);
+					boolmap.remove(position);
 				}
 
 			}
@@ -267,8 +277,7 @@ public class Activity_Voice extends Activity {
 		case RESULT_SPEECH: {
 			if (resultCode == RESULT_OK && data != null) {
 
-				ArrayList<String> text = data
-						.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+				ArrayList<String> text = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
 
 				this.addItems(text.get(0));
 			}
