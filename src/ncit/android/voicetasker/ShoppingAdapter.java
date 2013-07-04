@@ -49,6 +49,11 @@ public class ShoppingAdapter extends BaseAdapter {
 		TextView itemName = (TextView) convertView.findViewById(R.id.shopping_item_name);
 		itemName.setText(this.shoppingList.get(position).getName());
 		
+		if (this.shoppingList.get(position).isChecked()){
+			itemName.setPaintFlags(itemName.getPaintFlags()
+					| Paint.STRIKE_THRU_TEXT_FLAG);
+			itemName.setTextColor(Color.rgb(0, 200, 0));
+		}
 		final int pos = position;
 		itemName.setOnClickListener(new OnClickListener() {
 			
