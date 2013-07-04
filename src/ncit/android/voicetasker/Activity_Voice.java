@@ -41,7 +41,6 @@ public class Activity_Voice extends Activity {
 	private HashMap<View, Boolean> hmap;
 	private File dir;
 	private AdapterContextMenuInfo info;
-	private HashMap<String, Boolean> boolmap;
 
 	private void init(ArrayList<String> list) {
 		list.add("apple");
@@ -126,24 +125,6 @@ public class Activity_Voice extends Activity {
 							out.write(jArray.toString().getBytes());
 														
 							out.close();
-							
-							File myNewOutput = new File(dir + "/extra_" + input);
-
-							if (!myNewOutput.exists()) {
-								myNewOutput.getParentFile().mkdirs();
-								myNewOutput.createNewFile();
-							}
-							
-							FileOutputStream newout = new FileOutputStream(myNewOutput);
-							
-							for(int i = 0; i < list.size(); i++) {
-								if(boolmap.get(i) != null) {
-									newout.write((("" + i).toString()+ " ").getBytes());									
-
-								}
-							}
-							
-							newout.close();
 
 						} catch (Exception e) {
 							e.printStackTrace();

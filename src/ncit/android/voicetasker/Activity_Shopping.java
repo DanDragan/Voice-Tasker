@@ -32,6 +32,8 @@ public class Activity_Shopping extends Activity {
 
 	private static final int RESULT_SPEECH = 1;
 	
+	private boolean speechWhere;
+	
 	private Button btnSpeak_shop;
 	private Button btnReset_shop;
 	private Button btnSave_shop;
@@ -72,11 +74,11 @@ public class Activity_Shopping extends Activity {
 		dir = getExternalFilesDir(null);
 		
 		btnSpeak_shop.setOnClickListener(new View.OnClickListener() {
-
+			
 			@Override
 			public void onClick(View v) {
 
-				Intent intent = new Intent(
+				/*Intent intent = new Intent(
 						RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
 
 				intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, "en-US");
@@ -91,7 +93,10 @@ public class Activity_Shopping extends Activity {
 							"Opps! Your device doesn't support Speech to Text",
 							Toast.LENGTH_SHORT);
 					t.show();
-				}
+				}*/
+				
+				speechWhere = false;
+				speechFunction("What would you like to add, Master?");
 				
 			}
 		});
@@ -169,6 +174,8 @@ public class Activity_Shopping extends Activity {
 					row.setTextColor(Color.rgb(0, 200, 0));
 					hmap.put(view, true);
 					
+					speechWhere = true;
+					speechFunction("What is the price, Master?");
 					
 				}
 
@@ -242,11 +249,37 @@ public class Activity_Shopping extends Activity {
 			this.adapter.notifyDataSetChanged();
 		}
 	}
+	
+	public void addItems2(String item){
+		
+		
+		
+	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.main, menu);
 		return true;
+	}
+	
+	public void speechFunction(String s){
+		
+		Intent intent = new Intent(
+				RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+
+		intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, "en-US");
+		intent.putExtra(RecognizerIntent.EXTRA_PROMPT, s);
+		intent.putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 100);
+
+		try {
+			startActivityForResult(intent, RESULT_SPEECH);
+		} catch (ActivityNotFoundException a) {
+			Toast t = Toast.makeText(getApplicationContext(),
+					"Opps! Your device doesn't support Speech to Text",
+					Toast.LENGTH_SHORT);
+			t.show();
+		}
+		
 	}
 
 	@Override
@@ -259,8 +292,11 @@ public class Activity_Shopping extends Activity {
 
 				ArrayList<String> text = data
 						.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
-
-				this.addItems(text.get(0));
+				
+				if(speechWhere == false)
+					this.addItems(text.get(0));
+				else
+					this.addItems2(text.get(0));
 			}
 			break;
 		}
