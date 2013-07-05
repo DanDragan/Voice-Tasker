@@ -3,8 +3,8 @@
 
     <string name="app_name">VoiceTasker</string>
     <string name="action_settings">Settings</string>
-	<string name="new_list">New List</string>
-	<string name="show_lists">Show Lists</string>
+	<string name="new_list">New\nList</string>
+	<string name="show_lists">Show\nLists</string>
 	<string name="new_wish_list">New Wish List</string>
 	<string name="delete_list">Delete List</string>
 	<string name="exit">Exit</string>
@@ -20,6 +20,9 @@
 	<string name="shopping_list">Shopping List</string>
 	<string name="simple_list">Simple Voice List</string>
 	<string name="total">TOTAL : </string>
-	<string name="budget">BUDGET : </string>	
+	<string name="budget">BUDGET : </string>
+	<string name="savedlists">Saved Lists</string>
+	<color name="Blue">#70130180</color>
+	<string name="blank"/>	
 	
 </resources>

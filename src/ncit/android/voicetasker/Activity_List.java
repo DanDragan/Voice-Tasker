@@ -156,8 +156,7 @@ public class Activity_List extends Activity {
 	}
 
 	@Override
-	public void onCreateContextMenu(ContextMenu menu, View v,
-			ContextMenuInfo menuInfo) {
+	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
 		super.onCreateContextMenu(menu, v, menuInfo);
 		menu.setHeaderTitle("Item Menu");
 		menu.add(0, v.getId(), 0, "Edit");
@@ -189,6 +188,7 @@ public class Activity_List extends Activity {
 
 			JSONArray jArray = new JSONArray();
 			for (int i = 0; i < list.size(); i++) {
+				
 				JSONObject obj = new JSONObject();
 				obj.put("status", list.get(i).isChecked());
 				obj.put("name", list.get(i).getName());

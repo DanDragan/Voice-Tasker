@@ -92,17 +92,17 @@ public class Activity_Voice extends Activity {
 		});
 
 		btnSave.setOnClickListener(new View.OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
 
-				PromptDialog dlg = new PromptDialog(Activity_Voice.this, R.string.title, R.string.enter_comment) {
+				PromptDialog dlg = new PromptDialog(Activity_Voice.this,
+						R.string.title, R.string.enter_comment) {
 
 					@Override
 					public boolean onOkClicked(String input) {
 						// do something
 						setOkClicked(input);
-						
 
 						return true; // true = close dialog
 					}
@@ -127,8 +127,7 @@ public class Activity_Voice extends Activity {
 	}
 
 	@Override
-	public void onCreateContextMenu(ContextMenu menu, View v,
-			ContextMenuInfo menuInfo) {
+	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
 		super.onCreateContextMenu(menu, v, menuInfo);
 		menu.setHeaderTitle("Item Menu");
 		menu.add(0, v.getId(), 0, "Edit");
@@ -163,7 +162,7 @@ public class Activity_Voice extends Activity {
 				JSONObject obj = new JSONObject();
 				obj.put("status", list.get(i).isChecked());
 				obj.put("name", list.get(i).getName());
-				jArray.put(obj);								
+				jArray.put(obj);
 
 			}
 
@@ -178,10 +177,11 @@ public class Activity_Voice extends Activity {
 		}
 
 		if (input.length() > 0) {
-			Toast.makeText(getApplicationContext(), "List saved!", Toast.LENGTH_SHORT).show();
+			Toast.makeText(getApplicationContext(), "List saved!",
+					Toast.LENGTH_SHORT).show();
 		}
 	}
-	
+
 	protected void deleteItem(int pos) {
 
 		list.remove(pos);
@@ -191,14 +191,15 @@ public class Activity_Voice extends Activity {
 
 	private void editItem(int pos) {
 		final int position = pos;
-		PromptDialog dlg = new PromptDialog(Activity_Voice.this, list.get(pos).getName()) {
+		PromptDialog dlg = new PromptDialog(Activity_Voice.this, list.get(pos)
+				.getName()) {
 			@Override
 			public boolean onOkClicked(String input) {
 
 				list.get(position).setName(input);
 				list.get(position).setChecked(false);
-				
-				//list.remove(position + 1);
+
+				// list.remove(position + 1);
 				adapter.notifyDataSetChanged();
 				return true; // true = close dialog
 			}
@@ -229,7 +230,8 @@ public class Activity_Voice extends Activity {
 		case RESULT_SPEECH: {
 			if (resultCode == RESULT_OK && data != null) {
 
-				ArrayList<String> text = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+				ArrayList<String> text = data
+						.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
 
 				this.addItems(text.get(0));
 			}
