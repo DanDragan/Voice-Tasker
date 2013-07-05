@@ -25,7 +25,7 @@ public final class R {
         public static final int images=0x7f020001;
     }
     public static final class id {
-        public static final int action_settings=0x7f08000f;
+        public static final int action_settings=0x7f080011;
         public static final int btnExit=0x7f080002;
         public static final int btnNewList=0x7f080001;
         public static final int btnReset=0x7f08000b;
@@ -35,19 +35,22 @@ public final class R {
         public static final int btnShowLists=0x7f080000;
         public static final int btnSpeak=0x7f08000c;
         public static final int btnSpeak_shop=0x7f080003;
+        public static final int email=0x7f08000f;
         public static final int listview=0x7f08000a;
         public static final int lvShop=0x7f080008;
-        public static final int shopping_item_name=0x7f08000e;
+        public static final int shopping_item_name=0x7f080010;
         public static final int textView1=0x7f080009;
         public static final int tvBudget=0x7f080007;
         public static final int tvTotal=0x7f080006;
+        public static final int username=0x7f08000e;
     }
     public static final class layout {
         public static final int activity_main=0x7f030000;
         public static final int activity_shopping=0x7f030001;
         public static final int activity_show=0x7f030002;
         public static final int activity_voice=0x7f030003;
-        public static final int shopping_item_layout=0x7f030004;
+        public static final int listitem=0x7f030004;
+        public static final int shopping_item_layout=0x7f030005;
     }
     public static final class menu {
         public static final int main=0x7f070000;
