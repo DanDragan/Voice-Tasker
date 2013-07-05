@@ -57,14 +57,14 @@ public class Activity_List extends Activity {
 
 			String s = sw.toString();
 			JSONArray jArray = new JSONArray(s);
-						
-	        for (int i = 0; i < jArray.length(); i++) {
-	             JSONObject obj = jArray.getJSONObject(i);
 
-	             boolean status = obj.getBoolean("status");
-	             String name = obj.getString("name");
-	             list.add(new ShoppingItem(name, status));
-	        }
+			for (int i = 0; i < jArray.length(); i++) {
+				JSONObject obj = jArray.getJSONObject(i);
+
+				boolean status = obj.getBoolean("status");
+				String name = obj.getString("name");
+				list.add(new ShoppingItem(name, status));
+			}
 
 			in.close();
 
@@ -131,7 +131,6 @@ public class Activity_List extends Activity {
 					public boolean onOkClicked(String input) {
 						// do something
 						setOkClicked(input);
-						
 
 						return true; // true = close dialog
 					}
@@ -149,7 +148,7 @@ public class Activity_List extends Activity {
 
 				adapter.notifyDataSetChanged();
 				adapter.notifyDataSetInvalidated();
-				//list.clear();
+				list.clear();
 
 			}
 
@@ -161,39 +160,6 @@ public class Activity_List extends Activity {
 			ContextMenuInfo menuInfo) {
 		super.onCreateContextMenu(menu, v, menuInfo);
 		menu.setHeaderTitle("Item Menu");
-		/*lView.setOnItemClickListener(new OnItemClickListener() {
-
-			public void onItemClick(AdapterView<?> parent, View view,
-					int position, long id) {
-				// When clicked
-				if (hmap.get(view) == null) {
-
-					Toast.makeText(getBaseContext(),
-							"You checked " + list.get(position),
-							Toast.LENGTH_SHORT).show();
-
-					TextView row = (TextView) view;
-					row.setPaintFlags(row.getPaintFlags()
-							| Paint.STRIKE_THRU_TEXT_FLAG);
-					row.setTextColor(Color.rgb(0, 200, 0));
-					hmap.put(view, true);
-				}
-
-				else {
-					Toast.makeText(getBaseContext(),
-							"You unchecked " + list.get(position),
-							Toast.LENGTH_SHORT).show();
-
-					TextView row = (TextView) view;
-					row.setPaintFlags(row.getPaintFlags()
-							& (~Paint.STRIKE_THRU_TEXT_FLAG));
-					row.setTextColor(Color.BLACK);
-					hmap.remove(view);
-				}
-
-			}
-
-		});*/
 		menu.add(0, v.getId(), 0, "Edit");
 		menu.add(0, v.getId(), 0, "Delete");
 	}
@@ -211,8 +177,8 @@ public class Activity_List extends Activity {
 		}
 		return true;
 	}
-	
-	public void setOkClicked(String input){
+
+	public void setOkClicked(String input) {
 		try {
 
 			File myOutput = new File(dir + "/" + input);
@@ -221,13 +187,12 @@ public class Activity_List extends Activity {
 				myOutput.createNewFile();
 			}
 
-			//JSONArray jArray = new JSONArray(list);
 			JSONArray jArray = new JSONArray();
 			for (int i = 0; i < list.size(); i++) {
 				JSONObject obj = new JSONObject();
 				obj.put("status", list.get(i).isChecked());
 				obj.put("name", list.get(i).getName());
-				jArray.put(obj);								
+				jArray.put(obj);
 
 			}
 
@@ -241,16 +206,17 @@ public class Activity_List extends Activity {
 			e.printStackTrace();
 		}
 
-		if (input.length() > 0)
-			Toast.makeText(getApplicationContext(),
-					"List saved!", Toast.LENGTH_SHORT).show();
+		if (input.length() > 0) {
+			Toast.makeText(getApplicationContext(), "List saved!",
+					Toast.LENGTH_SHORT).show();
+		}
 	}
 
 	private void deleteItem(int pos) {
 
 		list.remove(pos);
 		adapter.notifyDataSetChanged();
-		
+
 	}
 
 	private void editItem(int pos) {
@@ -260,11 +226,10 @@ public class Activity_List extends Activity {
 			@Override
 			public boolean onOkClicked(String input) {
 
-				//list.add(position, new ShoppingItem(input, false));
 				list.get(position).setName(input);
 				list.get(position).setChecked(false);
-				
-				list.remove(position + 1);
+
+				// list.remove(position + 1);
 				adapter.notifyDataSetChanged();
 
 				return true; // true = close dialog

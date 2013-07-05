@@ -11,6 +11,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class ShoppingAdapter extends BaseAdapter {
 
@@ -68,6 +69,9 @@ public class ShoppingAdapter extends BaseAdapter {
 	private void listItemClick(View item, int position) {
 		if (this.shoppingList.get(position).isChecked()) {
 			//uncheck it
+			Toast.makeText(getApplicationContext(), "You unchecked " + shoppingList.get(position).getName(),
+					Toast.LENGTH_SHORT).show();
+			
 			TextView row = (TextView) item;
 			row.setPaintFlags(row.getPaintFlags()
 					& (~Paint.STRIKE_THRU_TEXT_FLAG));
@@ -75,11 +79,18 @@ public class ShoppingAdapter extends BaseAdapter {
 			this.shoppingList.get(position).setChecked(false);
 		} else {
 			//check it
+			Toast.makeText(getApplicationContext(), "You checked " + shoppingList.get(position).getName(),
+					Toast.LENGTH_SHORT).show();
+			
 			TextView row = (TextView) item;
 			row.setPaintFlags(row.getPaintFlags()
 					| Paint.STRIKE_THRU_TEXT_FLAG);
 			row.setTextColor(Color.rgb(0, 200, 0));
 			this.shoppingList.get(position).setChecked(true);			
 		}
+	}
+
+	private Context getApplicationContext() {
+		return this.context;
 	}
 }

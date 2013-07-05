@@ -3,15 +3,13 @@ package ncit.android.voicetasker;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import org.json.JSONArray;
+import org.json.JSONObject;
 
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.Paint;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.view.ContextMenu;
@@ -19,13 +17,9 @@ import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 public class Activity_Voice extends Activity {
@@ -36,21 +30,20 @@ public class Activity_Voice extends Activity {
 	private Button btnReset;
 	private Button btnSave;
 	private ListView lView;
-	private ArrayAdapter<String> adapter;
-	private ArrayList<String> list;
-	private HashMap<View, Boolean> hmap;
+	private ShoppingAdapter adapter;
+	private ArrayList<ShoppingItem> list;
 	private File dir;
 	private AdapterContextMenuInfo info;
 
-	private void init(ArrayList<String> list) {
-		list.add("apple");
-		list.add("bananas");
-		list.add("cucumbers");
-		list.add("elephant");
-		list.add("Fanta");
-		list.add("juice");
-		list.add("mango");
-		list.add("vegetables");
+	private void init(ArrayList<ShoppingItem> list) {
+		list.add(new ShoppingItem("apple", false));
+		list.add(new ShoppingItem("bananas", false));
+		list.add(new ShoppingItem("cucumbers", false));
+		list.add(new ShoppingItem("elephant", false));
+		list.add(new ShoppingItem("Fanta", false));
+		list.add(new ShoppingItem("juice", false));
+		list.add(new ShoppingItem("mango", false));
+		list.add(new ShoppingItem("vegetables", false));
 	}
 
 	@Override
@@ -64,14 +57,11 @@ public class Activity_Voice extends Activity {
 		btnReset = (Button) findViewById(R.id.btnReset);
 		btnSave = (Button) findViewById(R.id.btnSave);
 
-		hmap = new HashMap<View, Boolean>();
-
 		dir = getExternalFilesDir(null);
 
-		list = new ArrayList<String>();
+		list = new ArrayList<ShoppingItem>();
 		this.init(list);
-		adapter = new ArrayAdapter<String>(this,
-				android.R.layout.simple_list_item_1, list);
+		adapter = new ShoppingAdapter(list, this);
 		lView.setAdapter(adapter);
 		lView.setClickable(true);
 		lView.setTextFilterEnabled(true);
@@ -102,37 +92,18 @@ public class Activity_Voice extends Activity {
 		});
 
 		btnSave.setOnClickListener(new View.OnClickListener() {
-
+			
 			@Override
 			public void onClick(View v) {
 
-				PromptDialog dlg = new PromptDialog(Activity_Voice.this,
-						R.string.title, R.string.enter_comment) {
+				PromptDialog dlg = new PromptDialog(Activity_Voice.this, R.string.title, R.string.enter_comment) {
+
 					@Override
 					public boolean onOkClicked(String input) {
 						// do something
-						try {
+						setOkClicked(input);
+						
 
-							File myOutput = new File(dir + "/" + input);
-							if (!myOutput.exists()) {
-								myOutput.getParentFile().mkdirs();
-								myOutput.createNewFile();
-							}
-
-							JSONArray jArray = new JSONArray(list);
-							FileOutputStream out = new FileOutputStream(myOutput);
-							
-							out.write(jArray.toString().getBytes());
-														
-							out.close();
-
-						} catch (Exception e) {
-							e.printStackTrace();
-						}
-
-						if (input.length() > 0)
-							Toast.makeText(getApplicationContext(),
-									"List saved!", Toast.LENGTH_SHORT).show();
 						return true; // true = close dialog
 					}
 				};
@@ -140,7 +111,6 @@ public class Activity_Voice extends Activity {
 				dlg.show();
 
 			}
-
 		});
 
 		btnReset.setOnClickListener(new View.OnClickListener() {
@@ -148,44 +118,11 @@ public class Activity_Voice extends Activity {
 			@Override
 			public void onClick(View v) {
 
-				adapter.clear();
+				adapter.notifyDataSetChanged();
 				adapter.notifyDataSetInvalidated();
 				list.clear();
 
 			}
-
-		});
-
-		lView.setOnItemClickListener(new OnItemClickListener() {
-
-			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				// When clicked
-				if (hmap.get(view) == null) {
-
-					Toast.makeText(getApplicationContext(),
-							"You checked " + list.get(position),
-							Toast.LENGTH_SHORT).show();
-
-					TextView row = (TextView) view;
-					row.setPaintFlags(row.getPaintFlags()
-							| Paint.STRIKE_THRU_TEXT_FLAG);
-					row.setTextColor(Color.rgb(0, 200, 0));
-					hmap.put(view, true);					
-				}
-
-				else {
-					Toast.makeText(getApplicationContext(),
-							"You unchecked " + list.get(position),
-							Toast.LENGTH_SHORT).show();
-
-					TextView row = (TextView) view;
-					row.setPaintFlags(row.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
-					row.setTextColor(Color.BLACK);
-					hmap.remove(view);
-				}
-
-			}
-
 		});
 	}
 
@@ -212,6 +149,39 @@ public class Activity_Voice extends Activity {
 		return true;
 	}
 
+	public void setOkClicked(String input) {
+		try {
+
+			File myOutput = new File(dir + "/" + input);
+			if (!myOutput.exists()) {
+				myOutput.getParentFile().mkdirs();
+				myOutput.createNewFile();
+			}
+
+			JSONArray jArray = new JSONArray();
+			for (int i = 0; i < list.size(); i++) {
+				JSONObject obj = new JSONObject();
+				obj.put("status", list.get(i).isChecked());
+				obj.put("name", list.get(i).getName());
+				jArray.put(obj);								
+
+			}
+
+			FileOutputStream out = new FileOutputStream(myOutput);
+
+			out.write(jArray.toString().getBytes());
+			out.close();
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+
+		if (input.length() > 0) {
+			Toast.makeText(getApplicationContext(), "List saved!", Toast.LENGTH_SHORT).show();
+		}
+	}
+	
 	protected void deleteItem(int pos) {
 
 		list.remove(pos);
@@ -221,12 +191,14 @@ public class Activity_Voice extends Activity {
 
 	private void editItem(int pos) {
 		final int position = pos;
-		PromptDialog dlg = new PromptDialog(Activity_Voice.this, list.get(pos)) {
+		PromptDialog dlg = new PromptDialog(Activity_Voice.this, list.get(pos).getName()) {
 			@Override
 			public boolean onOkClicked(String input) {
 
-				list.add(position, input);
-				list.remove(position + 1);
+				list.get(position).setName(input);
+				list.get(position).setChecked(false);
+				
+				//list.remove(position + 1);
 				adapter.notifyDataSetChanged();
 				return true; // true = close dialog
 			}
@@ -238,7 +210,7 @@ public class Activity_Voice extends Activity {
 	protected void addItems(String item) {
 
 		if (item.length() > 0) {
-			this.list.add(item);
+			this.list.add(new ShoppingItem(item, false));
 			this.adapter.notifyDataSetChanged();
 		}
 	}
