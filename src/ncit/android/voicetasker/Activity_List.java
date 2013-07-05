@@ -229,7 +229,6 @@ public class Activity_List extends Activity {
 				list.get(position).setName(input);
 				list.get(position).setChecked(false);
 
-				// list.remove(position + 1);
 				adapter.notifyDataSetChanged();
 
 				return true; // true = close dialog
