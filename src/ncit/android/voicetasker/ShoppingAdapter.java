@@ -18,39 +18,35 @@ public class ShoppingAdapter extends BaseAdapter {
 	private List<ShoppingItem> shoppingList;
 	private Context context;
 	
-	public ShoppingAdapter(List<ShoppingItem> shoppingList, Context context){
+	public ShoppingAdapter(List<ShoppingItem> shoppingList, Context context) {
 		this.shoppingList = shoppingList;
 		this.context = context;
 	}
 	
 	@Override
 	public int getCount() {
-		// TODO Auto-generated method stub
 		return this.shoppingList.size();
 	}
 
 	@Override
 	public Object getItem(int position) {
-		// TODO Auto-generated method stub
 		return this.shoppingList.get(position);
 	}
 
 	@Override
 	public long getItemId(int position) {
-		// TODO Auto-generated method stub
 		return position;
 	}
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		// TODO Auto-generated method stub
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		convertView  = inflater.inflate(R.layout.shopping_item_layout, parent, false);
 		
 		TextView itemName = (TextView) convertView.findViewById(R.id.shopping_item_name);
 		itemName.setText(this.shoppingList.get(position).getName());
 		
-		if (this.shoppingList.get(position).isChecked()){
+		if (this.shoppingList.get(position).isChecked()) {
 			itemName.setPaintFlags(itemName.getPaintFlags()
 					| Paint.STRIKE_THRU_TEXT_FLAG);
 			itemName.setTextColor(Color.rgb(0, 200, 0));
