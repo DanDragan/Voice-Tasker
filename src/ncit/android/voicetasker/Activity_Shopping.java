@@ -44,7 +44,8 @@ public class Activity_Shopping extends Activity implements Observable{
 	private File dir;
 	private AdapterContextMenuInfo info;
 	private HashMap<View, Boolean> hmap;
-
+	
+	private int pozitie;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -251,9 +252,9 @@ public class Activity_Shopping extends Activity implements Observable{
 		}
 	}
 	
-	public void addItems2(String price){
+	public void addItems2(String price, int pozitie){
 		
-		list.get(0).setPrice(price);
+		list.get(pozitie).setPrice(price);
 		adapter.notifyDataSetChanged();
 	}
 
@@ -296,7 +297,7 @@ public class Activity_Shopping extends Activity implements Observable{
 				if(speechWhere == false)
 					this.addItems(text.get(0));
 				else
-					this.addItems2(text.get(0));
+					this.addItems2(text.get(0), pozitie);
 			}
 			break;
 		}
@@ -305,8 +306,9 @@ public class Activity_Shopping extends Activity implements Observable{
 	}
 
 	@Override
-	public void update() {
-		this.speechFunction("string");
+	public void update(int position) {
+		this.speechFunction("What is the price, Master?");
+		pozitie = position;
 	}
 	
 }
