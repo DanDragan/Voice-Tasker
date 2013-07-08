@@ -49,14 +49,14 @@ public final class R {
         public static final int btnShowLists=0x7f090001;
         public static final int btnSpeak=0x7f09000c;
         public static final int btnSpeak_shop=0x7f090003;
-        public static final int email=0x7f09000f;
+        public static final int item=0x7f09000e;
         public static final int listview=0x7f090009;
         public static final int lvShop=0x7f090008;
+        public static final int price=0x7f09000f;
         public static final int shopping_item_name=0x7f090010;
         public static final int textView1=0x7f09000a;
         public static final int tvBudget=0x7f090007;
         public static final int tvTotal=0x7f090006;
-        public static final int username=0x7f09000e;
     }
     public static final class layout {
         public static final int activity_main=0x7f030000;

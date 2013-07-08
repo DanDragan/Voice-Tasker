@@ -20,7 +20,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -37,12 +36,10 @@ public class Activity_Shopping extends Activity {
 	private Button btnSpeak_shop;
 	private Button btnReset_shop;
 	private Button btnSave_shop;
-	private TextView tvBudget;
-	private TextView tvTotal;
-	
+		
 	private ListView lvshop;
-	private ArrayList<String> list;
-	private ArrayAdapter<String> adapter;
+	private ListAdapter adapter;
+	private ArrayList<ListItem> list;
 	
 	private File dir;
 	private AdapterContextMenuInfo info;
@@ -57,13 +54,11 @@ public class Activity_Shopping extends Activity {
 		btnSpeak_shop = (Button) findViewById(R.id.btnSpeak_shop);
 		btnReset_shop = (Button) findViewById(R.id.btnReset_shop);
 		btnSave_shop = (Button) findViewById(R.id.btnSave_shop);
-		tvTotal = (TextView) findViewById(R.id.tvTotal);
-		tvBudget = (TextView) findViewById(R.id.tvBudget);
+		
 		lvshop = (ListView) findViewById(R.id.lvShop);
 		
-		list = new ArrayList<String>();
-		adapter = new ArrayAdapter<String>(this,
-				android.R.layout.simple_list_item_1, list);
+		list = new ArrayList<ListItem>();
+		adapter = new ListAdapter(list, this);
 		lvshop.setAdapter(adapter);
 		lvshop.setClickable(true);
 		lvshop.setTextFilterEnabled(true);
@@ -149,7 +144,7 @@ public class Activity_Shopping extends Activity {
 			@Override
 			public void onClick(View v) {
 
-				adapter.clear();
+				adapter.notifyDataSetChanged();
 				adapter.notifyDataSetInvalidated();
 				list.clear();
 
@@ -227,12 +222,13 @@ public class Activity_Shopping extends Activity {
 
 	private void editItem(int pos) {
 		final int position = pos;
-		PromptDialog dlg = new PromptDialog(Activity_Shopping.this, list.get(pos)) {
+		PromptDialog dlg = new PromptDialog(Activity_Shopping.this, list.get(pos).getItem()) {
 			@Override
 			public boolean onOkClicked(String input) {
 
-				list.add(position, input);
-				list.remove(position + 1);
+				list.get(position).setItem(input);
+				list.get(position).setChecked(false);
+				
 				adapter.notifyDataSetChanged();
 				return true; // true = close dialog
 			}
@@ -244,14 +240,14 @@ public class Activity_Shopping extends Activity {
 	private void addItems(String item) {
 
 		if (item.length() > 0) {
-			this.list.add(item);
+			this.list.add(new ListItem(item, "", false));
 			this.adapter.notifyDataSetChanged();
 		}
 	}
 	
-	public void addItems2(String item){
+	public void addItems2(String price){
 		
-		list.set(0, list.get(0).toString() + " " + item);
+		list.get(0).setPrice(price);
 		adapter.notifyDataSetChanged();
 	}
 
