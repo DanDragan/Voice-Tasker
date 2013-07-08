@@ -1,65 +1,55 @@
 package ncit.android.voicetasker;
 
-import java.io.File;
-import java.util.ArrayList;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
+import android.widget.Button;
 
 public class Activity_ListDir extends Activity {
 
-	private ListView lView;
-	private ArrayList<String> list;
-	private ArrayAdapter<String> adapter;
-	private File dir;
-	private String[] flist;
-	private static String subDir;
-
-	private void init(ArrayList<String> list) {
-		list.clear();
-		dir = getExternalFilesDir(null);
-		flist = dir.list();
-
-		for (String file : flist) {
-			list.add(file);
-		}
-	}
+	private Button btnSimple;
+	private Button btnShopping;
+	private static String pressed;
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_show);
+		setContentView(R.layout.menu_lists);
 
-		lView = (ListView) findViewById(R.id.listview);
-		list = new ArrayList<String>();
+		btnSimple = (Button) findViewById(R.id.btnSimple);
+		btnShopping = (Button) findViewById(R.id.btnShopping);
+		
+		btnSimple.setOnClickListener(new View.OnClickListener() {
 
-		this.init(list);
-		adapter = new ArrayAdapter<String>(this,
-				android.R.layout.simple_list_item_1, list);
-
-		lView.setAdapter(adapter);
-		lView.setClickable(true);
-		lView.setTextFilterEnabled(true);
-
-		lView.setOnItemClickListener(new OnItemClickListener() {
-
-			public void onItemClick(AdapterView<?> parent, View view,
-					int position, long id) {
-				subDir = list.get(position);
-
-				Intent intent = new Intent(getApplicationContext(),
-						Activity_Show.class);
+			@Override
+			public void onClick(View view) {
+				
+				pressed="simple lists";
+				Intent intent = new Intent(getApplicationContext(), Activity_Show.class); 
 				startActivity(intent);
+
 			}
 		});
+		
+		
+		btnShopping.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View view) {
+				
+				pressed = "shopping lists";
+				Intent intent = new Intent(getApplicationContext(), Activity_Show.class); 
+				startActivity(intent);
+
+			}
+		});
+		
 	}
 	
-	protected static String getSubDirName() {
-		return subDir;
+	protected static String getSubDirName(){
+		
+		return pressed;
+		
 	}
+	
 }
