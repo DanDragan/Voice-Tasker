@@ -61,10 +61,10 @@ public class MainActivity extends Activity {
 
 			@Override
 			public void onClick(View view) {
-				/*
-				 * Intent intent = new Intent(getApplicationContext(),
-				 * Activity_Voice.class); startActivity(intent);
-				 */
+				
+				 /*Intent intent = new Intent(getApplicationContext(),
+				 Activity_Voice.class); startActivity(intent);*/
+				 
 				insertDialog();
 				
 
@@ -86,7 +86,7 @@ public class MainActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				Intent intent = new Intent(getApplicationContext(),
-						Activity_Show.class);
+						Activity_ListDir.class);
 				startActivity(intent);
 			}
 		});

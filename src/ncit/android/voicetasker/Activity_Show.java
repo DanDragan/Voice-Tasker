@@ -25,12 +25,15 @@ public class Activity_Show extends Activity {
 	private File dir;
 	private String[] flist;
 	private static String fileName;
+	private String subdir;
 	private AdapterContextMenuInfo info;
 
 	private void init(ArrayList<String> list) {
 		list.clear();
 		dir = getExternalFilesDir(null);
-		flist = dir.list();
+		subdir = Activity_ListDir.getSubDirName();
+		File sdr = new File(dir + "/" + subdir);
+		flist = sdr.list();
 
 		for (String file : flist) {
 			list.add(file);
@@ -97,8 +100,8 @@ public class Activity_Show extends Activity {
 				
 				list.add(position, input);
 								
-				File file = new File(dir + "/" + list.get(position + 1));
-				File newFile = new File(dir + "/" + list.get(position));
+				File file = new File(dir + "/" + subdir + "/" + list.get(position + 1));
+				File newFile = new File(dir + "/" + subdir + "/" + list.get(position));
 				file.renameTo(newFile);
 				
 				list.remove(position + 1);								
@@ -111,7 +114,7 @@ public class Activity_Show extends Activity {
 
 	private void deleteList(int pos) {
 
-		File file = new File(dir + "/" + list.get(pos));
+		File file = new File(dir + "/" + subdir + "/" + list.get(pos));
 
 		boolean deleted = file.delete();
 
@@ -135,5 +138,5 @@ public class Activity_Show extends Activity {
 
 	protected static String getFileName() {
 		return fileName;
-	}
+	}	
 }

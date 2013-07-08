@@ -16,7 +16,7 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@drawable/ic_launcher"
+        android:icon="@drawable/icon"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
@@ -44,6 +44,11 @@
         <activity 
             android:name="ncit.android.voicetasker.Activity_Shopping">            
         </activity>
+        
+        <activity 
+            android:name="ncit.android.voicetasker.Activity_ListDir">           
+        </activity>
+        
     </application>
 
 </manifest>

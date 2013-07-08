@@ -113,7 +113,7 @@ public class Activity_Shopping extends Activity {
 						// do something
 						try {
 
-							File myOutput = new File(dir + "/" + input);
+							File myOutput = new File(dir + "/shopping lists" + "/" + input);
 							if (!myOutput.exists()) {
 								myOutput.getParentFile().mkdirs();
 								myOutput.createNewFile();
