@@ -21,7 +21,8 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name="ncit.android.voicetasker.MainActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -30,19 +31,23 @@
         </activity>
         
         <activity 
-            android:name="ncit.android.voicetasker.Activity_Voice" >
+            android:name="ncit.android.voicetasker.Activity_Voice"
+            android:screenOrientation="portrait" >
         </activity>
         
         <activity 
-            android:name="ncit.android.voicetasker.Activity_Show">
+            android:name="ncit.android.voicetasker.Activity_Show"
+            android:screenOrientation="portrait">
         </activity>
         
         <activity 
-            android:name="ncit.android.voicetasker.Activity_List">            
+            android:name="ncit.android.voicetasker.Activity_List"
+            android:screenOrientation="portrait">            
         </activity>
         
         <activity 
-            android:name="ncit.android.voicetasker.Activity_Shopping">            
+            android:name="ncit.android.voicetasker.Activity_Shopping"
+            android:screenOrientation="portrait">            
         </activity>
         
         <activity 
