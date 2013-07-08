@@ -51,7 +51,8 @@
         </activity>
         
         <activity 
-            android:name="ncit.android.voicetasker.Activity_ListDir">           
+            android:name="ncit.android.voicetasker.Activity_ListDir"
+            android:screenOrientation="portrait">            
         </activity>
         
     </application>
