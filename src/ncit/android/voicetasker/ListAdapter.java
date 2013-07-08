@@ -1,14 +1,18 @@
 package ncit.android.voicetasker;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import android.content.ActivityNotFoundException;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.speech.RecognizerIntent;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -42,13 +46,15 @@ public class ListAdapter extends BaseAdapter {
 	public View getView(int position, View convertView, ViewGroup parent) {
 		LayoutInflater inflater = (LayoutInflater) context
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		convertView = inflater.inflate(R.layout.shopping_item_layout, parent,
+		convertView = inflater.inflate(R.layout.listitem, parent,
 				false);
 
 		TextView item = (TextView) convertView.findViewById(R.id.item);
+		
 		item.setText(this.objects.get(position).getItem());
+	
 		TextView price = (TextView) convertView.findViewById(R.id.price);
-		item.setText(this.objects.get(position).getPrice());
+		price.setText(this.objects.get(position).getPrice());
 
 		if (this.objects.get(position).isChecked()) {
 			item.setPaintFlags(item.getPaintFlags()
@@ -68,6 +74,7 @@ public class ListAdapter extends BaseAdapter {
 	}
 
 	private void listItemClick(View item, int position) {
+
 		if (this.objects.get(position).isChecked()) {
 			// uncheck it
 			Toast.makeText(getApplicationContext(),
@@ -78,7 +85,8 @@ public class ListAdapter extends BaseAdapter {
 			row.setPaintFlags(row.getPaintFlags()
 					& (~Paint.STRIKE_THRU_TEXT_FLAG));
 			row.setTextColor(Color.BLACK);
-			this.objects.get(position).setChecked(false);
+			this.objects.get(position).setChecked(false);	
+			
 		} else {
 			// check it
 			Toast.makeText(getApplicationContext(),
@@ -89,10 +97,12 @@ public class ListAdapter extends BaseAdapter {
 			row.setPaintFlags(row.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
 			row.setTextColor(Color.rgb(0, 200, 0));
 			this.objects.get(position).setChecked(true);
+			
 		}
 	}
 
 	private Context getApplicationContext() {
 		return this.context;
 	}
+	
 }

@@ -31,7 +31,7 @@ public class Activity_Shopping extends Activity {
 
 	private static final int RESULT_SPEECH = 1;
 	
-	private boolean speechWhere;
+	protected boolean speechWhere;
 	
 	private Button btnSpeak_shop;
 	private Button btnReset_shop;
@@ -58,6 +58,7 @@ public class Activity_Shopping extends Activity {
 		lvshop = (ListView) findViewById(R.id.lvShop);
 		
 		list = new ArrayList<ListItem>();
+		
 		adapter = new ListAdapter(list, this);
 		lvshop.setAdapter(adapter);
 		lvshop.setClickable(true);
@@ -152,7 +153,7 @@ public class Activity_Shopping extends Activity {
 
 		});
 
-		lvshop.setOnItemClickListener(new OnItemClickListener() {
+		/*lvshop.setOnItemClickListener(new OnItemClickListener() {
 
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
@@ -187,7 +188,7 @@ public class Activity_Shopping extends Activity {
 
 			}
 
-		});
+		});*/
 	}
 	
 	@Override
@@ -240,8 +241,11 @@ public class Activity_Shopping extends Activity {
 	private void addItems(String item) {
 
 		if (item.length() > 0) {
+			
 			this.list.add(new ListItem(item, "", false));
 			this.adapter.notifyDataSetChanged();
+			//ListAdapter newAdapter = new ListAdapter(this.list,this);
+			//this.lvshop.setAdapter(newAdapter);
 		}
 	}
 	
