@@ -9,6 +9,7 @@ public class ListItem {
 	public ListItem(String item, String price, boolean checked) {
 		this.item = item;
 		this.price = price;
+		this.checked = checked;
 	}
 
 	public String getItem() {
