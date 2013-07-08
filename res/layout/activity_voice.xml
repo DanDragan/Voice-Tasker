@@ -5,7 +5,8 @@
     android:layout_above="@+id/textView1"
     android:layout_toLeftOf="@+id/textView1"
     android:gravity="center"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+    android:background="@color/khaki" >
 
     <ListView
         android:id="@+id/listview"
@@ -36,13 +37,13 @@
 
     <Button
         android:id="@+id/btnSpeak"
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_margin="10dp"
         android:layout_marginTop="17dp"
-        android:drawableBottom="@drawable/images"
-        android:text="@string/add" />
+        android:drawableRight="@drawable/microphone2"
+        android:text="@string/add"/>
 
 </RelativeLayout>

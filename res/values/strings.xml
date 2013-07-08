@@ -23,6 +23,10 @@
 	<string name="budget">BUDGET : </string>
 	<string name="savedlists">Saved Lists</string>
 	<color name="Blue">#70130180</color>
-	<string name="blank"/>	
+	<string name="blank"/>
+	<string name="simple_lists">Simple Lists</string>
+	<string name="shopping_lists">Shopping Lists</string>
+	<color name="lemon">#FFD39B</color>
+	<color name="khaki">#FFF68F</color>	
 	
 </resources>
