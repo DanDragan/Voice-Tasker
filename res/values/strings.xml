@@ -25,6 +25,8 @@
 	<color name="Blue">#70130180</color>
 	<string name="blank"/>
 	<string name="simple_lists">Simple Lists</string>
-	<string name="shoppng_lists">Shopping Lists</string>	
+	<string name="shopping_lists">Shopping Lists</string>
+	<color name="lemon">#FFD39B</color>
+	<color name="khaki">#FFF68F</color>	
 	
 </resources>
