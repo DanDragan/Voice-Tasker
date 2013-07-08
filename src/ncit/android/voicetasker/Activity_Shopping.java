@@ -27,11 +27,11 @@ import android.widget.Toast;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
 
-public class Activity_Shopping extends Activity {
+public class Activity_Shopping extends Activity implements Observable{
 
 	private static final int RESULT_SPEECH = 1;
 	
-	protected boolean speechWhere;
+	protected static boolean speechWhere;
 	
 	private Button btnSpeak_shop;
 	private Button btnReset_shop;
@@ -60,6 +60,7 @@ public class Activity_Shopping extends Activity {
 		list = new ArrayList<ListItem>();
 		
 		adapter = new ListAdapter(list, this);
+		adapter.setSubject(this);
 		lvshop.setAdapter(adapter);
 		lvshop.setClickable(true);
 		lvshop.setTextFilterEnabled(true);
@@ -155,7 +156,8 @@ public class Activity_Shopping extends Activity {
 
 		/*lvshop.setOnItemClickListener(new OnItemClickListener() {
 
-			public void onItemClick(AdapterView<?> parent, View view,
+			public void onItemClick(AdapterView
+	public void <?> parent, View view,
 					int position, long id) {
 				// When clicked
 				if (hmap.get(view) == null) {
@@ -263,8 +265,7 @@ public class Activity_Shopping extends Activity {
 	
 	public void speechFunction(String s){
 		
-		Intent intent = new Intent(
-				RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+		Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
 
 		intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, "en-US");
 		intent.putExtra(RecognizerIntent.EXTRA_PROMPT, s);
@@ -301,6 +302,11 @@ public class Activity_Shopping extends Activity {
 		}
 
 		}
+	}
+
+	@Override
+	public void update() {
+		this.speechFunction("string");
 	}
 	
 }
