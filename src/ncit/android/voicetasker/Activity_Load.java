@@ -12,6 +12,7 @@ import org.json.JSONObject;
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.util.Log;
@@ -68,11 +69,10 @@ public class Activity_Load extends Activity implements Observable {
 
 			String s = sw.toString();
 			JSONArray jArray = new JSONArray(s);
-			Log.i("eroare", ""+jArray.length());
-			Log.i("eroare2", fileName);
 			JSONObject bud = jArray.getJSONObject(0);
 			String budg = bud.getString("price");
 			budget = Float.parseFloat(budg);
+			tvBudget.setText("BUDGET : " + budget);
 			
 			for (int i = 1; i < jArray.length(); i++) {
 				JSONObject obj = jArray.getJSONObject(i);
@@ -84,6 +84,10 @@ public class Activity_Load extends Activity implements Observable {
 			}
 
 			in.close();
+			
+			tvTotal.setText("TOTAL : " + String.valueOf(getTotal()));
+			
+			calculateTotal();
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -111,6 +115,7 @@ public class Activity_Load extends Activity implements Observable {
 		this.init(list);
 	
 		adapter = new ListAdapter(list, this);
+		adapter.setSubject(this);
 
 		lvShop.setAdapter(adapter);
 		lvShop.setClickable(true);
@@ -170,7 +175,7 @@ public class Activity_Load extends Activity implements Observable {
 			public void onClick(View v) {
 
 				PromptDialog dlg = new PromptDialog(Activity_Load.this,
-						R.string.titleBudget, R.string.commentBudget) {
+						String.valueOf(budget)) {
 
 					@Override
 					public boolean onOkClicked(String input) {
@@ -178,6 +183,7 @@ public class Activity_Load extends Activity implements Observable {
 						tvBudget.setText("BUDGET : " + input);
 						budget = Float.parseFloat(input);
 						
+						calculateTotal();
 						return true; // true = close dialog
 					}
 				};
@@ -264,7 +270,6 @@ public class Activity_Load extends Activity implements Observable {
 			public boolean onOkClicked(String input) {
 
 				list.get(position).setItem(input);
-				list.get(position).setChecked(false);
 
 				adapter.notifyDataSetChanged();
 				return true; // true = close dialog
@@ -286,11 +291,14 @@ public class Activity_Load extends Activity implements Observable {
 
 	public void addItems2(String price, int pozitie) {
 
+		Log.i("pozitie", ""+pozitie);
 		list.get(pozitie).setPrice(price);
 		adapter.notifyDataSetChanged();
 
 		total += Float.parseFloat(price);
 		tvTotal.setText("TOTAL : " + String.valueOf(total));
+		
+		calculateTotal();
 
 	}
 
@@ -349,9 +357,66 @@ public class Activity_Load extends Activity implements Observable {
 
 	@Override
 	public void update_uncheck(int position) {
+		
 		total -= Float.parseFloat(list.get(position).getPrice());
 		tvTotal.setText("TOTAL: " + String.valueOf(total));
 		list.get(position).setPrice("");
-		adapter.notifyDataSetChanged();		
+		adapter.notifyDataSetChanged();	
+		
+		calculateTotal();
 	}
+	
+	public void calculateTotal() {
+
+		if (budget > 0.0f && total > 0.0f) {
+
+			if (total < budget) {
+
+				Toast t = Toast.makeText(getApplicationContext(),
+						"You are currently at " + (total / budget) * 100
+								+ " % of your budget", Toast.LENGTH_SHORT);
+				t.show();
+				
+				if(total/budget <0.8f)
+					tvTotal.setTextColor(Color.rgb(0, 0, 0));
+				
+				else
+					tvTotal.setTextColor(Color.rgb(255, 140, 0));
+				
+			}
+
+			else if (total > budget) {
+
+				Toast t = Toast.makeText(getApplicationContext(),
+						"You are over your budget with  "
+								+ ((total - budget) / budget) * 100 + " %",
+						Toast.LENGTH_SHORT);
+				t.show();
+				
+				tvTotal.setTextColor(Color.rgb(255, 0, 0));
+			}
+
+			else {
+
+				Toast t = Toast.makeText(getApplicationContext(),
+						"You reached your budget !", Toast.LENGTH_SHORT);
+				t.show();
+				
+				tvTotal.setTextColor(Color.rgb(255, 0, 0));
+			}
+
+		}
+	
+	}
+	
+	private float getTotal(){
+		total = 0;
+		
+		for(int i=0; i<list.size(); i++){			
+			total += Float.parseFloat(list.get(i).getPrice());	
+		}
+			
+		return total;
+	}
+	
 }
