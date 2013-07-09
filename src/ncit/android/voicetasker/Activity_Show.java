@@ -67,8 +67,8 @@ public class Activity_Show extends Activity {
 					Intent intent = new Intent(getApplicationContext(), Activity_List.class);
 					startActivity(intent);
 				} else if (subdir.equals("shopping lists")) {
-					//Intent intent = new Intent(getApplicationContext(), Activity_Load.class);
-					//startActivity(intent);
+					Intent intent = new Intent(getApplicationContext(), Activity_Load.class);
+					startActivity(intent);
 
 				}
 			}
