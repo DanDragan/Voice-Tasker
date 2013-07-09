@@ -127,21 +127,23 @@ public class Activity_Shopping extends Activity implements Observable {
 			public void onClick(View v) {
 
 				PromptDialog dlg = new PromptDialog(Activity_Shopping.this,
-						R.string.titleBudget, R.string.commentBudget) {
+						String.valueOf(budget)) {
 
 					@Override
 					public boolean onOkClicked(String input) {
-						
+
 						tvBudget.setText("BUDGET : " + input);
 						budget = Float.parseFloat(input);
-						
+
+						calculateTotal();
 						return true; // true = close dialog
 					}
 				};
 
-				dlg.show();	
+				dlg.show();
 
 			}
+			
 		});
 
 	}
@@ -250,6 +252,8 @@ public class Activity_Shopping extends Activity implements Observable {
 
 		total += Float.parseFloat(price);
 		tvTotal.setText("TOTAL : " + String.valueOf(total));
+		
+		calculateTotal();
 
 	}
 
@@ -313,7 +317,44 @@ public class Activity_Shopping extends Activity implements Observable {
 		tvTotal.setText("TOTAL: " + String.valueOf(total));
 		list.get(position).setPrice("");
 		adapter.notifyDataSetChanged();
+		
+		calculateTotal();
 
+	}
+
+	public void calculateTotal() {
+
+		if (budget > 0.0f && total > 0.0f) {
+
+			if (total < budget) {
+
+				Toast t = Toast.makeText(getApplicationContext(),
+						"You are currently at " + (total / budget) * 100
+								+ " % of your budget", Toast.LENGTH_SHORT);
+				t.show();
+
+			}
+
+			else if (total > budget) {
+
+				Toast t = Toast.makeText(getApplicationContext(),
+						"You are over your budget with  "
+								+ ((total - budget) / budget) * 100 + " %",
+						Toast.LENGTH_SHORT);
+				t.show();
+
+			}
+
+			else {
+
+				Toast t = Toast.makeText(getApplicationContext(),
+						"You reached your budget !", Toast.LENGTH_SHORT);
+				t.show();
+
+			}
+
+		}
+	
 	}
 
 }
