@@ -61,10 +61,19 @@ public class Activity_Show extends Activity {
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
 				fileName = list.get(position);
+				
+				if(subdir.equals("simple lists")) {
 
-				Intent intent = new Intent(getApplicationContext(),
+					Intent intent = new Intent(getApplicationContext(),
 						Activity_List.class);
-				startActivity(intent);
+					startActivity(intent);
+				}
+				else if (subdir.equals("shopping lists")) {
+					Intent intent = new Intent(getApplicationContext(),
+							Activity_Load.class);
+						startActivity(intent);
+					
+				}
 			}
 		});
 	}

@@ -31,7 +31,7 @@ public class Activity_Load extends Activity {
 	private Button btnSpeak;
 	private Button btnReset;
 	private Button btnSave;
-	private ListView lView;
+	private ListView lvShop;
 	private ListAdapter adapter;
 	private ArrayList<ListItem> list;
 	private static File dir;
@@ -62,8 +62,7 @@ public class Activity_Load extends Activity {
 			JSONArray jArray = new JSONArray(s);
 			JSONObject bud = jArray.getJSONObject(0);
 			String budget = bud.getString("price");
-			jArray.put(bud);
-
+			
 			for (int i = 1; i < jArray.length(); i++) {
 				JSONObject obj = jArray.getJSONObject(i);
 
@@ -85,22 +84,22 @@ public class Activity_Load extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_shopping);
 
-		lView = (ListView) findViewById(R.id.listview);
+		lvShop = (ListView) findViewById(R.id.lvShop);
 
-		btnSpeak = (Button) findViewById(R.id.btnSpeak);
-		btnReset = (Button) findViewById(R.id.btnReset);
-		btnSave = (Button) findViewById(R.id.btnSave);
+		btnSpeak = (Button) findViewById(R.id.btnSpeak_shop);
+		btnReset = (Button) findViewById(R.id.btnReset_shop);
+		btnSave = (Button) findViewById(R.id.btnSave_shop);
 
 		list = new ArrayList<ListItem>();
 		this.init(list);
 
 		adapter = new ListAdapter(list, this);
 
-		lView.setAdapter(adapter);
-		lView.setClickable(true);
-		lView.setTextFilterEnabled(true);
+		lvShop.setAdapter(adapter);
+		lvShop.setClickable(true);
+		lvShop.setTextFilterEnabled(true);
 
-		registerForContextMenu(lView);
+		registerForContextMenu(lvShop);
 
 		btnSpeak.setOnClickListener(new View.OnClickListener() {
 
