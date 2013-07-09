@@ -15,7 +15,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
-import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
@@ -163,6 +162,9 @@ public class Activity_Load extends Activity implements Observable {
 
 				adapter.notifyDataSetChanged();
 				adapter.notifyDataSetInvalidated();
+				total = 0;
+				tvTotal.setText("TOTAL : ");
+				tvTotal.setTextColor(Color.rgb(0, 0, 0));
 				list.clear();
 
 			}
@@ -291,15 +293,19 @@ public class Activity_Load extends Activity implements Observable {
 
 	public void addItems2(String price, int pozitie) {
 
-		Log.i("pozitie", ""+pozitie);
-		list.get(pozitie).setPrice(price);
-		adapter.notifyDataSetChanged();
+		try {
+			list.get(pozitie).setPrice(price);
+			adapter.notifyDataSetChanged();
 
-		total += Float.parseFloat(price);
-		tvTotal.setText("TOTAL : " + String.valueOf(total));
-		
-		calculateTotal();
+			total += Float.parseFloat(price);
+			tvTotal.setText("TOTAL : " + String.valueOf(total));
 
+			calculateTotal();
+		} catch (NumberFormatException e) {
+			list.get(pozitie).setPrice("");
+			list.get(pozitie).setChecked(false);
+			adapter.notifyDataSetChanged();
+		}
 	}
 
 	@Override
