@@ -122,7 +122,7 @@ public class Activity_Shopping extends Activity implements Observable{
 
 			JSONArray jArray = new JSONArray();
 			JSONObject bud = new JSONObject();
-			bud.put("price", budget);
+			bud.put("price", "" + budget);
 			jArray.put(bud);
 			for (int i = 0; i < list.size(); i++) {
 				JSONObject obj = new JSONObject();
@@ -141,6 +141,11 @@ public class Activity_Shopping extends Activity implements Observable{
 		} catch (Exception e) {
 
 			e.printStackTrace();
+		}
+		
+		if (input.length() > 0) {
+			Toast.makeText(getApplicationContext(), "List saved!",
+					Toast.LENGTH_SHORT).show();
 		}
 	}
 	
