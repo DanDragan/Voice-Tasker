@@ -23,87 +23,89 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 
-public class Activity_Shopping extends Activity implements Observable{
+public class Activity_Shopping extends Activity implements Observable {
 
 	private static final int RESULT_SPEECH = 1;
-	
+
 	protected static boolean speechWhere;
-	protected double total;
-	
+	protected float total;
+	protected float budget;
+
 	private Button btnSpeak_shop;
 	private Button btnReset_shop;
 	private Button btnSave_shop;
-		
+	private Button btnEdit_shop;
+
 	private ListView lvshop;
 	private ListAdapter adapter;
 	private ArrayList<ListItem> list;
-	
+
 	private File dir;
 	private AdapterContextMenuInfo info;
-	
+
 	private int pozitie;
-	private float budget;
-	
+
 	private TextView tvTotal;
 	private TextView tvBudget;
-	
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_shopping);
-		
+
 		btnSpeak_shop = (Button) findViewById(R.id.btnSpeak_shop);
 		btnReset_shop = (Button) findViewById(R.id.btnReset_shop);
 		btnSave_shop = (Button) findViewById(R.id.btnSave_shop);
-		
+		btnEdit_shop = (Button) findViewById(R.id.btnEditBudget);
+
 		tvTotal = (TextView) findViewById(R.id.tvTotal);
 		tvBudget = (TextView) findViewById(R.id.tvBudget);
-		
+
 		lvshop = (ListView) findViewById(R.id.lvShop);
-		
+
 		list = new ArrayList<ListItem>();
 		budget = 0;
 		total = 0;
-		
+
 		adapter = new ListAdapter(list, this);
 		adapter.setSubject(this);
 		lvshop.setAdapter(adapter);
 		lvshop.setClickable(true);
 		lvshop.setTextFilterEnabled(true);
 		registerForContextMenu(lvshop);
-		
+
 		dir = getExternalFilesDir(null);
-		
+
 		btnSpeak_shop.setOnClickListener(new View.OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
-				
+
 				speechWhere = false;
 				speechFunction("What would you like to add, Master?");
-				
+
 			}
 		});
 
 		btnSave_shop.setOnClickListener(new View.OnClickListener() {
 
-				@Override
-				public void onClick(View v) {
+			@Override
+			public void onClick(View v) {
 
-					PromptDialog dlg = new PromptDialog(Activity_Shopping.this,
-							R.string.title, R.string.enter_comment) {
+				PromptDialog dlg = new PromptDialog(Activity_Shopping.this,
+						R.string.title, R.string.enter_comment) {
 
-						@Override
-						public boolean onOkClicked(String input) {
-							// do something
-							setOkClicked(input);
+					@Override
+					public boolean onOkClicked(String input) {
+						// do something
+						setOkClicked(input);
 
-							return true; // true = close dialog
-						}
-					};
+						return true; // true = close dialog
+					}
+				};
 
-					dlg.show();
-				}
+				dlg.show();
+			}
 		});
 
 		btnReset_shop.setOnClickListener(new View.OnClickListener() {
@@ -118,9 +120,32 @@ public class Activity_Shopping extends Activity implements Observable{
 			}
 
 		});
-	
+
+		btnEdit_shop.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+
+				PromptDialog dlg = new PromptDialog(Activity_Shopping.this,
+						R.string.titleBudget, R.string.commentBudget) {
+
+					@Override
+					public boolean onOkClicked(String input) {
+						
+						tvBudget.setText("BUDGET : " + input);
+						budget = Float.parseFloat(input);
+						
+						return true; // true = close dialog
+					}
+				};
+
+				dlg.show();	
+
+			}
+		});
+
 	}
-	
+
 	public void setOkClicked(String input) {
 		try {
 
@@ -152,14 +177,14 @@ public class Activity_Shopping extends Activity implements Observable{
 
 			e.printStackTrace();
 		}
-		
+
 		if (input.length() > 0) {
 			Toast.makeText(getApplicationContext(), "List saved!",
 					Toast.LENGTH_SHORT).show();
 		}
 
 	}
-	
+
 	@Override
 	public void onCreateContextMenu(ContextMenu menu, View v,
 			ContextMenuInfo menuInfo) {
@@ -192,13 +217,14 @@ public class Activity_Shopping extends Activity implements Observable{
 
 	private void editItem(int pos) {
 		final int position = pos;
-		PromptDialog dlg = new PromptDialog(Activity_Shopping.this, list.get(pos).getItem()) {
+		PromptDialog dlg = new PromptDialog(Activity_Shopping.this, list.get(
+				pos).getItem()) {
 			@Override
 			public boolean onOkClicked(String input) {
 
 				list.get(position).setItem(input);
 				list.get(position).setChecked(false);
-				
+
 				adapter.notifyDataSetChanged();
 				return true; // true = close dialog
 			}
@@ -210,21 +236,21 @@ public class Activity_Shopping extends Activity implements Observable{
 	private void addItems(String item) {
 
 		if (item.length() > 0) {
-			
+
 			this.list.add(new ListItem(item, "", false));
 			this.adapter.notifyDataSetChanged();
-			
+
 		}
 	}
-	
-	public void addItems2(String price, int pozitie){
-		
+
+	public void addItems2(String price, int pozitie) {
+
 		list.get(pozitie).setPrice(price);
 		adapter.notifyDataSetChanged();
-		
+
 		total += Float.parseFloat(price);
-		tvTotal.setText(String.valueOf(total));
-		
+		tvTotal.setText("TOTAL : " + String.valueOf(total));
+
 	}
 
 	@Override
@@ -232,9 +258,9 @@ public class Activity_Shopping extends Activity implements Observable{
 		getMenuInflater().inflate(R.menu.main, menu);
 		return true;
 	}
-	
-	public void speechFunction(String s){
-		
+
+	public void speechFunction(String s) {
+
 		Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
 
 		intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, "en-US");
@@ -249,7 +275,7 @@ public class Activity_Shopping extends Activity implements Observable{
 					Toast.LENGTH_SHORT);
 			t.show();
 		}
-		
+
 	}
 
 	@Override
@@ -262,8 +288,8 @@ public class Activity_Shopping extends Activity implements Observable{
 
 				ArrayList<String> text = data
 						.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
-				
-				if(speechWhere == false)
+
+				if (speechWhere == false)
 					this.addItems(text.get(0));
 				else
 					this.addItems2(text.get(0), pozitie);
@@ -275,17 +301,19 @@ public class Activity_Shopping extends Activity implements Observable{
 	}
 
 	@Override
-
 	public void update(int position) {
 		this.speechFunction("What is the price, Master?");
 		pozitie = position;
-		
+
 	}
-	
-	public void update_uncheck(int position){
-		
-		total -= Float.parseFloat(list.get(position).toString());
-		tvTotal.setText(String.valueOf(total));
+
+	public void update_uncheck(int position) {
+
+		total -= Float.parseFloat(list.get(position).getPrice());
+		tvTotal.setText("TOTAL: " + String.valueOf(total));
+		list.get(position).setPrice("");
+		adapter.notifyDataSetChanged();
+
 	}
-	
+
 }

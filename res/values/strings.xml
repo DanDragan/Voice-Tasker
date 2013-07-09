@@ -27,6 +27,9 @@
 	<string name="simple_lists">Simple Lists</string>
 	<string name="shopping_lists">Shopping Lists</string>
 	<color name="lemon">#FFD39B</color>
-	<color name="khaki">#FFF68F</color>	
+	<color name="khaki">#FFF68F</color>
+	<string name="editBudget">Add/Edit\nBudget</string>
+	<string name="titleBudget">Edit Budget</string>
+	<string name="commentBudget">Please set new budget</string>	
 	
 </resources>

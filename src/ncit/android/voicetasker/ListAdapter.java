@@ -126,7 +126,7 @@ public class ListAdapter extends BaseAdapter implements Observer {
 	@Override
 	public void notifySubject2(int position) {
 		if (this.subject != null){
-			this.subject.update(position);
+			this.subject.update_uncheck(position);
 		}
 	}
 
