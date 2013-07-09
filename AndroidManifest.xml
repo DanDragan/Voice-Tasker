@@ -55,6 +55,11 @@
             android:screenOrientation="portrait">            
         </activity>
         
+         <activity 
+            android:name="ncit.android.voicetasker.Activity_Load"
+            android:screenOrientation="portrait">            
+        </activity>
+        
     </application>
 
 </manifest>
