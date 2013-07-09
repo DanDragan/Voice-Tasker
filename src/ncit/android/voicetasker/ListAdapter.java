@@ -99,9 +99,9 @@ public class ListAdapter extends BaseAdapter implements Observer {
 
 			Activity_Shopping.speechWhere = true;
 			
-			this.notifySubject();
-			
+			this.notifySubject(position);
 		}
+		
 	}
 
 	private Context getApplicationContext() {
@@ -115,9 +115,9 @@ public class ListAdapter extends BaseAdapter implements Observer {
 		}
 	}
 	@Override
-	public void notifySubject() {
+	public void notifySubject(int position) {
 		if (this.subject != null){
-			this.subject.update();
+			this.subject.update(position);
 		}
 	}
 

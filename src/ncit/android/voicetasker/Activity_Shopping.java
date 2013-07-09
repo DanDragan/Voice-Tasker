@@ -3,15 +3,13 @@ package ncit.android.voicetasker;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import org.json.JSONArray;
+import org.json.JSONObject;
 
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.Paint;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.view.ContextMenu;
@@ -19,13 +17,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ContextMenu.ContextMenuInfo;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.AdapterView.AdapterContextMenuInfo;
-import android.widget.AdapterView.OnItemClickListener;
 
 public class Activity_Shopping extends Activity implements Observable{
 
@@ -43,8 +38,9 @@ public class Activity_Shopping extends Activity implements Observable{
 	
 	private File dir;
 	private AdapterContextMenuInfo info;
-	private HashMap<View, Boolean> hmap;
-
+	
+	private int pozitie;
+	private float budget;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -58,6 +54,7 @@ public class Activity_Shopping extends Activity implements Observable{
 		lvshop = (ListView) findViewById(R.id.lvShop);
 		
 		list = new ArrayList<ListItem>();
+		budget = 0;
 		
 		adapter = new ListAdapter(list, this);
 		adapter.setSubject(this);
@@ -66,31 +63,12 @@ public class Activity_Shopping extends Activity implements Observable{
 		lvshop.setTextFilterEnabled(true);
 		registerForContextMenu(lvshop);
 		
-		hmap = new HashMap<View, Boolean>();
-		
 		dir = getExternalFilesDir(null);
 		
 		btnSpeak_shop.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
-
-				/*Intent intent = new Intent(
-						RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
-
-				intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, "en-US");
-				intent.putExtra(RecognizerIntent.EXTRA_PROMPT,
-						"What shall I do, Master?");
-				intent.putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 100);
-
-				try {
-					startActivityForResult(intent, RESULT_SPEECH);
-				} catch (ActivityNotFoundException a) {
-					Toast t = Toast.makeText(getApplicationContext(),
-							"Opps! Your device doesn't support Speech to Text",
-							Toast.LENGTH_SHORT);
-					t.show();
-				}*/
 				
 				speechWhere = false;
 				speechFunction("What would you like to add, Master?");
@@ -100,45 +78,23 @@ public class Activity_Shopping extends Activity implements Observable{
 
 		btnSave_shop.setOnClickListener(new View.OnClickListener() {
 
-			@Override
-			public void onClick(View v) {
+				@Override
+				public void onClick(View v) {
 
-				PromptDialog dlg = new PromptDialog(Activity_Shopping.this,
-						R.string.title, R.string.enter_comment) {
-					@Override
-					public boolean onOkClicked(String input) {
-						// do something
-						try {
+					PromptDialog dlg = new PromptDialog(Activity_Shopping.this,
+							R.string.title, R.string.enter_comment) {
 
-							File myOutput = new File(dir + "/shopping lists" + "/" + input);
-							if (!myOutput.exists()) {
-								myOutput.getParentFile().mkdirs();
-								myOutput.createNewFile();
-							}
+						@Override
+						public boolean onOkClicked(String input) {
+							// do something
+							setOkClicked(input);
 
-							JSONArray jArray = new JSONArray(list);
-							FileOutputStream out = new FileOutputStream(myOutput);
-							
-							out.write(jArray.toString().getBytes());
-														
-							out.close();
-							
-
-						} catch (Exception e) {
-							e.printStackTrace();
+							return true; // true = close dialog
 						}
+					};
 
-						if (input.length() > 0)
-							Toast.makeText(getApplicationContext(),
-									"List saved!", Toast.LENGTH_SHORT).show();
-						return true; // true = close dialog
-					}
-				};
-
-				dlg.show();
-
-			}
-
+					dlg.show();
+				}
 		});
 
 		btnReset_shop.setOnClickListener(new View.OnClickListener() {
@@ -152,45 +108,40 @@ public class Activity_Shopping extends Activity implements Observable{
 
 			}
 
-		});
+		});		
+	}
+	
+	public void setOkClicked(String input) {
+		try {
 
-		/*lvshop.setOnItemClickListener(new OnItemClickListener() {
+			File myOutput = new File(dir + "/shopping lists/" + input);
+			if (!myOutput.exists()) {
+				myOutput.getParentFile().mkdirs();
+				myOutput.createNewFile();
+			}
 
-			public void onItemClick(AdapterView
-	public void <?> parent, View view,
-					int position, long id) {
-				// When clicked
-				if (hmap.get(view) == null) {
-
-					Toast.makeText(getApplicationContext(),
-							"You checked " + list.get(position),
-							Toast.LENGTH_SHORT).show();
-
-					TextView row = (TextView) view;
-					row.setPaintFlags(row.getPaintFlags()
-							| Paint.STRIKE_THRU_TEXT_FLAG);
-					row.setTextColor(Color.rgb(0, 200, 0));
-					hmap.put(view, true);
-					
-					speechWhere = true;
-					speechFunction("What is the price, Master?");	
-				}
-
-				else {
-					Toast.makeText(getApplicationContext(),
-							"You unchecked " + list.get(position),
-							Toast.LENGTH_SHORT).show();
-
-					TextView row = (TextView) view;
-					row.setPaintFlags(row.getPaintFlags()
-							& (~Paint.STRIKE_THRU_TEXT_FLAG));
-					row.setTextColor(Color.BLACK);
-					hmap.remove(view);
-				}
+			JSONArray jArray = new JSONArray();
+			JSONObject bud = new JSONObject();
+			bud.put("price", budget);
+			jArray.put(bud);
+			for (int i = 0; i < list.size(); i++) {
+				JSONObject obj = new JSONObject();
+				obj.put("status", list.get(i).isChecked());
+				obj.put("name", list.get(i).getItem());
+				obj.put("price", list.get(i).getPrice());
+				jArray.put(obj);
 
 			}
 
-		});*/
+			FileOutputStream out = new FileOutputStream(myOutput);
+
+			out.write(jArray.toString().getBytes());
+			out.close();
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
 	}
 	
 	@Override
@@ -245,15 +196,13 @@ public class Activity_Shopping extends Activity implements Observable{
 		if (item.length() > 0) {
 			
 			this.list.add(new ListItem(item, "", false));
-			this.adapter.notifyDataSetChanged();
-			//ListAdapter newAdapter = new ListAdapter(this.list,this);
-			//this.lvshop.setAdapter(newAdapter);
+			this.adapter.notifyDataSetChanged();			
 		}
 	}
 	
-	public void addItems2(String price){
+	public void addItems2(String price, int pozitie){
 		
-		list.get(0).setPrice(price);
+		list.get(pozitie).setPrice(price);
 		adapter.notifyDataSetChanged();
 	}
 
@@ -296,7 +245,7 @@ public class Activity_Shopping extends Activity implements Observable{
 				if(speechWhere == false)
 					this.addItems(text.get(0));
 				else
-					this.addItems2(text.get(0));
+					this.addItems2(text.get(0), pozitie);
 			}
 			break;
 		}
@@ -305,8 +254,10 @@ public class Activity_Shopping extends Activity implements Observable{
 	}
 
 	@Override
-	public void update() {
+
+	public void update(int position) {
 		this.speechFunction("What is the price, Master?");
+		pozitie = position;
 	}
 	
 }
