@@ -84,7 +84,9 @@ public class ListAdapter extends BaseAdapter implements Observer {
 			row.setPaintFlags(row.getPaintFlags()
 					& (~Paint.STRIKE_THRU_TEXT_FLAG));
 			row.setTextColor(Color.BLACK);
-			this.objects.get(position).setChecked(false);	
+			this.objects.get(position).setChecked(false);
+			
+			this.notifySubject2(position);
 			
 		} else {
 			// check it
@@ -118,6 +120,13 @@ public class ListAdapter extends BaseAdapter implements Observer {
 	public void notifySubject(int position) {
 		if (this.subject != null){
 			this.subject.update(position);
+		}
+	}
+	
+	@Override
+	public void notifySubject2(int position) {
+		if (this.subject != null){
+			this.subject.update_uncheck(position);
 		}
 	}
 

@@ -14,6 +14,7 @@ import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
@@ -22,15 +23,20 @@ import android.view.View;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
-public class Activity_Load extends Activity {
+public class Activity_Load extends Activity implements Observable {
 
 	protected static final int RESULT_SPEECH = 1;
+	protected float total;
+	protected float budget;
+	protected static boolean speechWhere;
 
 	private Button btnSpeak;
 	private Button btnReset;
 	private Button btnSave;
+	private Button btnEdit_shop;
 	private ListView lvShop;
 	private ListAdapter adapter;
 	private ArrayList<ListItem> list;
@@ -38,7 +44,9 @@ public class Activity_Load extends Activity {
 	private static String fileName;
 	private AdapterContextMenuInfo info;
 	private String subdir;
-	private float budget;
+	private TextView tvTotal;
+	private TextView tvBudget;
+	private int pozitie;
 
 	private void init(ArrayList<ListItem> list) {
 
@@ -60,8 +68,11 @@ public class Activity_Load extends Activity {
 
 			String s = sw.toString();
 			JSONArray jArray = new JSONArray(s);
+			Log.i("eroare", ""+jArray.length());
+			Log.i("eroare2", fileName);
 			JSONObject bud = jArray.getJSONObject(0);
-			String budget = bud.getString("price");
+			String budg = bud.getString("price");
+			budget = Float.parseFloat(budg);
 			
 			for (int i = 1; i < jArray.length(); i++) {
 				JSONObject obj = jArray.getJSONObject(i);
@@ -89,10 +100,16 @@ public class Activity_Load extends Activity {
 		btnSpeak = (Button) findViewById(R.id.btnSpeak_shop);
 		btnReset = (Button) findViewById(R.id.btnReset_shop);
 		btnSave = (Button) findViewById(R.id.btnSave_shop);
+		btnEdit_shop = (Button) findViewById(R.id.btnEditBudget);
+		
+		tvTotal = (TextView) findViewById(R.id.tvTotal);
+		tvBudget = (TextView) findViewById(R.id.tvBudget);
+		
+		total = 0;
 
 		list = new ArrayList<ListItem>();
 		this.init(list);
-
+	
 		adapter = new ListAdapter(list, this);
 
 		lvShop.setAdapter(adapter);
@@ -106,22 +123,9 @@ public class Activity_Load extends Activity {
 			@Override
 			public void onClick(View v) {
 
-				Intent intent = new Intent(
-						RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+				speechWhere = false;
+				speechFunction("What would you like to add, Master?");
 
-				intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, "en-US");
-				intent.putExtra(RecognizerIntent.EXTRA_PROMPT,
-						"What shall I do, Master?");
-				intent.putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 100);
-
-				try {
-					startActivityForResult(intent, RESULT_SPEECH);
-				} catch (ActivityNotFoundException a) {
-					Toast t = Toast.makeText(getApplicationContext(),
-							"Opps! Your device doesn't support Speech to Text",
-							Toast.LENGTH_SHORT);
-					t.show();
-				}
 			}
 		});
 
@@ -158,6 +162,29 @@ public class Activity_Load extends Activity {
 
 			}
 
+		});
+		
+		btnEdit_shop.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+
+				PromptDialog dlg = new PromptDialog(Activity_Load.this,
+						R.string.titleBudget, R.string.commentBudget) {
+
+					@Override
+					public boolean onOkClicked(String input) {
+						
+						tvBudget.setText("BUDGET : " + input);
+						budget = Float.parseFloat(input);
+						
+						return true; // true = close dialog
+					}
+				};
+
+				dlg.show();	
+
+			}
 		});
 	}
 
@@ -231,7 +258,8 @@ public class Activity_Load extends Activity {
 
 	private void editItem(int pos) {
 		final int position = pos;
-		PromptDialog dlg = new PromptDialog(Activity_Load.this, list.get(pos).getItem()) {
+		PromptDialog dlg = new PromptDialog(Activity_Load.this, list.get(
+				pos).getItem()) {
 			@Override
 			public boolean onOkClicked(String input) {
 
@@ -239,7 +267,6 @@ public class Activity_Load extends Activity {
 				list.get(position).setChecked(false);
 
 				adapter.notifyDataSetChanged();
-
 				return true; // true = close dialog
 			}
 		};
@@ -250,9 +277,21 @@ public class Activity_Load extends Activity {
 	private void addItems(String item) {
 
 		if (item.length() > 0) {
+
 			this.list.add(new ListItem(item, "", false));
 			this.adapter.notifyDataSetChanged();
+
 		}
+	}
+
+	public void addItems2(String price, int pozitie) {
+
+		list.get(pozitie).setPrice(price);
+		adapter.notifyDataSetChanged();
+
+		total += Float.parseFloat(price);
+		tvTotal.setText("TOTAL : " + String.valueOf(total));
+
 	}
 
 	@Override
@@ -272,11 +311,47 @@ public class Activity_Load extends Activity {
 				ArrayList<String> text = data
 						.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
 
-				this.addItems(text.get(0));
+				if (speechWhere == false)
+					this.addItems(text.get(0));
+				else
+					this.addItems2(text.get(0), pozitie);
 			}
 			break;
 		}
 
 		}
+	}
+	
+	public void speechFunction(String s) {
+
+		Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+
+		intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, "en-US");
+		intent.putExtra(RecognizerIntent.EXTRA_PROMPT, s);
+		intent.putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 100);
+
+		try {
+			startActivityForResult(intent, RESULT_SPEECH);
+		} catch (ActivityNotFoundException a) {
+			Toast t = Toast.makeText(getApplicationContext(),
+					"Opps! Your device doesn't support Speech to Text",
+					Toast.LENGTH_SHORT);
+			t.show();
+		}
+
+	}
+
+	@Override
+	public void update(int position) {
+		this.speechFunction("What is the price, Master?");
+		pozitie = position;		
+	}
+
+	@Override
+	public void update_uncheck(int position) {
+		total -= Float.parseFloat(list.get(position).getPrice());
+		tvTotal.setText("TOTAL: " + String.valueOf(total));
+		list.get(position).setPrice("");
+		adapter.notifyDataSetChanged();		
 	}
 }
