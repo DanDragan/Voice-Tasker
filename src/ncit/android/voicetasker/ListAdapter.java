@@ -88,7 +88,9 @@ public class ListAdapter extends BaseAdapter implements Observer {
 			row.setPaintFlags(row.getPaintFlags()
 					& (~Paint.STRIKE_THRU_TEXT_FLAG));
 			row.setTextColor(Color.BLACK);
-			this.objects.get(position).setChecked(false);	
+			this.objects.get(position).setChecked(false);
+			
+			Activity_Shopping.total -= 0;
 			
 		} else {
 			// check it

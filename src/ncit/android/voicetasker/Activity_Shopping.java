@@ -32,6 +32,8 @@ public class Activity_Shopping extends Activity implements Observable{
 	private static final int RESULT_SPEECH = 1;
 	
 	protected static boolean speechWhere;
+	protected static float total = 0;
+	protected float budget = 0; 
 	
 	private Button btnSpeak_shop;
 	private Button btnReset_shop;
@@ -75,23 +77,6 @@ public class Activity_Shopping extends Activity implements Observable{
 			
 			@Override
 			public void onClick(View v) {
-
-				/*Intent intent = new Intent(
-						RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
-
-				intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, "en-US");
-				intent.putExtra(RecognizerIntent.EXTRA_PROMPT,
-						"What shall I do, Master?");
-				intent.putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 100);
-
-				try {
-					startActivityForResult(intent, RESULT_SPEECH);
-				} catch (ActivityNotFoundException a) {
-					Toast t = Toast.makeText(getApplicationContext(),
-							"Opps! Your device doesn't support Speech to Text",
-							Toast.LENGTH_SHORT);
-					t.show();
-				}*/
 				
 				speechWhere = false;
 				speechFunction("What would you like to add, Master?");
@@ -155,43 +140,6 @@ public class Activity_Shopping extends Activity implements Observable{
 
 		});
 
-		/*lvshop.setOnItemClickListener(new OnItemClickListener() {
-
-			public void onItemClick(AdapterView
-	public void <?> parent, View view,
-					int position, long id) {
-				// When clicked
-				if (hmap.get(view) == null) {
-
-					Toast.makeText(getApplicationContext(),
-							"You checked " + list.get(position),
-							Toast.LENGTH_SHORT).show();
-
-					TextView row = (TextView) view;
-					row.setPaintFlags(row.getPaintFlags()
-							| Paint.STRIKE_THRU_TEXT_FLAG);
-					row.setTextColor(Color.rgb(0, 200, 0));
-					hmap.put(view, true);
-					
-					speechWhere = true;
-					speechFunction("What is the price, Master?");	
-				}
-
-				else {
-					Toast.makeText(getApplicationContext(),
-							"You unchecked " + list.get(position),
-							Toast.LENGTH_SHORT).show();
-
-					TextView row = (TextView) view;
-					row.setPaintFlags(row.getPaintFlags()
-							& (~Paint.STRIKE_THRU_TEXT_FLAG));
-					row.setTextColor(Color.BLACK);
-					hmap.remove(view);
-				}
-
-			}
-
-		});*/
 	}
 	
 	@Override
@@ -247,8 +195,7 @@ public class Activity_Shopping extends Activity implements Observable{
 			
 			this.list.add(new ListItem(item, "", false));
 			this.adapter.notifyDataSetChanged();
-			//ListAdapter newAdapter = new ListAdapter(this.list,this);
-			//this.lvshop.setAdapter(newAdapter);
+
 		}
 	}
 	
@@ -256,6 +203,8 @@ public class Activity_Shopping extends Activity implements Observable{
 		
 		list.get(pozitie).setPrice(price);
 		adapter.notifyDataSetChanged();
+		
+		total += Float.parseFloat(price);
 	}
 
 	@Override
