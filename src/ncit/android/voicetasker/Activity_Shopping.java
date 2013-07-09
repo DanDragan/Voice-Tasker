@@ -10,18 +10,20 @@ import org.json.JSONObject;
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
+import android.util.Log;
 import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ContextMenu.ContextMenuInfo;
+import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.AdapterView.AdapterContextMenuInfo;
 
 public class Activity_Shopping extends Activity implements Observable {
 
@@ -226,7 +228,6 @@ public class Activity_Shopping extends Activity implements Observable {
 			public boolean onOkClicked(String input) {
 
 				list.get(position).setItem(input);
-				list.get(position).setChecked(false);
 
 				adapter.notifyDataSetChanged();
 				return true; // true = close dialog
@@ -333,7 +334,13 @@ public class Activity_Shopping extends Activity implements Observable {
 						"You are currently at " + (total / budget) * 100
 								+ " % of your budget", Toast.LENGTH_SHORT);
 				t.show();
-
+				
+				if(total/budget <0.8f)
+					tvTotal.setTextColor(Color.rgb(0, 0, 0));
+				
+				else
+					tvTotal.setTextColor(Color.rgb(255, 140, 0));
+				
 			}
 
 			else if (total > budget) {
@@ -343,7 +350,9 @@ public class Activity_Shopping extends Activity implements Observable {
 								+ ((total - budget) / budget) * 100 + " %",
 						Toast.LENGTH_SHORT);
 				t.show();
-
+				
+				Log.i("tvTotal", ""+tvTotal.getText());
+				tvTotal.setTextColor(Color.rgb(255, 0, 0));
 			}
 
 			else {
@@ -351,7 +360,8 @@ public class Activity_Shopping extends Activity implements Observable {
 				Toast t = Toast.makeText(getApplicationContext(),
 						"You reached your budget !", Toast.LENGTH_SHORT);
 				t.show();
-
+				
+				tvTotal.setTextColor(Color.rgb(255, 0, 0));
 			}
 
 		}
