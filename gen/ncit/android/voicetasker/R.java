@@ -64,8 +64,8 @@ public final class R {
         public static final int price=0x7f09000f;
         public static final int shopping_item_name=0x7f090012;
         public static final int textView1=0x7f09000a;
-        public static final int tvBudget=0x7f090007;
-        public static final int tvTotal=0x7f090006;
+        public static final int tvBudget=0x7f090006;
+        public static final int tvTotal=0x7f090007;
     }
     public static final class layout {
         public static final int activity_main=0x7f030000;

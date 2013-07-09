@@ -34,21 +34,22 @@
         android:text="@string/reset" />
 
     <TextView
-        android:id="@+id/tvTotal"
+        android:id="@+id/tvBudget"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/tvTotal"
         android:layout_above="@+id/btnReset_shop"
-        android:layout_alignLeft="@+id/btnReset_shop"
         android:text="@string/budget"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <TextView
-        android:id="@+id/tvBudget"
+        android:id="@+id/tvTotal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/tvTotal"
-        android:layout_alignLeft="@+id/tvTotal"
+        android:layout_above="@+id/tvBudget"      
         android:text="@string/total"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp" 
         android:textAppearance="?android:attr/textAppearanceLarge" />
     
     <ListView
@@ -56,7 +57,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/btnSpeak_shop"
-        android:layout_above="@+id/tvBudget"
+        android:layout_above="@+id/tvTotal"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp" />
     
