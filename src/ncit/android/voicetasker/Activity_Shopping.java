@@ -69,6 +69,7 @@ public class Activity_Shopping extends Activity implements Observable {
 
 		adapter = new ListAdapter(list, this);
 		adapter.setSubject(this);
+		
 		lvshop.setAdapter(adapter);
 		lvshop.setClickable(true);
 		lvshop.setTextFilterEnabled(true);

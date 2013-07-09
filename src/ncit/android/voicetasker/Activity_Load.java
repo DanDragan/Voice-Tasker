@@ -111,6 +111,7 @@ public class Activity_Load extends Activity implements Observable {
 		this.init(list);
 	
 		adapter = new ListAdapter(list, this);
+		adapter.setSubject(this);
 
 		lvShop.setAdapter(adapter);
 		lvShop.setClickable(true);

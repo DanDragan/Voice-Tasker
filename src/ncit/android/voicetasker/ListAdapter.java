@@ -56,6 +56,7 @@ public class ListAdapter extends BaseAdapter implements Observer {
 		price.setText(this.objects.get(position).getPrice());
 
 		if (this.objects.get(position).isChecked()) {
+			Activity_Load.speechWhere = true;
 			item.setPaintFlags(item.getPaintFlags()
 					| Paint.STRIKE_THRU_TEXT_FLAG);
 			item.setTextColor(Color.rgb(0, 200, 0));
@@ -100,6 +101,7 @@ public class ListAdapter extends BaseAdapter implements Observer {
 			this.objects.get(position).setChecked(true);
 
 			Activity_Shopping.speechWhere = true;
+			Activity_Load.speechWhere = true;
 			
 			this.notifySubject(position);
 		}
