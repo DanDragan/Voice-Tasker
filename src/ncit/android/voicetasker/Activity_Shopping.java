@@ -306,7 +306,7 @@ public class Activity_Shopping extends Activity implements Observable{
 
 	@Override
 	public void update() {
-		this.speechFunction("string");
+		this.speechFunction("What is the price, Master?");
 	}
 	
 }

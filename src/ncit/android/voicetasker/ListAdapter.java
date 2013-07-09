@@ -1,14 +1,10 @@
 package ncit.android.voicetasker;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import android.content.ActivityNotFoundException;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.speech.RecognizerIntent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -102,6 +98,8 @@ public class ListAdapter extends BaseAdapter implements Observer {
 			this.objects.get(position).setChecked(true);
 
 			Activity_Shopping.speechWhere = true;
+			
+			this.notifySubject();
 			
 		}
 	}
