@@ -62,9 +62,15 @@ public class Activity_Show extends Activity {
 					int position, long id) {
 				fileName = list.get(position);
 
-				Intent intent = new Intent(getApplicationContext(),
-						Activity_List.class);
-				startActivity(intent);
+				if (subdir.equals("simple lists")) {
+
+					Intent intent = new Intent(getApplicationContext(), Activity_List.class);
+					startActivity(intent);
+				} else if (subdir.equals("shopping lists")) {
+					//Intent intent = new Intent(getApplicationContext(), Activity_Load.class);
+					//startActivity(intent);
+
+				}
 			}
 		});
 	}
@@ -97,14 +103,16 @@ public class Activity_Show extends Activity {
 		PromptDialog dlg = new PromptDialog(Activity_Show.this, list.get(pos)) {
 			@Override
 			public boolean onOkClicked(String input) {
-				
+
 				list.add(position, input);
-								
-				File file = new File(dir + "/" + subdir + "/" + list.get(position + 1));
-				File newFile = new File(dir + "/" + subdir + "/" + list.get(position));
+
+				File file = new File(dir + "/" + subdir + "/"
+						+ list.get(position + 1));
+				File newFile = new File(dir + "/" + subdir + "/"
+						+ list.get(position));
 				file.renameTo(newFile);
-				
-				list.remove(position + 1);								
+
+				list.remove(position + 1);
 				adapter.notifyDataSetChanged();
 				return true; // true = close dialog
 			}
@@ -138,5 +146,5 @@ public class Activity_Show extends Activity {
 
 	protected static String getFileName() {
 		return fileName;
-	}	
+	}
 }

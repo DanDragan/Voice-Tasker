@@ -1,14 +1,10 @@
 package ncit.android.voicetasker;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import android.content.ActivityNotFoundException;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.speech.RecognizerIntent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -90,7 +86,7 @@ public class ListAdapter extends BaseAdapter implements Observer {
 			row.setTextColor(Color.BLACK);
 			this.objects.get(position).setChecked(false);
 			
-			Activity_Shopping.total -= 0;
+			this.notifySubject2(position);
 			
 		} else {
 			// check it
@@ -122,6 +118,13 @@ public class ListAdapter extends BaseAdapter implements Observer {
 	}
 	@Override
 	public void notifySubject(int position) {
+		if (this.subject != null){
+			this.subject.update(position);
+		}
+	}
+	
+	@Override
+	public void notifySubject2(int position) {
 		if (this.subject != null){
 			this.subject.update(position);
 		}

@@ -3,15 +3,13 @@ package ncit.android.voicetasker;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import org.json.JSONArray;
+import org.json.JSONObject;
 
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.Paint;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.view.ContextMenu;
@@ -19,21 +17,18 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ContextMenu.ContextMenuInfo;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.AdapterView.AdapterContextMenuInfo;
-import android.widget.AdapterView.OnItemClickListener;
 
 public class Activity_Shopping extends Activity implements Observable{
 
 	private static final int RESULT_SPEECH = 1;
 	
 	protected static boolean speechWhere;
-	protected static float total = 0;
-	protected float budget = 0; 
+	protected double total;
 	
 	private Button btnSpeak_shop;
 	private Button btnReset_shop;
@@ -45,9 +40,12 @@ public class Activity_Shopping extends Activity implements Observable{
 	
 	private File dir;
 	private AdapterContextMenuInfo info;
-	private HashMap<View, Boolean> hmap;
 	
 	private int pozitie;
+	private float budget;
+	
+	private TextView tvTotal;
+	private TextView tvBudget;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -58,9 +56,14 @@ public class Activity_Shopping extends Activity implements Observable{
 		btnReset_shop = (Button) findViewById(R.id.btnReset_shop);
 		btnSave_shop = (Button) findViewById(R.id.btnSave_shop);
 		
+		tvTotal = (TextView) findViewById(R.id.tvTotal);
+		tvBudget = (TextView) findViewById(R.id.tvBudget);
+		
 		lvshop = (ListView) findViewById(R.id.lvShop);
 		
 		list = new ArrayList<ListItem>();
+		budget = 0;
+		total = 0;
 		
 		adapter = new ListAdapter(list, this);
 		adapter.setSubject(this);
@@ -68,8 +71,6 @@ public class Activity_Shopping extends Activity implements Observable{
 		lvshop.setClickable(true);
 		lvshop.setTextFilterEnabled(true);
 		registerForContextMenu(lvshop);
-		
-		hmap = new HashMap<View, Boolean>();
 		
 		dir = getExternalFilesDir(null);
 		
@@ -86,45 +87,23 @@ public class Activity_Shopping extends Activity implements Observable{
 
 		btnSave_shop.setOnClickListener(new View.OnClickListener() {
 
-			@Override
-			public void onClick(View v) {
+				@Override
+				public void onClick(View v) {
 
-				PromptDialog dlg = new PromptDialog(Activity_Shopping.this,
-						R.string.title, R.string.enter_comment) {
-					@Override
-					public boolean onOkClicked(String input) {
-						// do something
-						try {
+					PromptDialog dlg = new PromptDialog(Activity_Shopping.this,
+							R.string.title, R.string.enter_comment) {
 
-							File myOutput = new File(dir + "/shopping lists" + "/" + input);
-							if (!myOutput.exists()) {
-								myOutput.getParentFile().mkdirs();
-								myOutput.createNewFile();
-							}
+						@Override
+						public boolean onOkClicked(String input) {
+							// do something
+							setOkClicked(input);
 
-							JSONArray jArray = new JSONArray(list);
-							FileOutputStream out = new FileOutputStream(myOutput);
-							
-							out.write(jArray.toString().getBytes());
-														
-							out.close();
-							
-
-						} catch (Exception e) {
-							e.printStackTrace();
+							return true; // true = close dialog
 						}
+					};
 
-						if (input.length() > 0)
-							Toast.makeText(getApplicationContext(),
-									"List saved!", Toast.LENGTH_SHORT).show();
-						return true; // true = close dialog
-					}
-				};
-
-				dlg.show();
-
-			}
-
+					dlg.show();
+				}
 		});
 
 		btnReset_shop.setOnClickListener(new View.OnClickListener() {
@@ -139,6 +118,45 @@ public class Activity_Shopping extends Activity implements Observable{
 			}
 
 		});
+	
+	}
+	
+	public void setOkClicked(String input) {
+		try {
+
+			File myOutput = new File(dir + "/shopping lists/" + input);
+			if (!myOutput.exists()) {
+				myOutput.getParentFile().mkdirs();
+				myOutput.createNewFile();
+			}
+
+			JSONArray jArray = new JSONArray();
+			JSONObject bud = new JSONObject();
+			bud.put("price", budget);
+			jArray.put(bud);
+			for (int i = 0; i < list.size(); i++) {
+				JSONObject obj = new JSONObject();
+				obj.put("status", list.get(i).isChecked());
+				obj.put("name", list.get(i).getItem());
+				obj.put("price", list.get(i).getPrice());
+				jArray.put(obj);
+
+			}
+
+			FileOutputStream out = new FileOutputStream(myOutput);
+
+			out.write(jArray.toString().getBytes());
+			out.close();
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+		
+		if (input.length() > 0) {
+			Toast.makeText(getApplicationContext(), "List saved!",
+					Toast.LENGTH_SHORT).show();
+		}
 
 	}
 	
@@ -195,7 +213,7 @@ public class Activity_Shopping extends Activity implements Observable{
 			
 			this.list.add(new ListItem(item, "", false));
 			this.adapter.notifyDataSetChanged();
-
+			
 		}
 	}
 	
@@ -205,6 +223,8 @@ public class Activity_Shopping extends Activity implements Observable{
 		adapter.notifyDataSetChanged();
 		
 		total += Float.parseFloat(price);
+		tvTotal.setText(String.valueOf(total));
+		
 	}
 
 	@Override
@@ -255,9 +275,17 @@ public class Activity_Shopping extends Activity implements Observable{
 	}
 
 	@Override
+
 	public void update(int position) {
 		this.speechFunction("What is the price, Master?");
 		pozitie = position;
+		
+	}
+	
+	public void update_uncheck(int position){
+		
+		total -= Float.parseFloat(list.get(position).toString());
+		tvTotal.setText(String.valueOf(total));
 	}
 	
 }
