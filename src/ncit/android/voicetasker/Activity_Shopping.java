@@ -71,7 +71,7 @@ public class Activity_Shopping extends Activity implements Observable {
 
 		adapter = new ListAdapter(list, this);
 		adapter.setSubject(this);
-		
+
 		lvshop.setAdapter(adapter);
 		lvshop.setClickable(true);
 		lvshop.setTextFilterEnabled(true);
@@ -118,6 +118,9 @@ public class Activity_Shopping extends Activity implements Observable {
 
 				adapter.notifyDataSetChanged();
 				adapter.notifyDataSetInvalidated();
+				total = 0;
+				tvTotal.setText("TOTAL : ");
+				tvTotal.setTextColor(Color.rgb(0, 0, 0));
 				list.clear();
 
 			}
@@ -142,11 +145,14 @@ public class Activity_Shopping extends Activity implements Observable {
 						return true; // true = close dialog
 					}
 				};
+				adapter.notifyDataSetChanged();
+				adapter.notifyDataSetInvalidated();
+				list.clear();
 
 				dlg.show();
 
 			}
-			
+
 		});
 
 	}
@@ -249,13 +255,17 @@ public class Activity_Shopping extends Activity implements Observable {
 
 	public void addItems2(String price, int pozitie) {
 
-		list.get(pozitie).setPrice(price);
-		adapter.notifyDataSetChanged();
+		try {
+			list.get(pozitie).setPrice(price);
+			adapter.notifyDataSetChanged();
 
-		total += Float.parseFloat(price);
-		tvTotal.setText("TOTAL : " + String.valueOf(total));
-		
-		calculateTotal();
+			total += Float.parseFloat(price);
+			tvTotal.setText("TOTAL : " + String.valueOf(total));
+
+			calculateTotal();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
 	}
 
@@ -319,7 +329,7 @@ public class Activity_Shopping extends Activity implements Observable {
 		tvTotal.setText("TOTAL: " + String.valueOf(total));
 		list.get(position).setPrice("");
 		adapter.notifyDataSetChanged();
-		
+
 		calculateTotal();
 
 	}
@@ -334,13 +344,13 @@ public class Activity_Shopping extends Activity implements Observable {
 						"You are currently at " + (total / budget) * 100
 								+ " % of your budget", Toast.LENGTH_SHORT);
 				t.show();
-				
-				if(total/budget <0.8f)
+
+				if (total / budget < 0.8f)
 					tvTotal.setTextColor(Color.rgb(0, 0, 0));
-				
+
 				else
 					tvTotal.setTextColor(Color.rgb(255, 140, 0));
-				
+
 			}
 
 			else if (total > budget) {
@@ -350,8 +360,8 @@ public class Activity_Shopping extends Activity implements Observable {
 								+ ((total - budget) / budget) * 100 + " %",
 						Toast.LENGTH_SHORT);
 				t.show();
-				
-				Log.i("tvTotal", ""+tvTotal.getText());
+
+				Log.i("tvTotal", "" + tvTotal.getText());
 				tvTotal.setTextColor(Color.rgb(255, 0, 0));
 			}
 
@@ -360,12 +370,12 @@ public class Activity_Shopping extends Activity implements Observable {
 				Toast t = Toast.makeText(getApplicationContext(),
 						"You reached your budget !", Toast.LENGTH_SHORT);
 				t.show();
-				
+
 				tvTotal.setTextColor(Color.rgb(255, 0, 0));
 			}
 
 		}
-	
+
 	}
 
 }

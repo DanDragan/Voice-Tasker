@@ -163,6 +163,9 @@ public class Activity_Load extends Activity implements Observable {
 
 				adapter.notifyDataSetChanged();
 				adapter.notifyDataSetInvalidated();
+				total = 0;
+				tvTotal.setText("TOTAL : ");
+				tvTotal.setTextColor(Color.rgb(0, 0, 0));
 				list.clear();
 
 			}
