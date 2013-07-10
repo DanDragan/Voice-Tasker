@@ -2,25 +2,19 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@drawable/imaginemeniu"
+    android:background="@drawable/imaginemeniu3"
     android:orientation="vertical" >
 
     <Button
         android:id="@+id/btnSimple"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="@string/simple_lists"
-        android:textSize="26sp"
-        android:textStyle="bold" />
+        android:layout_weight="1" />
 
     <Button
         android:id="@+id/btnShopping"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="@string/shopping_lists"
-        android:textSize="26sp"
-        android:textStyle="bold" />
+        android:layout_weight="1" />
 
 </LinearLayout>

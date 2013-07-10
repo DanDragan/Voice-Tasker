@@ -30,8 +30,9 @@ public class Activity_Shopping extends Activity implements Observable {
 	private static final int RESULT_SPEECH = 1;
 
 	protected static boolean speechWhere;
-	protected float total;
-	protected float budget;
+	protected static boolean speechBudget;
+	protected double total;
+	protected double budget;
 
 	private Button btnSpeak_shop;
 	private Button btnReset_shop;
@@ -69,9 +70,10 @@ public class Activity_Shopping extends Activity implements Observable {
 		budget = 0;
 		total = 0;
 
+		speechBudget = false;
+
 		adapter = new ListAdapter(list, this);
 		adapter.setSubject(this);
-
 		lvshop.setAdapter(adapter);
 		lvshop.setClickable(true);
 		lvshop.setTextFilterEnabled(true);
@@ -132,24 +134,8 @@ public class Activity_Shopping extends Activity implements Observable {
 			@Override
 			public void onClick(View v) {
 
-				PromptDialog dlg = new PromptDialog(Activity_Shopping.this,
-						String.valueOf(budget)) {
-
-					@Override
-					public boolean onOkClicked(String input) {
-
-						tvBudget.setText("BUDGET : " + input);
-						budget = Float.parseFloat(input);
-
-						calculateTotal();
-						return true; // true = close dialog
-					}
-				};
-				adapter.notifyDataSetChanged();
-				adapter.notifyDataSetInvalidated();
-				list.clear();
-
-				dlg.show();
+				speechBudget = true;
+				speechFunction("Please tell me your budget, Master");
 
 			}
 
@@ -254,19 +240,22 @@ public class Activity_Shopping extends Activity implements Observable {
 	}
 
 	public void addItems2(String price, int pozitie) {
-
+		Log.i("pret", "" + price);
 		try {
-			list.get(pozitie).setPrice(price);
-			adapter.notifyDataSetChanged();
+				String newPrice = price.replaceAll("([^\\d\\.])*", "");
+				list.get(pozitie).setPrice(newPrice);
+				adapter.notifyDataSetChanged();
+				Log.d("string replacement", newPrice);
+				total += Double.parseDouble(newPrice);
+				tvTotal.setText("TOTAL : " + String.valueOf(total));
 
-			total += Float.parseFloat(price);
-			tvTotal.setText("TOTAL : " + String.valueOf(total));
-
-			calculateTotal();
+				calculateTotal();
 		} catch (Exception e) {
 			e.printStackTrace();
+			list.get(pozitie).setPrice("");
+			list.get(pozitie).setChecked(false);
+			adapter.notifyDataSetChanged();
 		}
-
 	}
 
 	@Override
@@ -305,10 +294,21 @@ public class Activity_Shopping extends Activity implements Observable {
 				ArrayList<String> text = data
 						.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
 
-				if (speechWhere == false)
-					this.addItems(text.get(0));
-				else
-					this.addItems2(text.get(0), pozitie);
+				if (speechBudget == true) {
+					tvBudget.setText("BUDGET : " + text.get(0));
+					budget = Double.parseDouble(text.get(0));
+					calculateTotal();
+					speechBudget = false;
+				}
+
+				else {
+
+					if (speechWhere == false)
+						this.addItems(text.get(0));
+					else
+						this.addItems2(text.get(0), pozitie);
+
+				}
 			}
 			break;
 		}
@@ -323,9 +323,17 @@ public class Activity_Shopping extends Activity implements Observable {
 
 	}
 
+	@Override
 	public void update_uncheck(int position) {
+		
+		String newPrice = list.get(position).getPrice()
+				.replaceAll("([^\\d\\.])*", "");
 
-		total -= Float.parseFloat(list.get(position).getPrice());
+		if(! newPrice.equals("")){
+			total -= Double.parseDouble(newPrice);
+		}
+		else
+			total -= 0;
 		tvTotal.setText("TOTAL: " + String.valueOf(total));
 		list.get(position).setPrice("");
 		adapter.notifyDataSetChanged();
@@ -336,7 +344,7 @@ public class Activity_Shopping extends Activity implements Observable {
 
 	public void calculateTotal() {
 
-		if (budget > 0.0f && total > 0.0f) {
+		if (budget > 0 && total >= 0) {
 
 			if (total < budget) {
 
@@ -345,7 +353,7 @@ public class Activity_Shopping extends Activity implements Observable {
 								+ " % of your budget", Toast.LENGTH_SHORT);
 				t.show();
 
-				if (total / budget < 0.8f)
+				if (total / budget < 0.8)
 					tvTotal.setTextColor(Color.rgb(0, 0, 0));
 
 				else

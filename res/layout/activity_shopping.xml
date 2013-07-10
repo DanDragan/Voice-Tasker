@@ -1,8 +1,8 @@
-<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/khaki" >
+	android:background="@color/lemon_ciffon" >
     
 	<Button
         android:id="@+id/btnSpeak_shop"
@@ -13,7 +13,9 @@
         android:layout_margin="10dp"
         android:layout_marginTop="17dp"
         android:drawableRight="@drawable/microphone2"
-        android:text="@string/add" />
+        android:text="@string/add"
+        android:background="@drawable/red_button"
+        style="@style/button_text" />
     
     <Button
         android:id="@+id/btnSave_shop"
@@ -21,24 +23,19 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignRight="@+id/btnSpeak_shop"
-        android:text="@string/save" />
+        android:text="@string/save"
+        android:background="@drawable/red_button"
+        style="@style/button_text" />
 
     <Button
         android:id="@+id/btnReset_shop"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_alignLeft="@+id/tvTotal"
-        android:text="@string/reset" />
-
-    <TextView
-        android:id="@+id/tvBudget"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/tvTotal"
-        android:layout_above="@+id/btnReset_shop"
-        android:text="@string/budget"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+        android:layout_alignLeft="@+id/btnSpeak_shop"
+        android:text="@string/reset"
+        android:background="@drawable/red_button"
+        style="@style/button_text" />
 
     <TextView
         android:id="@+id/tvTotal"
@@ -50,12 +47,21 @@
         android:layout_marginRight="20dp" 
         android:textAppearance="?android:attr/textAppearanceLarge" />
     
+    <TextView
+        android:id="@+id/tvBudget"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/tvTotal"
+        android:layout_above="@+id/btnReset_shop"
+        android:text="@string/budget"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+        
     <ListView
         android:id="@+id/lvShop"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/btnSpeak_shop"
-        android:layout_above="@+id/tvTotal"
+        android:layout_above="@+id/btnEditBudget"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp" />
 
@@ -65,6 +71,8 @@
         android:layout_height="wrap_content"
         android:layout_above="@+id/btnSave_shop"
         android:layout_alignRight="@+id/btnSave_shop"
-        android:text="@string/editBudget" />
+        android:text="@string/editBudget"
+        android:background="@drawable/red_button"
+        style="@style/button_text" />
     
 </RelativeLayout>

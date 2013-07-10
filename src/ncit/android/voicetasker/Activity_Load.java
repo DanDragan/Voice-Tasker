@@ -30,9 +30,10 @@ import android.widget.Toast;
 public class Activity_Load extends Activity implements Observable {
 
 	protected static final int RESULT_SPEECH = 1;
-	protected float total;
-	protected float budget;
+	protected double total;
+	protected double budget;
 	protected static boolean speechWhere;
+	protected static boolean speechBudget;
 
 	private Button btnSpeak;
 	private Button btnReset;
@@ -71,7 +72,7 @@ public class Activity_Load extends Activity implements Observable {
 			JSONArray jArray = new JSONArray(s);
 			JSONObject bud = jArray.getJSONObject(0);
 			String budg = bud.getString("price");
-			budget = Float.parseFloat(budg);
+			budget = Double.parseDouble(budg);
 			tvBudget.setText("BUDGET : " + budget);
 			
 			for (int i = 1; i < jArray.length(); i++) {
@@ -110,6 +111,7 @@ public class Activity_Load extends Activity implements Observable {
 		tvBudget = (TextView) findViewById(R.id.tvBudget);
 		
 		total = 0;
+		speechBudget = false;
 
 		list = new ArrayList<ListItem>();
 		this.init(list);
@@ -177,23 +179,11 @@ public class Activity_Load extends Activity implements Observable {
 			@Override
 			public void onClick(View v) {
 
-				PromptDialog dlg = new PromptDialog(Activity_Load.this,
-						String.valueOf(budget)) {
-
-					@Override
-					public boolean onOkClicked(String input) {
-						
-						tvBudget.setText("BUDGET : " + input);
-						budget = Float.parseFloat(input);
-						
-						calculateTotal();
-						return true; // true = close dialog
-					}
-				};
-
-				dlg.show();	
-
+				speechBudget = true;
+				speechFunction("Please tell me your budget, Master");
+				
 			}
+
 		});
 	}
 
@@ -293,16 +283,22 @@ public class Activity_Load extends Activity implements Observable {
 	}
 
 	public void addItems2(String price, int pozitie) {
+		Log.i("pret", "" + price);
+		try {
+				String newPrice = price.replaceAll("([^\\d\\.])*", "");
+				list.get(pozitie).setPrice(newPrice);
+				adapter.notifyDataSetChanged();
+				Log.d("string replacement", newPrice);
+				total += Double.parseDouble(newPrice);
+				tvTotal.setText("TOTAL : " + String.valueOf(total));
 
-		Log.i("pozitie", ""+pozitie);
-		list.get(pozitie).setPrice(price);
-		adapter.notifyDataSetChanged();
-
-		total += Float.parseFloat(price);
-		tvTotal.setText("TOTAL : " + String.valueOf(total));
-		
-		calculateTotal();
-
+				calculateTotal();
+		} catch (Exception e) {
+			e.printStackTrace();
+			list.get(pozitie).setPrice("");
+			list.get(pozitie).setChecked(false);
+			adapter.notifyDataSetChanged();
+		}
 	}
 
 	@Override
@@ -322,10 +318,21 @@ public class Activity_Load extends Activity implements Observable {
 				ArrayList<String> text = data
 						.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
 
-				if (speechWhere == false)
-					this.addItems(text.get(0));
-				else
-					this.addItems2(text.get(0), pozitie);
+				if (speechBudget == true){
+					tvBudget.setText("BUDGET : " + text.get(0));
+					budget = Double.parseDouble(text.get(0));
+					calculateTotal();
+					speechBudget = false;
+				}
+
+				else {
+
+					if (speechWhere == false)
+						this.addItems(text.get(0));
+					else
+						this.addItems2(text.get(0), pozitie);
+
+				}
 			}
 			break;
 		}
@@ -357,21 +364,27 @@ public class Activity_Load extends Activity implements Observable {
 		this.speechFunction("What is the price, Master?");
 		pozitie = position;		
 	}
-
+	
 	@Override
 	public void update_uncheck(int position) {
 		
-		total -= Float.parseFloat(list.get(position).getPrice());
+		String newPrice = list.get(position).getPrice()
+				.replaceAll("([^\\d\\.])*", "");
+
+		if(! newPrice.equals("")){
+			total -= Double.parseDouble(newPrice);
+		}
 		tvTotal.setText("TOTAL: " + String.valueOf(total));
 		list.get(position).setPrice("");
-		adapter.notifyDataSetChanged();	
-		
+		adapter.notifyDataSetChanged();
+
 		calculateTotal();
+
 	}
 	
 	public void calculateTotal() {
 
-		if (budget > 0.0f && total > 0.0f) {
+		if (budget > 0 && total > 0) {
 
 			if (total < budget) {
 
@@ -379,13 +392,13 @@ public class Activity_Load extends Activity implements Observable {
 						"You are currently at " + (total / budget) * 100
 								+ " % of your budget", Toast.LENGTH_SHORT);
 				t.show();
-				
-				if(total/budget <0.8f)
+
+				if (total / budget < 0.8)
 					tvTotal.setTextColor(Color.rgb(0, 0, 0));
-				
+
 				else
 					tvTotal.setTextColor(Color.rgb(255, 140, 0));
-				
+
 			}
 
 			else if (total > budget) {
@@ -395,7 +408,7 @@ public class Activity_Load extends Activity implements Observable {
 								+ ((total - budget) / budget) * 100 + " %",
 						Toast.LENGTH_SHORT);
 				t.show();
-				
+
 				tvTotal.setTextColor(Color.rgb(255, 0, 0));
 			}
 
@@ -404,19 +417,19 @@ public class Activity_Load extends Activity implements Observable {
 				Toast t = Toast.makeText(getApplicationContext(),
 						"You reached your budget !", Toast.LENGTH_SHORT);
 				t.show();
-				
+
 				tvTotal.setTextColor(Color.rgb(255, 0, 0));
 			}
 
 		}
-	
+
 	}
 	
-	private float getTotal(){
+	private double getTotal(){
 		total = 0;
 		
 		for(int i=0; i<list.size(); i++){			
-			total += Float.parseFloat(list.get(i).getPrice());	
+			total += Double.parseDouble(list.get(i).getPrice());	
 		}
 			
 		return total;
