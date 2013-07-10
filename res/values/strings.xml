@@ -35,6 +35,8 @@
 	<color name="vanilla">#F3E5AB</color>
 	<color name="sandstone">#786D5F</color>
 	<color name="pearl">#FDEEF4</color>
-	<color name="burlywood">#DEB887</color>	
+	<color name="burlywood">#DEB887</color>
+	<string name="mysavedsimple">My Simple Lists</string>
+	<string name="mysavedshopping">My Shopping Lists</string>	
 	
 </resources>

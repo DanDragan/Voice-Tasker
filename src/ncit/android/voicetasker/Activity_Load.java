@@ -384,7 +384,7 @@ public class Activity_Load extends Activity implements Observable {
 	
 	public void calculateTotal() {
 
-		if (budget > 0 && total > 0) {
+		if (budget > 0 && total >= 0) {
 
 			if (total < budget) {
 
