@@ -4,14 +4,25 @@
     android:layout_height="fill_parent"
     android:gravity="center"
     android:orientation="vertical"
-    android:background="@color/khaki" >
+    android:background="@color/lemon_ciffon" >
+    
+    <TextView
+        android:id="@+id/tvmysaved" 
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/listview"
+        android:layout_marginTop="20dp"
+        android:text="@string/savedlists"
+        android:gravity="center"
+        android:textSize="30sp"
+        android:textStyle="bold" />
     
     <ListView
         android:id="@+id/listview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginRight="20dp"
-        android:layout_marginLeft="30dp" />
-    
+        android:layout_marginBottom="40dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="20dp" />
     
 </RelativeLayout>

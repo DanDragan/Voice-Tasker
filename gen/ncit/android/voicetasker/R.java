@@ -55,26 +55,27 @@ public final class R {
         public static final int red_button=0x7f020015;
     }
     public static final class id {
-        public static final int action_settings=0x7f090013;
+        public static final int action_settings=0x7f090014;
         public static final int btnEditBudget=0x7f090009;
         public static final int btnExit=0x7f090002;
         public static final int btnNewList=0x7f090000;
-        public static final int btnReset=0x7f09000b;
+        public static final int btnReset=0x7f09000c;
         public static final int btnReset_shop=0x7f090005;
-        public static final int btnSave=0x7f09000d;
+        public static final int btnSave=0x7f09000e;
         public static final int btnSave_shop=0x7f090004;
-        public static final int btnShopping=0x7f090011;
+        public static final int btnShopping=0x7f090012;
         public static final int btnShowLists=0x7f090001;
-        public static final int btnSimple=0x7f090010;
-        public static final int btnSpeak=0x7f09000c;
+        public static final int btnSimple=0x7f090011;
+        public static final int btnSpeak=0x7f09000d;
         public static final int btnSpeak_shop=0x7f090003;
-        public static final int item=0x7f09000e;
-        public static final int listview=0x7f09000a;
+        public static final int item=0x7f09000f;
+        public static final int listview=0x7f09000b;
         public static final int lvShop=0x7f090008;
-        public static final int price=0x7f09000f;
-        public static final int shopping_item_name=0x7f090012;
+        public static final int price=0x7f090010;
+        public static final int shopping_item_name=0x7f090013;
         public static final int tvBudget=0x7f090007;
         public static final int tvTotal=0x7f090006;
+        public static final int tvmysaved=0x7f09000a;
     }
     public static final class layout {
         public static final int activity_main=0x7f030000;
@@ -101,6 +102,8 @@ public final class R {
         public static final int editBudget=0x7f050018;
         public static final int enter_comment=0x7f05000e;
         public static final int exit=0x7f050006;
+        public static final int mysavedshopping=0x7f05001c;
+        public static final int mysavedsimple=0x7f05001b;
         public static final int new_list=0x7f050002;
         public static final int new_wish_list=0x7f050004;
         public static final int ok=0x7f05000c;
