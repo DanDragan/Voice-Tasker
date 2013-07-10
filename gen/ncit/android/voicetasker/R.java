@@ -12,8 +12,13 @@ public final class R {
     }
     public static final class color {
         public static final int Blue=0x7f060000;
+        public static final int burlywood=0x7f060007;
         public static final int khaki=0x7f060002;
         public static final int lemon=0x7f060001;
+        public static final int lemon_ciffon=0x7f060003;
+        public static final int pearl=0x7f060006;
+        public static final int sandstone=0x7f060005;
+        public static final int vanilla=0x7f060004;
     }
     public static final class dimen {
         /**  Default screen margins, per the Android Design guidelines. 
@@ -32,39 +37,42 @@ public final class R {
         public static final int background4=0x7f020003;
         public static final int background5=0x7f020004;
         public static final int background6=0x7f020005;
-        public static final int format=0x7f020006;
-        public static final int ic_launcher=0x7f020007;
-        public static final int icon=0x7f020008;
-        public static final int images=0x7f020009;
-        public static final int imaginemeniu=0x7f02000a;
-        public static final int microphone=0x7f02000b;
-        public static final int microphone2=0x7f02000c;
-        public static final int paperclip=0x7f02000d;
-        public static final int plain_notebook=0x7f02000e;
-        public static final int postit_transp1=0x7f02000f;
-        public static final int postit_transp2=0x7f020010;
-        public static final int postit_transp3=0x7f020011;
+        public static final int floppy_disk_save=0x7f020006;
+        public static final int format=0x7f020007;
+        public static final int ic_launcher=0x7f020008;
+        public static final int icon=0x7f020009;
+        public static final int images=0x7f02000a;
+        public static final int imaginemeniu=0x7f02000b;
+        public static final int imaginemeniu2=0x7f02000c;
+        public static final int imaginemeniu3=0x7f02000d;
+        public static final int microphone=0x7f02000e;
+        public static final int microphone2=0x7f02000f;
+        public static final int paperclip=0x7f020010;
+        public static final int plain_notebook=0x7f020011;
+        public static final int postit_transp1=0x7f020012;
+        public static final int postit_transp2=0x7f020013;
+        public static final int postit_transp3=0x7f020014;
+        public static final int red_button=0x7f020015;
     }
     public static final class id {
-        public static final int action_settings=0x7f090014;
+        public static final int action_settings=0x7f090013;
         public static final int btnEditBudget=0x7f090009;
         public static final int btnExit=0x7f090002;
         public static final int btnNewList=0x7f090000;
-        public static final int btnReset=0x7f09000c;
+        public static final int btnReset=0x7f09000b;
         public static final int btnReset_shop=0x7f090005;
-        public static final int btnSave=0x7f09000e;
+        public static final int btnSave=0x7f09000d;
         public static final int btnSave_shop=0x7f090004;
-        public static final int btnShopping=0x7f090012;
+        public static final int btnShopping=0x7f090011;
         public static final int btnShowLists=0x7f090001;
-        public static final int btnSimple=0x7f090011;
-        public static final int btnSpeak=0x7f09000d;
+        public static final int btnSimple=0x7f090010;
+        public static final int btnSpeak=0x7f09000c;
         public static final int btnSpeak_shop=0x7f090003;
-        public static final int item=0x7f09000f;
+        public static final int item=0x7f09000e;
         public static final int listview=0x7f09000a;
         public static final int lvShop=0x7f090008;
-        public static final int price=0x7f090010;
-        public static final int shopping_item_name=0x7f090013;
-        public static final int textView1=0x7f09000b;
+        public static final int price=0x7f09000f;
+        public static final int shopping_item_name=0x7f090012;
         public static final int tvBudget=0x7f090007;
         public static final int tvTotal=0x7f090006;
     }
@@ -136,5 +144,6 @@ public final class R {
  All customizations that are NOT specific to a particular API-level can go here. 
          */
         public static final int AppTheme=0x7f070001;
+        public static final int button_text=0x7f070002;
     }
 }

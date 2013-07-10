@@ -35,17 +35,6 @@ public class Activity_Voice extends Activity {
 	private File dir;
 	private AdapterContextMenuInfo info;
 
-	private void init(ArrayList<ShoppingItem> list) {
-		list.add(new ShoppingItem("apple", false));
-		list.add(new ShoppingItem("bananas", false));
-		list.add(new ShoppingItem("cucumbers", false));
-		list.add(new ShoppingItem("elephant", false));
-		list.add(new ShoppingItem("Fanta", false));
-		list.add(new ShoppingItem("juice", false));
-		list.add(new ShoppingItem("mango", false));
-		list.add(new ShoppingItem("vegetables", false));
-	}
-
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -60,7 +49,6 @@ public class Activity_Voice extends Activity {
 		dir = getExternalFilesDir(null);
 
 		list = new ArrayList<ShoppingItem>();
-		this.init(list);
 		adapter = new ShoppingAdapter(list, this);
 		lView.setAdapter(adapter);
 		lView.setClickable(true);

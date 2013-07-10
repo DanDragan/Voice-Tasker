@@ -28,8 +28,13 @@
 	<string name="shopping_lists">Shopping Lists</string>
 	<color name="lemon">#FFD39B</color>
 	<color name="khaki">#FFF68F</color>
-	<string name="editBudget">Add/Edit\nBudget</string>
+	<string name="editBudget">Edit Budget</string>
 	<string name="titleBudget">Edit Budget</string>
-	<string name="commentBudget">Please set new budget</string>	
+	<string name="commentBudget">Please set new budget</string>
+	<color name="lemon_ciffon">#FFF8C6</color>
+	<color name="vanilla">#F3E5AB</color>
+	<color name="sandstone">#786D5F</color>
+	<color name="pearl">#FDEEF4</color>
+	<color name="burlywood">#DEB887</color>	
 	
 </resources>
