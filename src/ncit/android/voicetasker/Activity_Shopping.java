@@ -141,6 +141,31 @@ public class Activity_Shopping extends Activity implements Observable {
 
 		});
 
+		tvBudget.setOnLongClickListener(new View.OnLongClickListener() {
+
+			@Override
+			public boolean onLongClick(View v) {
+
+				PromptDialog dlg = new PromptDialog(Activity_Shopping.this,
+						String.valueOf(budget)) {
+
+					@Override
+					public boolean onOkClicked(String input) {
+
+						tvBudget.setText("BUDGET : " + input);
+						budget = Float.parseFloat(input);
+
+						calculateTotal();
+						return true; // true = close dialog
+					}
+				};
+
+				dlg.show();
+
+				return true;
+			}
+		});
+
 	}
 
 	public void setOkClicked(String input) {
@@ -290,7 +315,7 @@ public class Activity_Shopping extends Activity implements Observable {
 			budget = Double.parseDouble(newPrice);
 			calculateTotal();
 			speechBudget = false;
-		
+
 		} catch (Exception e) {
 			e.printStackTrace();
 			tvBudget.setText("BUDGET : ");
@@ -335,7 +360,7 @@ public class Activity_Shopping extends Activity implements Observable {
 						.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
 
 				if (speechBudget == true) {
-					addItems3(text.get(0));	
+					addItems3(text.get(0));
 				}
 
 				else {

@@ -185,6 +185,31 @@ public class Activity_Load extends Activity implements Observable {
 			}
 
 		});
+		
+		tvBudget.setOnLongClickListener(new View.OnLongClickListener() {
+
+			@Override
+			public boolean onLongClick(View v) {
+
+				PromptDialog dlg = new PromptDialog(Activity_Load.this,
+						String.valueOf(budget)) {
+
+					@Override
+					public boolean onOkClicked(String input) {
+
+						tvBudget.setText("BUDGET : " + input);
+						budget = Float.parseFloat(input);
+
+						calculateTotal();
+						return true; // true = close dialog
+					}
+				};
+
+				dlg.show();
+
+				return true;
+			}
+		});
 	}
 
 	@Override
