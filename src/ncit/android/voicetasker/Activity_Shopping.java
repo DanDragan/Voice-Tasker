@@ -198,14 +198,11 @@ public class Activity_Shopping extends Activity implements Observable {
 
 		if (item.getTitle().equals("Edit Name")) {
 			editItem(info.position);
-		}
-		else if (item.getTitle().equals("Edit Price")) {
+		} else if (item.getTitle().equals("Edit Price")) {
 			editPrice(info.position);
-		}
-		else if (item.getTitle().equals("Delete")) {
+		} else if (item.getTitle().equals("Delete")) {
 			deleteItem(info.position);
-		}
-		else {
+		} else {
 			return false;
 		}
 
@@ -235,7 +232,7 @@ public class Activity_Shopping extends Activity implements Observable {
 
 		dlg.show();
 	}
-	
+
 	private void editPrice(int pos) {
 		final int position = pos;
 		PromptDialog dlg = new PromptDialog(Activity_Shopping.this, list.get(
@@ -269,19 +266,35 @@ public class Activity_Shopping extends Activity implements Observable {
 	public void addItems2(String price, int pozitie) {
 		Log.i("pret", "" + price);
 		try {
-				String newPrice = price.replaceAll("([^\\d\\.])*", "");
-				list.get(pozitie).setPrice(newPrice);
-				adapter.notifyDataSetChanged();
-				Log.d("string replacement", newPrice);
-				total += Double.parseDouble(newPrice);
-				tvTotal.setText("TOTAL : " + String.valueOf(total));
+			String newPrice = price.replaceAll("([^\\d\\.])*", "");
+			list.get(pozitie).setPrice(newPrice);
+			adapter.notifyDataSetChanged();
+			Log.d("string replacement", newPrice);
+			total += Double.parseDouble(newPrice);
+			tvTotal.setText("TOTAL : " + String.valueOf(total));
 
-				calculateTotal();
+			calculateTotal();
 		} catch (Exception e) {
 			e.printStackTrace();
 			list.get(pozitie).setPrice("");
 			list.get(pozitie).setChecked(false);
 			adapter.notifyDataSetChanged();
+		}
+	}
+
+	public void addItems3(String price) {
+
+		try {
+			String newPrice = price.replaceAll("([^\\d\\.])*", "");
+			tvBudget.setText("BUDGET : " + newPrice);
+			budget = Double.parseDouble(newPrice);
+			calculateTotal();
+			speechBudget = false;
+		
+		} catch (Exception e) {
+			e.printStackTrace();
+			tvBudget.setText("BUDGET : ");
+			budget = 0;
 		}
 	}
 
@@ -322,10 +335,7 @@ public class Activity_Shopping extends Activity implements Observable {
 						.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
 
 				if (speechBudget == true) {
-					tvBudget.setText("BUDGET : " + text.get(0));
-					budget = Double.parseDouble(text.get(0));
-					calculateTotal();
-					speechBudget = false;
+					addItems3(text.get(0));	
 				}
 
 				else {
@@ -352,14 +362,13 @@ public class Activity_Shopping extends Activity implements Observable {
 
 	@Override
 	public void update_uncheck(int position) {
-		
+
 		String newPrice = list.get(position).getPrice()
 				.replaceAll("([^\\d\\.])*", "");
 
-		if(! newPrice.equals("")){
+		if (!newPrice.equals("")) {
 			total -= Double.parseDouble(newPrice);
-		}
-		else
+		} else
 			total -= 0;
 		tvTotal.setText("TOTAL: " + String.valueOf(total));
 		list.get(position).setPrice("");
@@ -412,18 +421,18 @@ public class Activity_Shopping extends Activity implements Observable {
 		}
 
 	}
-	
+
 	private double getTotal() {
 
 		total = 0;
-		
-		for(int i=0; i<list.size(); i++){			
-			
+
+		for (int i = 0; i < list.size(); i++) {
+
 			String temp = list.get(i).getPrice();
-			if(temp.equals(""))
-				temp="0";
-			total += Double.parseDouble(temp);	
-	
+			if (temp.equals(""))
+				temp = "0";
+			total += Double.parseDouble(temp);
+
 		}
 
 		return total;
