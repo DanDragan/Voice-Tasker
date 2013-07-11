@@ -141,6 +141,39 @@ public class Activity_Shopping extends Activity implements Observable {
 
 		});
 
+		tvBudget.setOnLongClickListener(new View.OnLongClickListener() {
+
+			@Override
+			public boolean onLongClick(View v) {
+
+				PromptDialog dlg = new PromptDialog(Activity_Shopping.this, String
+						.valueOf(budget), "budget") {
+
+					@Override
+					public boolean onOkClicked(String input) {
+
+						try {
+							String newBudget = input.replaceAll("([^\\d\\.])*", "");
+							if (!newBudget.equals("")) {
+								tvBudget.setText("BUDGET : " + newBudget);
+								budget = Double.parseDouble(newBudget);
+
+								calculateTotal();
+							}
+						} catch (Exception e) {
+							e.printStackTrace();
+							return false;
+						}
+						return true; // true = close dialog
+					}
+				};
+
+				dlg.show();
+
+				return true;
+			}
+		});
+
 	}
 
 	public void setOkClicked(String input) {
@@ -285,16 +318,19 @@ public class Activity_Shopping extends Activity implements Observable {
 	public void addItems3(String price) {
 
 		try {
-			String newPrice = price.replaceAll("([^\\d\\.])*", "");
-			tvBudget.setText("BUDGET : " + newPrice);
-			budget = Double.parseDouble(newPrice);
-			calculateTotal();
-			speechBudget = false;
-		
+			String newBudget = price.replaceAll("([^\\d\\.])*", "");
+			if (!newBudget.equals("")) {
+				tvBudget.setText("BUDGET : " + newBudget);
+				budget = Double.parseDouble(newBudget);
+				calculateTotal();
+				speechBudget = false;
+			}
+
 		} catch (Exception e) {
 			e.printStackTrace();
 			tvBudget.setText("BUDGET : ");
-			budget = 0;
+			budget = 0.1;
+			calculateTotal();
 		}
 	}
 
@@ -335,7 +371,7 @@ public class Activity_Shopping extends Activity implements Observable {
 						.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
 
 				if (speechBudget == true) {
-					addItems3(text.get(0));	
+					addItems3(text.get(0));
 				}
 
 				else {

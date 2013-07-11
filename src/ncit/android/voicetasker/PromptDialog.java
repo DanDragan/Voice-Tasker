@@ -52,6 +52,18 @@ public abstract class PromptDialog extends AlertDialog.Builder implements OnClic
 		setView(input);
 		setPositiveButton(R.string.ok, this);  
 		setNegativeButton(R.string.cancel, this);  
+	}
+	
+	public PromptDialog(Context context, String text, String str) {  
+		super(context);  
+		setTitle("Edit Budget");  
+		setMessage("Please provide new budget:");
+		  
+		input = new EditText(context);
+		input.setText(text);
+		setView(input);
+		setPositiveButton(R.string.ok, this);  
+		setNegativeButton(R.string.cancel, this);  
 	}  
   
  /** 
