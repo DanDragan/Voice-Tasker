@@ -325,6 +325,22 @@ public class Activity_Load extends Activity implements Observable {
 			adapter.notifyDataSetChanged();
 		}
 	}
+	
+	public void addItems3(String price) {
+
+		try {
+			String newPrice = price.replaceAll("([^\\d\\.])*", "");
+			tvBudget.setText("BUDGET : " + newPrice);
+			budget = Double.parseDouble(newPrice);
+			calculateTotal();
+			speechBudget = false;
+		
+		} catch (Exception e) {
+			e.printStackTrace();
+			tvBudget.setText("BUDGET : ");
+			budget = 0;
+		}
+	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -344,10 +360,7 @@ public class Activity_Load extends Activity implements Observable {
 						.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
 
 				if (speechBudget == true) {
-					tvBudget.setText("BUDGET : " + text.get(0));
-					budget = Double.parseDouble(text.get(0));
-					calculateTotal();
-					speechBudget = false;
+					addItems3(text.get(0));	
 				}
 
 				else {
