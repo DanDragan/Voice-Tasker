@@ -407,17 +407,11 @@ public class Activity_Shopping extends Activity implements Observable {
 
 	@Override
 	public void update_uncheck(int position) {
-
-		String newPrice = list.get(position).getPrice().replaceAll(" milion", "000000");
-		String newPrice2 = newPrice.replaceAll(" bilion", "000000000");
-		String newPrice3 = newPrice2.replaceAll("([^\\d\\.])*", "");
-
-		if (!newPrice.equals("")) {
-			total -= Double.parseDouble(newPrice3);
-		} else
-			total -= 0;
-		tvTotal.setText("TOTAL: " + String.valueOf(total));
+		
 		list.get(position).setPrice("");
+		total = getTotal();
+		tvTotal.setText("TOTAL: " + String.valueOf(total));
+		
 		adapter.notifyDataSetChanged();
 
 		calculateTotal();
