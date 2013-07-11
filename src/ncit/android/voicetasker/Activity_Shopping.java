@@ -300,6 +300,8 @@ public class Activity_Shopping extends Activity implements Observable {
 		Log.i("pret", "" + price);
 		try {
 			String newPrice = price.replaceAll("([^\\d\\.])*", "");
+			price.replaceAll(" million", "000000");
+			price.replaceAll(" billion", "000000000");
 			list.get(pozitie).setPrice(newPrice);
 			adapter.notifyDataSetChanged();
 			Log.d("string replacement", newPrice);
@@ -319,6 +321,8 @@ public class Activity_Shopping extends Activity implements Observable {
 
 		try {
 			String newBudget = price.replaceAll("([^\\d\\.])*", "");
+			newBudget.replaceAll(" million", "000000");
+			newBudget.replaceAll(" billion", "000000000");
 			if (!newBudget.equals("")) {
 				tvBudget.setText("BUDGET : " + newBudget);
 				budget = Double.parseDouble(newBudget);
@@ -401,6 +405,8 @@ public class Activity_Shopping extends Activity implements Observable {
 
 		String newPrice = list.get(position).getPrice()
 				.replaceAll("([^\\d\\.])*", "");
+		newPrice.replaceAll(" milion", "000000");
+		newPrice.replaceAll(" bilion", "000000000");
 
 		if (!newPrice.equals("")) {
 			total -= Double.parseDouble(newPrice);
