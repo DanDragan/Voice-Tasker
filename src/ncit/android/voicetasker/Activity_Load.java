@@ -212,19 +212,18 @@ public class Activity_Load extends Activity implements Observable {
 	public void setOkClicked(String input) {
 		try {
 
-			File myOutput = new File(dir + "/" + subdir + "/" + input);
+			File myOutput = new File(dir + "/shopping lists/" + input);
 			if (!myOutput.exists()) {
 				myOutput.getParentFile().mkdirs();
 				myOutput.createNewFile();
 			}
 
 			JSONArray jArray = new JSONArray();
+			JSONObject bud = new JSONObject();
+			bud.put("price", "" + budget);
+			jArray.put(bud);
 			for (int i = 0; i < list.size(); i++) {
-				
 				JSONObject obj = new JSONObject();
-				JSONObject bud = new JSONObject();
-				bud.put("price", "" + budget);
-				jArray.put(bud);
 				obj.put("status", list.get(i).isChecked());
 				obj.put("name", list.get(i).getItem());
 				obj.put("price", list.get(i).getPrice());
@@ -246,6 +245,7 @@ public class Activity_Load extends Activity implements Observable {
 			Toast.makeText(getApplicationContext(), "List saved!",
 					Toast.LENGTH_SHORT).show();
 		}
+
 	}
 
 	private void deleteItem(int pos) {
@@ -429,7 +429,10 @@ public class Activity_Load extends Activity implements Observable {
 		total = 0;
 		
 		for(int i=0; i<list.size(); i++){			
-			total += Double.parseDouble(list.get(i).getPrice());	
+			String temp = list.get(i).getPrice();
+			if(temp.equals(""))
+				temp="0";
+			total += Double.parseDouble(temp);	
 		}
 			
 		return total;

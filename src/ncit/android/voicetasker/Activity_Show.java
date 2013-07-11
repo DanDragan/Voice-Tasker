@@ -35,8 +35,11 @@ public class Activity_Show extends Activity {
 		File sdr = new File(dir + "/" + subdir);
 		flist = sdr.list();
 
-		for (String file : flist) {
-			list.add(file);
+		try {
+			for (String file : flist)
+				list.add(file);
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 
@@ -61,13 +64,15 @@ public class Activity_Show extends Activity {
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
 				fileName = list.get(position);
-								
+
 				if (subdir.equals("simple lists")) {
 
-					Intent intent = new Intent(getApplicationContext(), Activity_List.class);
+					Intent intent = new Intent(getApplicationContext(),
+							Activity_List.class);
 					startActivity(intent);
 				} else if (subdir.equals("shopping lists")) {
-					Intent intent = new Intent(getApplicationContext(), Activity_Load.class);
+					Intent intent = new Intent(getApplicationContext(),
+							Activity_Load.class);
 					startActivity(intent);
 
 				}
