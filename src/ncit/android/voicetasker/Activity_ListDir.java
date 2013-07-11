@@ -24,7 +24,7 @@ public class Activity_ListDir extends Activity {
 			@Override
 			public void onClick(View view) {
 				
-				pressed="simple lists";
+				pressed="simple lists";				
 				Intent intent = new Intent(getApplicationContext(), Activity_Show.class); 
 				startActivity(intent);
 
