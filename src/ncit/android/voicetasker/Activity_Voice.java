@@ -177,7 +177,7 @@ public class Activity_Voice extends Activity {
 
 	}
 
-	protected void editItem(int pos) {
+	private void editItem(int pos) {
 		final int position = pos;
 		PromptDialog dlg = new PromptDialog(Activity_Voice.this, list.get(pos)
 				.getName()) {

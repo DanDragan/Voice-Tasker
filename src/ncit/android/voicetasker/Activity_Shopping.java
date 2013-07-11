@@ -242,7 +242,7 @@ public class Activity_Shopping extends Activity implements Observable {
 		return true;
 	}
 
-	protected void deleteItem(int pos) {
+	private void deleteItem(int pos) {
 
 		list.remove(pos);
 		adapter.notifyDataSetChanged();
@@ -253,7 +253,7 @@ public class Activity_Shopping extends Activity implements Observable {
 
 	}
 
-	protected void editItem(int pos) {
+	private void editItem(int pos) {
 		final int position = pos;
 		PromptDialog dlg = new PromptDialog(Activity_Shopping.this, list.get(
 				pos).getItem()) {
@@ -270,7 +270,7 @@ public class Activity_Shopping extends Activity implements Observable {
 		dlg.show();
 	}
 
-	protected void editPrice(int pos) {
+	private void editPrice(int pos) {
 		final int position = pos;
 		PromptDialog dlg = new PromptDialog(Activity_Shopping.this, list.get(
 				pos).getPrice(), true) {
@@ -290,7 +290,7 @@ public class Activity_Shopping extends Activity implements Observable {
 		dlg.show();
 	}
 
-	protected void addItems(String item) {
+	private void addItems(String item) {
 
 		if (item.length() > 0) {
 
@@ -300,7 +300,7 @@ public class Activity_Shopping extends Activity implements Observable {
 		}
 	}
 
-	protected void addItems2(String price, int pozitie) {
+	public void addItems2(String price, int pozitie) {
 		Log.i("pret", "" + price);
 		try {
 			String newPrice = price.replaceAll(" million", "000000");
@@ -321,7 +321,7 @@ public class Activity_Shopping extends Activity implements Observable {
 		}
 	}
 
-	protected void addItems3(String price) {
+	public void addItems3(String price) {
 
 		try {
 			String newBudget = price.replaceAll(" million", "000000");
@@ -349,7 +349,7 @@ public class Activity_Shopping extends Activity implements Observable {
 		return true;
 	}
 
-	protected void speechFunction(String s) {
+	public void speechFunction(String s) {
 
 		Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
 
@@ -462,7 +462,7 @@ public class Activity_Shopping extends Activity implements Observable {
 
 	}
 
-	protected double getTotal() {
+	private double getTotal() {
 
 		total = 0;
 
