@@ -246,6 +246,10 @@ public class Activity_Shopping extends Activity implements Observable {
 
 		list.remove(pos);
 		adapter.notifyDataSetChanged();
+		
+		total = getTotal();
+		tvTotal.setText("TOTAL : " + total);
+		calculateTotal();
 
 	}
 
@@ -299,13 +303,13 @@ public class Activity_Shopping extends Activity implements Observable {
 	public void addItems2(String price, int pozitie) {
 		Log.i("pret", "" + price);
 		try {
-			String newPrice = price.replaceAll("([^\\d\\.])*", "");
-			price.replaceAll(" million", "000000");
-			price.replaceAll(" billion", "000000000");
-			list.get(pozitie).setPrice(newPrice);
+			String newPrice = price.replaceAll(" million", "000000");
+			String newPrice2 = newPrice.replaceAll(" billion", "000000000");
+			String newPrice3 = newPrice2.replaceAll("([^\\d\\.])*", "");
+			list.get(pozitie).setPrice(newPrice3);
 			adapter.notifyDataSetChanged();
-			Log.d("string replacement", newPrice);
-			total += Double.parseDouble(newPrice);
+			Log.d("string replacement", newPrice3);
+			total += Double.parseDouble(newPrice3);
 			tvTotal.setText("TOTAL : " + String.valueOf(total));
 
 			calculateTotal();
@@ -320,12 +324,12 @@ public class Activity_Shopping extends Activity implements Observable {
 	public void addItems3(String price) {
 
 		try {
-			String newBudget = price.replaceAll("([^\\d\\.])*", "");
-			newBudget.replaceAll(" million", "000000");
-			newBudget.replaceAll(" billion", "000000000");
-			if (!newBudget.equals("")) {
-				tvBudget.setText("BUDGET : " + newBudget);
-				budget = Double.parseDouble(newBudget);
+			String newBudget = price.replaceAll(" million", "000000");
+			String newBudget2 = newBudget.replaceAll(" billion", "000000000");
+			String newBudget3 = newBudget2.replaceAll("([^\\d\\.])*", "");
+			if (!newBudget3.equals("")) {
+				tvBudget.setText("BUDGET : " + newBudget3);
+				budget = Double.parseDouble(newBudget3);
 				calculateTotal();
 				speechBudget = false;
 			}
@@ -333,10 +337,11 @@ public class Activity_Shopping extends Activity implements Observable {
 		} catch (Exception e) {
 			e.printStackTrace();
 			tvBudget.setText("BUDGET : ");
-			budget = 0.1;
 			calculateTotal();
+			speechBudget = false;
 		}
 	}
+
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -403,13 +408,12 @@ public class Activity_Shopping extends Activity implements Observable {
 	@Override
 	public void update_uncheck(int position) {
 
-		String newPrice = list.get(position).getPrice()
-				.replaceAll("([^\\d\\.])*", "");
-		newPrice.replaceAll(" milion", "000000");
-		newPrice.replaceAll(" bilion", "000000000");
+		String newPrice = list.get(position).getPrice().replaceAll(" milion", "000000");
+		String newPrice2 = newPrice.replaceAll(" bilion", "000000000");
+		String newPrice3 = newPrice2.replaceAll("([^\\d\\.])*", "");
 
 		if (!newPrice.equals("")) {
-			total -= Double.parseDouble(newPrice);
+			total -= Double.parseDouble(newPrice3);
 		} else
 			total -= 0;
 		tvTotal.setText("TOTAL: " + String.valueOf(total));
