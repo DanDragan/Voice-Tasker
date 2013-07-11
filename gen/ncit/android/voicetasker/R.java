@@ -32,16 +32,17 @@ public final class R {
     }
     public static final class drawable {
         public static final int background2=0x7f020000;
-        public static final int ic_launcher=0x7f020001;
-        public static final int icon=0x7f020002;
-        public static final int imaginemeniu=0x7f020003;
-        public static final int imaginemeniu3=0x7f020004;
-        public static final int menu_button=0x7f020005;
-        public static final int microphone2=0x7f020006;
-        public static final int postit_transp1=0x7f020007;
-        public static final int postit_transp2=0x7f020008;
-        public static final int postit_transp3=0x7f020009;
-        public static final int red_button=0x7f02000a;
+        public static final int button_edit=0x7f020001;
+        public static final int ic_launcher=0x7f020002;
+        public static final int icon=0x7f020003;
+        public static final int imaginemeniu=0x7f020004;
+        public static final int imaginemeniu3=0x7f020005;
+        public static final int menu_button=0x7f020006;
+        public static final int microphone2=0x7f020007;
+        public static final int postit_transp1=0x7f020008;
+        public static final int postit_transp2=0x7f020009;
+        public static final int postit_transp3=0x7f02000a;
+        public static final int red_button=0x7f02000b;
     }
     public static final class id {
         public static final int action_settings=0x7f090014;
@@ -137,5 +138,6 @@ public final class R {
          */
         public static final int AppTheme=0x7f070001;
         public static final int button_text=0x7f070002;
+        public static final int button_text2=0x7f070003;
     }
 }

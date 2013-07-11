@@ -72,7 +72,7 @@
         android:layout_above="@+id/btnSave_shop"
         android:layout_alignRight="@+id/btnSave_shop"
         android:text="@string/editBudget"
-        android:background="@drawable/red_button"
-        style="@style/button_text" />
+        android:background="@drawable/button_edit"
+        style="@style/button_text2" />
     
 </RelativeLayout>

@@ -28,7 +28,7 @@
 	<string name="shopping_lists">Shopping Lists</string>
 	<color name="lemon">#FFD39B</color>
 	<color name="khaki">#FFF68F</color>
-	<string name="editBudget">Edit Budget</string>
+	<string name="editBudget">Edit \n Budget</string>
 	<string name="titleBudget">Edit Budget</string>
 	<string name="commentBudget">Please set new budget</string>
 	<color name="lemon_ciffon">#FFF8C6</color>
