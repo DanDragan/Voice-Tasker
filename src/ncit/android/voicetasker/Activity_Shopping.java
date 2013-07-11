@@ -187,7 +187,8 @@ public class Activity_Shopping extends Activity implements Observable {
 			ContextMenuInfo menuInfo) {
 		super.onCreateContextMenu(menu, v, menuInfo);
 		menu.setHeaderTitle("Item Menu");
-		menu.add(0, v.getId(), 0, "Edit");
+		menu.add(0, v.getId(), 0, "Edit Name");
+		menu.add(0, v.getId(), 0, "Edit Price");
 		menu.add(0, v.getId(), 0, "Delete");
 	}
 
@@ -195,12 +196,18 @@ public class Activity_Shopping extends Activity implements Observable {
 	public boolean onContextItemSelected(MenuItem item) {
 		info = (AdapterContextMenuInfo) item.getMenuInfo();
 
-		if (item.getTitle() == "Edit")
+		if (item.getTitle().equals("Edit Name")) {
 			editItem(info.position);
-		else if (item.getTitle() == "Delete")
+		}
+		else if (item.getTitle().equals("Edit Price")) {
+			editPrice(info.position);
+		}
+		else if (item.getTitle().equals("Delete")) {
 			deleteItem(info.position);
-		else
+		}
+		else {
 			return false;
+		}
 
 		return true;
 	}
@@ -220,6 +227,23 @@ public class Activity_Shopping extends Activity implements Observable {
 			public boolean onOkClicked(String input) {
 
 				list.get(position).setItem(input);
+
+				adapter.notifyDataSetChanged();
+				return true; // true = close dialog
+			}
+		};
+
+		dlg.show();
+	}
+	
+	private void editPrice(int pos) {
+		final int position = pos;
+		PromptDialog dlg = new PromptDialog(Activity_Shopping.this, list.get(
+				pos).getPrice(), true) {
+			@Override
+			public boolean onOkClicked(String input) {
+
+				list.get(position).setPrice(input);
 
 				adapter.notifyDataSetChanged();
 				return true; // true = close dialog

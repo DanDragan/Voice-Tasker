@@ -74,7 +74,7 @@ public class Activity_Load extends Activity implements Observable {
 			String budg = bud.getString("price");
 			budget = Double.parseDouble(budg);
 			tvBudget.setText("BUDGET : " + budget);
-			
+
 			for (int i = 1; i < jArray.length(); i++) {
 				JSONObject obj = jArray.getJSONObject(i);
 
@@ -85,9 +85,9 @@ public class Activity_Load extends Activity implements Observable {
 			}
 
 			in.close();
-			
+
 			tvTotal.setText("TOTAL : " + String.valueOf(getTotal()));
-			
+
 			calculateTotal();
 
 		} catch (Exception e) {
@@ -106,16 +106,16 @@ public class Activity_Load extends Activity implements Observable {
 		btnReset = (Button) findViewById(R.id.btnReset_shop);
 		btnSave = (Button) findViewById(R.id.btnSave_shop);
 		btnEdit_shop = (Button) findViewById(R.id.btnEditBudget);
-		
+
 		tvTotal = (TextView) findViewById(R.id.tvTotal);
 		tvBudget = (TextView) findViewById(R.id.tvBudget);
-		
+
 		total = 0;
 		speechBudget = false;
 
 		list = new ArrayList<ListItem>();
 		this.init(list);
-	
+
 		adapter = new ListAdapter(list, this);
 		adapter.setSubject(this);
 
@@ -173,7 +173,7 @@ public class Activity_Load extends Activity implements Observable {
 			}
 
 		});
-		
+
 		btnEdit_shop.setOnClickListener(new View.OnClickListener() {
 
 			@Override
@@ -181,17 +181,19 @@ public class Activity_Load extends Activity implements Observable {
 
 				speechBudget = true;
 				speechFunction("Please tell me your budget, Master");
-				
+
 			}
 
 		});
 	}
 
 	@Override
-	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
+	public void onCreateContextMenu(ContextMenu menu, View v,
+			ContextMenuInfo menuInfo) {
 		super.onCreateContextMenu(menu, v, menuInfo);
 		menu.setHeaderTitle("Item Menu");
-		menu.add(0, v.getId(), 0, "Edit");
+		menu.add(0, v.getId(), 0, "Edit Name");
+		menu.add(0, v.getId(), 0, "Edit Price");
 		menu.add(0, v.getId(), 0, "Delete");
 	}
 
@@ -199,8 +201,11 @@ public class Activity_Load extends Activity implements Observable {
 	public boolean onContextItemSelected(MenuItem item) {
 		info = (AdapterContextMenuInfo) item.getMenuInfo();
 
-		if (item.getTitle() == "Edit") {
+		if (item.getTitle().equals("Edit Name")) {
 			editItem(info.position);
+		}
+		else if (item.getTitle().equals("Edit Price")) {
+			editPrice(info.position);
 		} else if (item.getTitle() == "Delete") {
 			deleteItem(info.position);
 		} else {
@@ -220,7 +225,7 @@ public class Activity_Load extends Activity implements Observable {
 
 			JSONArray jArray = new JSONArray();
 			for (int i = 0; i < list.size(); i++) {
-				
+
 				JSONObject obj = new JSONObject();
 				JSONObject bud = new JSONObject();
 				bud.put("price", "" + budget);
@@ -257,12 +262,29 @@ public class Activity_Load extends Activity implements Observable {
 
 	private void editItem(int pos) {
 		final int position = pos;
-		PromptDialog dlg = new PromptDialog(Activity_Load.this, list.get(
-				pos).getItem()) {
+		PromptDialog dlg = new PromptDialog(Activity_Load.this, list.get(pos)
+				.getItem()) {
 			@Override
 			public boolean onOkClicked(String input) {
 
 				list.get(position).setItem(input);
+
+				adapter.notifyDataSetChanged();
+				return true; // true = close dialog
+			}
+		};
+
+		dlg.show();
+	}
+	
+	private void editPrice(int pos) {
+		final int position = pos;
+		PromptDialog dlg = new PromptDialog(Activity_Load.this, list.get(
+				pos).getPrice(), true) {
+			@Override
+			public boolean onOkClicked(String input) {
+
+				list.get(position).setPrice(input);
 
 				adapter.notifyDataSetChanged();
 				return true; // true = close dialog
@@ -285,14 +307,14 @@ public class Activity_Load extends Activity implements Observable {
 	public void addItems2(String price, int pozitie) {
 		Log.i("pret", "" + price);
 		try {
-				String newPrice = price.replaceAll("([^\\d\\.])*", "");
-				list.get(pozitie).setPrice(newPrice);
-				adapter.notifyDataSetChanged();
-				Log.d("string replacement", newPrice);
-				total += Double.parseDouble(newPrice);
-				tvTotal.setText("TOTAL : " + String.valueOf(total));
+			String newPrice = price.replaceAll("([^\\d\\.])*", "");
+			list.get(pozitie).setPrice(newPrice);
+			adapter.notifyDataSetChanged();
+			Log.d("string replacement", newPrice);
+			total += Double.parseDouble(newPrice);
+			tvTotal.setText("TOTAL : " + String.valueOf(total));
 
-				calculateTotal();
+			calculateTotal();
 		} catch (Exception e) {
 			e.printStackTrace();
 			list.get(pozitie).setPrice("");
@@ -318,7 +340,7 @@ public class Activity_Load extends Activity implements Observable {
 				ArrayList<String> text = data
 						.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
 
-				if (speechBudget == true){
+				if (speechBudget == true) {
 					tvBudget.setText("BUDGET : " + text.get(0));
 					budget = Double.parseDouble(text.get(0));
 					calculateTotal();
@@ -339,7 +361,7 @@ public class Activity_Load extends Activity implements Observable {
 
 		}
 	}
-	
+
 	public void speechFunction(String s) {
 
 		Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
@@ -362,16 +384,16 @@ public class Activity_Load extends Activity implements Observable {
 	@Override
 	public void update(int position) {
 		this.speechFunction("What is the price, Master?");
-		pozitie = position;		
+		pozitie = position;
 	}
-	
+
 	@Override
 	public void update_uncheck(int position) {
-		
+
 		String newPrice = list.get(position).getPrice()
 				.replaceAll("([^\\d\\.])*", "");
 
-		if(! newPrice.equals("")){
+		if (!newPrice.equals("")) {
 			total -= Double.parseDouble(newPrice);
 		}
 		tvTotal.setText("TOTAL: " + String.valueOf(total));
@@ -381,7 +403,7 @@ public class Activity_Load extends Activity implements Observable {
 		calculateTotal();
 
 	}
-	
+
 	public void calculateTotal() {
 
 		if (budget > 0 && total >= 0) {
@@ -424,15 +446,18 @@ public class Activity_Load extends Activity implements Observable {
 		}
 
 	}
-	
-	private double getTotal(){
+
+	private double getTotal() {
+
 		total = 0;
-		
-		for(int i=0; i<list.size(); i++){			
-			total += Double.parseDouble(list.get(i).getPrice());	
+
+		for (int i = 0; i < list.size(); i++) {
+			String temp = list.get(i).getPrice();
+			if (temp.equals(""))
+				temp = "0";
+			total += Double.parseDouble(temp);
 		}
-			
+
 		return total;
 	}
-	
 }

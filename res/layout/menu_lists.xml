@@ -9,12 +9,14 @@
         android:id="@+id/btnSimple"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1" />
+        android:layout_weight="1" 
+        android:background="@android:color/transparent"/>    	
 
     <Button
         android:id="@+id/btnShopping"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1" />
+        android:layout_weight="1"
+        android:background="@android:color/transparent"/>        
 
 </LinearLayout>

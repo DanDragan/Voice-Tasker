@@ -58,7 +58,7 @@
         
     <ListView
         android:id="@+id/lvShop"
-        android:layout_width="match_parent"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/btnSpeak_shop"
         android:layout_above="@+id/btnEditBudget"
