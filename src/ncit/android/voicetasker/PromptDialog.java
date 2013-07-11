@@ -32,8 +32,20 @@ public abstract class PromptDialog extends AlertDialog.Builder implements OnClic
 	
 	public PromptDialog(Context context, String text) {  
 		super(context);  
-		setTitle("Edit Item");  
+		setTitle("Edit Name");  
 		setMessage("Please provide new name:");
+		  
+		input = new EditText(context);
+		input.setText(text);
+		setView(input);
+		setPositiveButton(R.string.ok, this);  
+		setNegativeButton(R.string.cancel, this);  
+	}
+	
+	public PromptDialog(Context context, String text, boolean bool) {  
+		super(context);  
+		setTitle("Edit Price");  
+		setMessage("Please provide new price:");
 		  
 		input = new EditText(context);
 		input.setText(text);
