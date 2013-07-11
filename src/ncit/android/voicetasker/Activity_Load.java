@@ -185,6 +185,7 @@ public class Activity_Load extends Activity implements Observable {
 			}
 
 		});
+		
 	}
 
 	@Override
