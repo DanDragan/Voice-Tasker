@@ -1,7 +1,6 @@
 package ncit.android.voicetasker;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.StringWriter;
 import java.util.ArrayList;
@@ -9,7 +8,6 @@ import java.util.ArrayList;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.os.Bundle;
@@ -24,7 +22,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
-public class Activity_List extends Activity {
+public class Activity_List extends Activity_Voice {
 
 	protected static final int RESULT_SPEECH = 1;
 
@@ -177,77 +175,8 @@ public class Activity_List extends Activity {
 			return false;
 		}
 		return true;
-	}
-
-	public void setOkClicked(String input) {
-		try {
-
-			File myOutput = new File(dir + "/" + subdir + "/" + input);
-			if (!myOutput.exists()) {
-				myOutput.getParentFile().mkdirs();
-				myOutput.createNewFile();
-			}
-
-			JSONArray jArray = new JSONArray();
-			for (int i = 0; i < list.size(); i++) {
-				
-				JSONObject obj = new JSONObject();
-				obj.put("status", list.get(i).isChecked());
-				obj.put("name", list.get(i).getName());
-				jArray.put(obj);
-
-			}
-
-			FileOutputStream out = new FileOutputStream(myOutput);
-
-			out.write(jArray.toString().getBytes());
-			out.close();
-
-		} catch (Exception e) {
-
-			e.printStackTrace();
-		}
-
-		if (input.length() > 0) {
-			Toast.makeText(getApplicationContext(), "List saved!",
-					Toast.LENGTH_SHORT).show();
-		}
-	}
-
-	private void deleteItem(int pos) {
-
-		list.remove(pos);
-		adapter.notifyDataSetChanged();
-
-	}
-
-	private void editItem(int pos) {
-		final int position = pos;
-		PromptDialog dlg = new PromptDialog(Activity_List.this, list.get(pos)
-				.getName()) {
-			@Override
-			public boolean onOkClicked(String input) {
-
-				list.get(position).setName(input);
-				list.get(position).setChecked(false);
-
-				adapter.notifyDataSetChanged();
-
-				return true; // true = close dialog
-			}
-		};
-
-		dlg.show();
-	}
-
-	private void addItems(String item) {
-
-		if (item.length() > 0) {
-			this.list.add(new ShoppingItem(item, false));
-			this.adapter.notifyDataSetChanged();
-		}
-	}
-
+	}	
+	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.main, menu);
