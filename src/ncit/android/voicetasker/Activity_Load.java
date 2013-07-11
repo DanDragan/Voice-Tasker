@@ -287,6 +287,9 @@ public class Activity_Load extends Activity implements Observable {
 				list.get(position).setPrice(input);
 
 				adapter.notifyDataSetChanged();
+				total = getTotal();
+				tvTotal.setText("TOTAL : " + total);
+				calculateTotal();
 				return true; // true = close dialog
 			}
 		};

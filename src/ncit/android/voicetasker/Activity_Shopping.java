@@ -246,6 +246,9 @@ public class Activity_Shopping extends Activity implements Observable {
 				list.get(position).setPrice(input);
 
 				adapter.notifyDataSetChanged();
+				total = getTotal();
+				tvTotal.setText("TOTAL : " + total);
+				calculateTotal();
 				return true; // true = close dialog
 			}
 		};
@@ -408,6 +411,22 @@ public class Activity_Shopping extends Activity implements Observable {
 
 		}
 
+	}
+	
+	private double getTotal() {
+
+		total = 0;
+		
+		for(int i=0; i<list.size(); i++){			
+			
+			String temp = list.get(i).getPrice();
+			if(temp.equals(""))
+				temp="0";
+			total += Double.parseDouble(temp);	
+	
+		}
+
+		return total;
 	}
 
 }

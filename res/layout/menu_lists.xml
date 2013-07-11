@@ -9,23 +9,14 @@
         android:id="@+id/btnSimple"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-<<<<<<< HEAD
         android:layout_weight="1"
-        android:background="@android:color/transparent" />
-=======
-        android:layout_weight="1" 
-        android:background="@android:color/transparent"/>    	
->>>>>>> 4ae5cd4a426e9be263450faf6c813c201b003082
+        android:background="@android:color/transparent" />	
 
     <Button
         android:id="@+id/btnShopping"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-<<<<<<< HEAD
         android:background="@android:color/transparent" />
-=======
-        android:background="@android:color/transparent"/>        
->>>>>>> 4ae5cd4a426e9be263450faf6c813c201b003082
 
 </LinearLayout>
